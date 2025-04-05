@@ -3,33 +3,36 @@
 <!-- PROJECT LOGO -->
 <div align="center">
 <!-- light.png -->
-    <img src="images/logos/rounded-corner-logo/light.png" alt="Logo" width="300" height="300" border-radius="10px;">
+    <img src="images/logos/logo-stencil/dark-removebg-preview.png" alt="Logo" width="200" height="200" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5); padding: 15px;">
 
-  ### Celerity
+### Celerity
 
   <p>
     Press, enter, done.
     <br />
     <br />
     <a href="https://chadprobert.github.io/custom-new-tab/">View Demo</a>
-    ·
+    »
     <a href="https://github.com/ChadProbert/new-page-app/issues">Report Bug</a>
-    ·
+    »
     <a href="https://github.com/ChadProbert/new-page-app/pulls">Request Feature</a>
   </p>
 
   <!-- SHIELDS.IO -->
-  ![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/new-page-app)
-  ![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/new-page-app)
-  ![GitHub issues](https://img.shields.io/github/issues-raw/ChadProbert/new-page-app)
-  ![GitHub pull requests](https://img.shields.io/github/issues-pr/ChadProbert/new-page-app)
-  ![GitHub Repo stars](https://img.shields.io/github/stars/ChadProbert/new-page-app?style=social)
 
-  #### Built With
+![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/new-page-app)
+![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/new-page-app)
+![GitHub issues](https://img.shields.io/github/issues-raw/ChadProbert/new-page-app)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/ChadProbert/new-page-app)
+![GitHub Repo stars](https://img.shields.io/github/stars/ChadProbert/new-page-app?style=social)
 
-  ![HTML](https://img.shields.io/badge/HTML5-0D0D0D?style=for-the-badge&logo=html5&logoColor=5e5e5e)
-  ![CSS](https://img.shields.io/badge/CSS3-0D0D0D?style=for-the-badge&logo=css3&logoColor=5e5e5e)
-  ![JavaScript](https://img.shields.io/badge/JavaScript-0D0D0D?style=for-the-badge&logo=javascript&logoColor=5e5e5e)
+#### Tech Stack:
+
+<!-- Add padding to the badges -->
+
+![HTML5](https://img.shields.io/badge/HTML5-red?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS-blue?&style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=flat&logo=javascript&logoColor=white)
 
 </div>
 
@@ -57,71 +60,147 @@
 <br/>
 
 ## About The App
-This is a custom new tab page that allows you to quickly navigate to your favourite sites using keyboard shortcuts. It is designed to be minimalistic and easy to use. The app can be set as the default new tab page by using the `New Tab Redirect` Chrome extension.
+
+Celerity is a productivity-focused custom new tab page that transforms browser navigation with powerful keyboard shortcuts.
+
+It allows you to:
+
+- **Rapidly access sites** with simple key commands (press a key, hit enter, done)
+- **Direct search from any site** by typing a key followed by your query
+- **Customise shortcuts** to match your workflow needs
+- **Switch between themes** including dark mode, light mode, and developer-inspired colour schemes
+- **Configure settings** including tab behaviour and search engine preferences
+
+It is designed for keyboard-centric users who value efficiency and minimalism. Celerity eliminates the need for bookmarks and reduces repetitive navigation to frequently visited sites.
 
 <br/>
 
 ## Getting Started
 
-To get a local copy up and running follow these steps.
-
-### Prerequisites
-- [New Tab Redirect Chrome Extension](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna)
-
 ### Installation
+
+<!-- Add links once published to the Chrome Web Store:
+
+Chrome Web Store:
+```
+[Link to Celerity on Chrome Web Store]
+```
+
+Firefox Add-ons:
+```
+[Link to Celerity on Firefox Add-ons]
+``` -->
+
+For development:
 
 ```sh
 git clone https://github.com/ChadProbert/celerity.git
 ```
 
-### Setup
-
-1. Open the New Tab Redirect extension options
-2. Set the redirect URL to the path of the deployed app URL (https://chadprobert.github.io/celerity) <br />
-3. Save the changes
-
 <br/>
 
 ## Usage
 
-<img src="images/app-usage5.png" alt="Logo" width="1000">
+<br>
+<br>
 
-To go to a site, type the corresponding key and press enter. e.g:
+<img src="images/themes/dark.jpg" alt="Celerity Logo" width="1000" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5);">
 
-- `g` will redirect you to [gmail.com](https://gmail.com)
+### Basic Navigation
 
-To search a site, type a space after the site's key followed by your
-query. e.g:
+To visit a site, type its keyboard shortcut and press enter:
 
-- `y introduction to python` will
-  [search YouTube for introduction to python videos](https://www.youtube.com/results?search_query=introduction+to+python)
+- `g` ➜ Gmail
+- `r` ➜ Reddit
+- `y` ➜ YouTube
 
-A Google search will be triggered if your input doesn't match a key.
-e.g:
+### Site Search
 
-- `hello world python` will [search Google for hello world python](https://www.google.com/search?q=hello%20world%20python)
+Type a space after a site's shortcut to search directly on that site:
 
-To go to a specific path on a site, type the path after the site's key.
-e.g:
+- `y JavaScript` ➜ Searches YouTube for "JavaScript" videos
+- `a Why is JavaScript so popular?` ➜ Prompts ChatGPT with a question
+- `s Lofi coding` ➜ Searches Spotify for "Lofi coding" songs
 
-- `r/r/startpages` will redirect you to
-  [reddit.com/r/startpages](https://www.reddit.com/r/startpages)
+### Path Navigation
 
-  <img src="images/app-usage4.png" alt="Logo" height="200">
+Navigate to specific paths:
+
+- `r/r/webdev` ➜ Navigates to Reddit's /r/webdev subreddit
+- `y/feed/subscriptions` ➜ Navigates to your YouTube subscription feed
+
+### Default Search
+
+If your input doesn't match any shortcut, Celerity performs a Google search:
+
+- `hello world javascript` ➜ Searches Google for "hello world javascript"
 
 <br />
 
-## Modifying The App
+## Customising Celerity
 
-You can modify the shortcut keys and URLs by editing the `COMMANDS` variable inside the index.html file.
+### Shortcut Management
 
-If you choose to modify the app, you will need to deploy the modified version and set the redirect URL to your own deployed app URL.
+Add, edit, or remove shortcuts.
+
+<img src="images/settings-interface.jpg" alt="Celerity Logo" width="1000" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5);">
+
+### Theme Selection
+
+Choose from several built-in themes including Dark, Light, One Dark Pro, Catppuccin and GitHub themes.
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <strong>Dark Abyss</strong><br/>
+        <img src="images/themes/dark-abyss2.jpg" alt="Dark Abyss Theme" width="400" style="border-radius: 2px;">
+      </td>
+      <td align="center">
+        <strong>Light Theme</strong><br/>
+        <img src="images/themes/light.jpg" alt="Light Theme" width="400" style="border-radius: 2px;">
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <strong>One Dark Pro</strong><br/>
+        <img src="images/themes/one-dark-pro.jpg" alt="One Dark Pro Theme" width="400" style="border-radius: 2px;">
+      </td>
+      <td align="center">
+        <strong>Catppuccin (Frappe)</strong><br/>
+        <img src="images/themes/catppuccin-frappe.jpg" alt="Catppuccin Frappe Theme" width="400" style="border-radius: 2px;">
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <strong>Catppuccin (Macchiato)</strong><br/>
+        <img src="images/themes/catppuccin-macchiato.jpg" alt="Catppuccin Macchiato Theme" width="400" style="border-radius: 2px;">
+      </td>
+      <td align="center">
+        <strong>Catppuccin (Mocha)</strong><br/>
+        <img src="images/themes/catppuccin-mocha.jpg" alt="Catppuccin Mocha Theme" width="400" style="border-radius: 2px;">
+      </td>
+    </tr>
+     <tr>
+      <td align="center">
+        <strong>GitHub Dark</strong><br/>
+        <img src="images/themes/github-dark.jpg" alt="GitHub Dark Theme" width="400" style="border-radius: 2px;">
+      </td>
+      <td align="center">
+        <strong>GitHub High Contrast</strong><br/>
+        <img src="images/themes/github-high-contrast.jpg" alt="GitHub Dark Theme" width="400" style="border-radius: 2px;">
+      </td>
+    </tr>
+  </table>
+</div>
 
 <br/>
 
 ## Contributors
-[<img src="https://github.com/ChadProbert.png" width="40px;"/>](https://github.com/ChadProbert/)
+
+[<img src="https://github.com/ChadProbert.png" width="50px"/>](https://github.com/ChadProbert/)
 <br />
 <br />
 <br />
+
 <p align="center"><a href="#readme-top">(back to top)</a></p>
