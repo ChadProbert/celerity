@@ -151,23 +151,25 @@
 /**
  * RESET BUTTON
  * 
- * Button that resets all settings to their default values.
+ * Button to reset settings to default.
  * Features a warning hover state to indicate destructive action.
  */
 .reset-button {
   background-color: var(--accent-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 10px 15px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-size: 15px;
+  min-width: 170px;
+  font-family: var(--font-family);
   margin-top: 30px;
 }
 
 .reset-button:hover {
-  background-color: var(--hover-color);
+  transform: translateY(-2px);
 }
 
 /* Icon inside reset button */
@@ -458,76 +460,69 @@ label {
 }
 
 .confirm-buttons button {
-  padding: 8px 16px;
-  border: none;
+  padding: 10px 15px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease,
-    box-shadow 0.2s ease;
+  font-family: var(--font-family);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  min-width: 100px;
 }
 
 .confirm-cancel {
-  background: var(--input-color);
+  background-color: var(--input-color);
   color: var(--color-text-subtle);
-  font-weight: bold;
+  min-width: 100px;
+  border: none;
 }
 
 .confirm-cancel:hover {
-  background: var(--hover-color);
+  background-color: var(--hover-color);
   color: var(--color-text);
+  transform: translateY(-2px);
 }
 
 .confirm-ok {
-  background: var(--accent-color);
+  background-color: var(--accent-color);
   color: var(--color-text);
-  font-weight: bold;
+  border: 1px solid var(--confirm-border-color);
 }
 
 .confirm-ok:hover {
-  background: var(--hover-color);
-  color: var(--color-text);
+  transform: translateY(-2px);
 }
 
 /* Warning state for confirm button */
 .confirm-ok.confirm-warning {
-  background: #ff3b30;
+  background-color: #ff3b30;
   color: white;
+  border: 1px solid #ff3b30;
 }
 
 .confirm-ok.confirm-warning:hover {
-  background: #ff1f1f;
-  color: white;
+  transform: translateY(-2px);
 }
 
 /* Override state for confirm button */
 .confirm-ok.confirm-override {
-  background: #ff9800; /* Sunset yellow/orange */
+  background-color: #ff9800; /* Sunset yellow/orange */
   color: #333;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e68900;
 }
 
 .confirm-ok.confirm-override:hover {
-  background: #ffa726; /* Slightly lighter sunset yellow on hover */
-  color: #222;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 /* URL validation error state for confirm button */
 .confirm-ok.confirm-url-validation {
-  background: #2196f3; /* Material blue */
+  background-color: #2196f3; /* Material blue */
   color: white;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #0c87e8;
 }
 
 .confirm-ok.confirm-url-validation:hover {
-  background: #42a5f5; /* Lighter blue on hover */
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 /* Action buttons for shortcuts */
@@ -892,8 +887,8 @@ p.shortcut-description code {
 .scroll-button {
   width: 35px;
   height: 35px;
-  background-color: transparent;
-  border: none;
+  /* background-color: var(--accent-color); */
+  /* border: 1px solid var(--confirm-border-color); */
   border-radius: 4px;
   cursor: pointer;
   display: flex;
@@ -901,23 +896,25 @@ p.shortcut-description code {
   justify-content: center;
   padding: 0;
   margin: 4px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-family: var(--font-family);
 }
 
 .scroll-button:hover {
-  color: var(--color-text);
+  background-color: var(--hover-color);
 }
 
 .scroll-button i {
   font-size: 15px;
-  color: var(--color-text-subtle);
-  transition: color 0.3s ease;
+  color: var(--color-text);
+  transition: color 0.2s ease;
 }
 
 /* Add a special hover effect for the close button */
 .scroll-button#closeModal:hover,
-.scroll-button#closeHelpModal:hover,
-.scroll-button:hover {
+.scroll-button#closeHelpModal:hover {
   background-color: var(--hover-color);
+  transform: translateY(-2px);
 }
 
 .scroll-button#closeModal:hover i,
@@ -1255,11 +1252,13 @@ p.shortcut-description code {
   background-color: var(--input-color);
   color: var(--color-text-subtle);
   min-width: 100px;
+  border: none;
 }
 
 .feedback-cancel:hover {
   background-color: var(--hover-color);
   color: var(--color-text);
+  transform: translateY(-2px);
 }
 
 .feedback-submit {

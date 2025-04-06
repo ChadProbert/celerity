@@ -168,6 +168,7 @@
 .settings-button i {
   color: var(--color-text-subtle);
   transition: color 0.3s ease;
+  font-size: 20px;
 }
 
 .settings-button:hover {
@@ -415,7 +416,7 @@ button {
   right: 0;
   bottom: 0;
   border: 2px solid var(--color-text);
-  border-radius: 5px;
+  border-radius: 4px;
   opacity: 0;
   box-shadow: 0 0 8px rgba(var(--color-text-rgb), 0.4);
   animation: border-pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -472,4 +473,9 @@ button {
 /* Icon styling */
 .fa-sliders {
   font-size: 20px;
+}
+
+/* Dialog open state */
+.dialog[open] {
+  display: flex;
 }

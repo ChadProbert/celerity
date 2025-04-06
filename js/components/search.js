@@ -209,6 +209,9 @@ class Search extends HTMLElement {
     this.input.blur();
     this.dialog.close();
     this.suggestions.innerHTML = "";
+
+    // Re-show navigation buttons when search dialog is closed
+    this.toggleNavigationButtons(true);
   }
 
   /**
@@ -220,6 +223,8 @@ class Search extends HTMLElement {
     const target = CONFIG.openLinksInNewTab ? "_blank" : "_self";
     window.open(url, target, "noopener noreferrer");
     this.close();
+    // Re-show navigation buttons when search dialog is closed
+    this.toggleNavigationButtons(true);
   }
 
   /**
@@ -302,10 +307,17 @@ class Search extends HTMLElement {
       this.dialog.show();
       this.input.focus();
 
+      // Hide navigation buttons when search dialog is open
+      this.toggleNavigationButtons(false);
+
       requestAnimationFrame(() => {
         // Close the search dialog before the next repaint if a character is
         // not produced (e.g. if you type shift, control, alt etc.)
-        if (!this.input.value) this.close();
+        if (!this.input.value) {
+          this.close();
+          // Re-show buttons if search dialog is closed
+          this.toggleNavigationButtons(true);
+        }
       });
 
       return;
@@ -315,6 +327,8 @@ class Search extends HTMLElement {
     // Close the dialog when Escape is pressed
     if (e.key === "Escape") {
       this.close();
+      // Re-show buttons when search dialog is closed
+      this.toggleNavigationButtons(true);
       return;
     }
 
@@ -393,6 +407,23 @@ class Search extends HTMLElement {
       }
 
       this.suggestions.append(clone);
+    }
+  }
+
+  /**
+   * Toggles the visibility of navigation buttons.
+   * @param {boolean} show - Whether to show (true) or hide (false) the buttons
+   */
+  toggleNavigationButtons(show) {
+    const settingsButton = document.querySelector(".settings-button");
+    const helpButton = document.querySelector(".help-button");
+
+    if (settingsButton) {
+      settingsButton.style.display = show ? "flex" : "none";
+    }
+
+    if (helpButton) {
+      helpButton.style.display = show ? "flex" : "none";
     }
   }
 }
