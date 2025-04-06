@@ -42,7 +42,7 @@
 .custom-modal {
   display: none; /* Hidden by default */
   position: fixed;
-  z-index: 1000;
+  z-index: 1001;
   left: 0;
   top: 0;
   width: 100%;
@@ -71,29 +71,39 @@
   padding: 20px;
 }
 
-/**
- * CLOSE BUTTON
- * 
- * "×" button in the top-right corner of modal content that closes the modal.
- * Features hover effects for better user feedback.
- */
+/* Update the close button styles to be specific to the feedback modal */
 .close-button {
-  font-family: Poppins, sans-serif;
+  display: none; /* Hide by default */
+}
+
+/* Show and style close button only in feedback modal */
+.feedback-modal .close-button {
+  display: flex;
   position: absolute;
   top: 15px;
   right: 15px;
-  font-size: 24px;
-  color: var(--color-text-subtle);
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  width: 36px;
-  height: 36px;
-  display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
-.close-button:hover {
+.feedback-modal .close-button i {
+  font-size: 17px;
+  color: var(--color-text-subtle);
+  transition: color 0.3s ease;
+}
+
+.feedback-modal .close-button:hover {
+  background-color: var(--hover-color);
+}
+
+.feedback-modal .close-button:hover i {
   color: var(--color-text);
 }
 
@@ -563,16 +573,16 @@ label {
 
 /* Help Modal */
 .help-modal {
-  display: none; /* Hidden by default */
+  display: none;
   position: fixed;
-  top: 0;
+  z-index: 1001;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background: var(--modal-background-color);
+  background-color: var(--modal-background-color);
   justify-content: center;
   align-items: center;
-  z-index: 2000;
 }
 
 /**
@@ -855,54 +865,76 @@ p.shortcut-description code {
 }
 
 /**
- * SCROLL BUTTON
+ * SCROLL BUTTONS CONTAINER
  * 
- * A modern floating button with glassmorphism effect that toggles between 
- * scrolling content to the bottom or top.
+ * A modern pill-shaped container with two buttons for scrolling content.
+ * Features a sleek design with a subtle divider and hover effects.
  */
-.scroll-bottom-button {
+.scroll-buttons-container {
   position: fixed;
-  bottom: 52px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 36px;
-  height: 36px;
+  top: 50%;
+  right: calc(0.5%);
+  transform: translateY(-50%);
   background-color: var(--color-background);
-  color: var(--color-text-subtle);
   border: 1px solid var(--confirm-border-color);
-  border-radius: 18px;
-  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  gap: 4px;
+  z-index: 1002;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Style the close button to match other scroll buttons */
+.scroll-button {
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  padding: 0;
+  margin: 4px;
 }
 
-.scroll-bottom-button i {
-  font-size: 16px;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
-}
-
-.scroll-bottom-button:hover {
-  background-color: var(--hover-color);
-  transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.scroll-bottom-button:hover i {
+.scroll-button:hover {
   color: var(--color-text);
 }
 
-/* Animation for active state */
-.scroll-bottom-button:active {
-  transform: translateX(-50%) translateY(0px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.scroll-button i {
+  font-size: 15px;
+  color: var(--color-text-subtle);
+  transition: color 0.3s ease;
 }
 
-/* Style for when button becomes scroll-to-top */
-.scroll-top-mode i {
-  transform: rotate(180deg);
+/* Add a special hover effect for the close button */
+.scroll-button#closeModal:hover,
+.scroll-button#closeHelpModal:hover,
+.scroll-button:hover {
+  background-color: var(--hover-color);
+}
+
+.scroll-button#closeModal:hover i,
+.scroll-button#closeHelpModal:hover i {
+  color: var(--color-text);
+}
+
+.scroll-button-divider {
+  width: 20px;
+  height: 1px;
+  background-color: var(--confirm-border-color);
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-buttons-container:hover .scroll-button-divider {
+  opacity: 0.8;
 }
 
 /* Add a subtle pulse animation when the modal first opens */
@@ -918,8 +950,13 @@ p.shortcut-description code {
   }
 }
 
-.scroll-bottom-button.animate-pulse {
+.scroll-buttons-container.animate-pulse {
   animation: pulse 2s ease-out 1;
+}
+
+/* Adjust tooltip position for the scroll buttons */
+.scroll-button.tooltip-left::after {
+  right: calc(100% + 8px);
 }
 
 .radio-option {

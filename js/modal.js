@@ -27,13 +27,36 @@ class ModalManager {
     this.addButton = document.getElementById("addShortcut");
     this.modalContent = document.querySelector(".modal-content");
     this.commandsComponent = document.querySelector("commands-component");
-    this.scrollBottomHelpBtn = document.getElementById("scrollBottomHelp");
+    this.scrollTopBtn = document.getElementById("scrollTopHelp");
+    this.scrollBottomBtn = document.getElementById("scrollBottomHelp");
+    this.helpScrollButtonsContainer =
+      document.getElementById("helpScrollButtons");
+    this.scrollTopSettingsBtn = document.getElementById("scrollTopSettings");
+    this.scrollBottomSettingsBtn = document.getElementById(
+      "scrollBottomSettings"
+    );
+    this.settingsScrollButtonsContainer = document.getElementById(
+      "settingsScrollButtons"
+    );
 
-    // Track if we should focus on new shortcut inputs
-    this.shouldFocusNewShortcut = false;
-
-    // Store bound event handlers
+    // Bind all methods to this instance
+    this.openSettingsModal = this.openSettingsModal.bind(this);
+    this.openHelpModalHandler = this.openHelpModalHandler.bind(this);
+    this.closeSettingsModal = this.closeSettingsModal.bind(this);
+    this.closeHelpModal = this.closeHelpModal.bind(this);
+    this.handleWindowClick = this.handleWindowClick.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
+    this.renderShortcuts = this.renderShortcuts.bind(this);
+    this.resetSettings = this.resetSettings.bind(this);
+    this.addNewShortcutField = this.addNewShortcutField.bind(this);
+    this.checkModalScrollability = this.checkModalScrollability.bind(this);
+    this.updateScrollButtonState = this.updateScrollButtonState.bind(this);
     this.boundUpdateScrollButtonState = this.updateScrollButtonState.bind(this);
+    this.scrollHelpModal = this.scrollHelpModal.bind(this);
+    this.forceModalScrollToTop = this.forceModalScrollToTop.bind(this);
+    this.resetFirstTimeVisitor = this.resetFirstTimeVisitor.bind(this);
+    this.boundUpdateSettingsScrollButtonState =
+      this.updateSettingsScrollButtonState.bind(this);
 
     // Default settings
     this.DEFAULT_SETTINGS = {
@@ -113,22 +136,6 @@ class ModalManager {
       ]),
     };
 
-    // Bind methods
-    this.handleFocusNewShortcut = this.handleFocusNewShortcut.bind(this);
-    this.openSettingsModal = this.openSettingsModal.bind(this);
-    this.openHelpModalHandler = this.openHelpModalHandler.bind(this);
-    this.closeSettingsModal = this.closeSettingsModal.bind(this);
-    this.closeHelpModal = this.closeHelpModal.bind(this);
-    this.handleWindowClick = this.handleWindowClick.bind(this);
-    this.handleKeydown = this.handleKeydown.bind(this);
-    this.renderShortcuts = this.renderShortcuts.bind(this);
-    this.resetSettings = this.resetSettings.bind(this);
-    this.addNewShortcutField = this.addNewShortcutField.bind(this);
-    this.checkModalScrollability = this.checkModalScrollability.bind(this);
-    this.scrollToBottomOfHelp = this.scrollToBottomOfHelp.bind(this);
-    this.updateScrollButtonState = this.updateScrollButtonState.bind(this);
-    this.forceModalScrollToTop = this.forceModalScrollToTop.bind(this);
-
     this.initializeEventListeners();
     this.initializeSettings();
   }
@@ -138,20 +145,21 @@ class ModalManager {
    * Includes opening/closing modals, resetting settings, and keyboard shortcuts.
    */
   initializeEventListeners() {
-    // Listen for the custom event
-    document.addEventListener("focusNewShortcut", this.handleFocusNewShortcut);
-
-    // Add listener for resetting first-time visitor status (for testing)
-    document.addEventListener(
-      "resetFirstTimeVisitor",
-      this.resetFirstTimeVisitor.bind(this)
-    );
-
-    // Open Settings Modal
-    this.openModalBtn.addEventListener("click", this.openSettingsModal);
+    // Open Settings Modal - make sure these event listeners are working
+    if (this.openModalBtn) {
+      console.log("Adding click listener to settings button");
+      this.openModalBtn.addEventListener("click", this.openSettingsModal);
+    } else {
+      console.error("Settings button element not found!");
+    }
 
     // Open Help Modal
-    this.openHelpBtn.addEventListener("click", this.openHelpModalHandler);
+    if (this.openHelpBtn) {
+      console.log("Adding click listener to help button");
+      this.openHelpBtn.addEventListener("click", this.openHelpModalHandler);
+    } else {
+      console.error("Help button element not found!");
+    }
 
     // Close Settings Modal
     this.closeModalBtn.addEventListener("click", this.closeSettingsModal);
@@ -168,11 +176,23 @@ class ModalManager {
     // Reset settings button
     this.resetButton.addEventListener("click", this.resetSettings);
 
-    // Scroll to bottom button in help modal
-    if (this.scrollBottomHelpBtn) {
-      this.scrollBottomHelpBtn.addEventListener(
-        "click",
-        this.scrollToBottomOfHelp
+    // Scroll buttons in help modal
+    if (this.scrollTopBtn && this.scrollBottomBtn) {
+      this.scrollTopBtn.addEventListener("click", () =>
+        this.scrollHelpModal("top")
+      );
+      this.scrollBottomBtn.addEventListener("click", () =>
+        this.scrollHelpModal("bottom")
+      );
+    }
+
+    // Scroll buttons in settings modal
+    if (this.scrollTopSettingsBtn && this.scrollBottomSettingsBtn) {
+      this.scrollTopSettingsBtn.addEventListener("click", () =>
+        this.scrollSettingsModal("top")
+      );
+      this.scrollBottomSettingsBtn.addEventListener("click", () =>
+        this.scrollSettingsModal("bottom")
       );
     }
   }
@@ -235,14 +255,6 @@ class ModalManager {
   }
 
   /**
-   * Event handler for the focusNewShortcut custom event.
-   * Sets the flag to focus on the new shortcut input field.
-   */
-  handleFocusNewShortcut() {
-    this.shouldFocusNewShortcut = true;
-  }
-
-  /**
    * Opens the settings modal, initializes shortcuts, and handles focus management.
    */
   openSettingsModal() {
@@ -266,38 +278,27 @@ class ModalManager {
       }
     }
 
-    // Set focus to the last shortcut element by default
-    this.shouldFocusNewShortcut = true;
-
     this.settingsModal.style.display = "flex";
-    this.modalOverlay.classList.add("active"); // Activate background overlay
+    this.modalOverlay.classList.add("active");
     this.renderShortcuts(); // Refresh shortcuts when opening modal
 
-    // Focus based on context
-    setTimeout(() => {
-      if (this.shouldFocusNewShortcut) {
-        // Focus the first input of the new shortcut section
-        const lastShortcutItem = this.shortcutList.lastElementChild;
-        if (lastShortcutItem) {
-          const firstInput = lastShortcutItem.querySelector(".key-input");
-          if (firstInput) {
-            firstInput.focus();
-          }
-        }
-        this.shouldFocusNewShortcut = false; // Reset the flag
-      } else {
-        // Default focus on theme dropdown
-        if (this.themeSelect) {
-          this.themeSelect.focus();
-        }
+    // Add scroll buttons to settings modal
+    const modalContent = this.settingsModal.querySelector(".modal-content");
+    if (modalContent) {
+      modalContent.classList.add("scrollable");
+
+      if (this.settingsScrollButtonsContainer) {
+        this.settingsScrollButtonsContainer.classList.remove("animate-pulse");
+        void this.settingsScrollButtonsContainer.offsetWidth;
+        this.settingsScrollButtonsContainer.classList.add("animate-pulse");
       }
 
-      // Initialize scrollability and shadow
-      this.checkModalScrollability();
-
-      // Force scroll to top after all other operations
-      this.forceModalScrollToTop();
-    }, 100); // A short delay to ensure the modal is fully rendered
+      this.updateSettingsScrollButtonState();
+      modalContent.addEventListener(
+        "scroll",
+        this.boundUpdateSettingsScrollButtonState
+      );
+    }
   }
 
   /**
@@ -332,11 +333,11 @@ class ModalManager {
       helpModalContent.classList.add("scrollable");
 
       // Reset animation by removing and re-adding class
-      if (this.scrollBottomHelpBtn) {
-        this.scrollBottomHelpBtn.classList.remove("animate-pulse");
+      if (this.helpScrollButtonsContainer) {
+        this.helpScrollButtonsContainer.classList.remove("animate-pulse");
         // Force reflow
-        void this.scrollBottomHelpBtn.offsetWidth;
-        this.scrollBottomHelpBtn.classList.add("animate-pulse");
+        void this.helpScrollButtonsContainer.offsetWidth;
+        this.helpScrollButtonsContainer.classList.add("animate-pulse");
       }
 
       // Initialize scroll button state
@@ -361,6 +362,15 @@ class ModalManager {
    * Closes the settings modal and removes the overlay.
    */
   closeSettingsModal() {
+    // Remove scroll event listener
+    const modalContent = this.settingsModal.querySelector(".modal-content");
+    if (modalContent) {
+      modalContent.removeEventListener(
+        "scroll",
+        this.boundUpdateSettingsScrollButtonState
+      );
+    }
+
     this.settingsModal.style.display = "none";
     this.modalOverlay.classList.remove("active");
   }
@@ -429,17 +439,17 @@ class ModalManager {
       }
     }
 
-    // Handle settings modal clicks (no change to this part)
+    // Handle settings modal clicks
     if (
       event.target === this.settingsModal ||
       event.target === this.modalOverlay
     ) {
       this.settingsModal.style.display = "none";
       this.helpModal.style.display = "none";
-      this.modalOverlay.classList.remove("active"); // Deactivate background overlay
+      this.modalOverlay.classList.remove("active");
     }
 
-    // Handle help modal clicks (already managed earlier in the function)
+    // Handle help modal clicks
     if (event.target === this.helpModal) {
       this.helpModal.style.display = "none";
       this.modalOverlay.classList.remove("active");
@@ -874,8 +884,6 @@ class ModalManager {
    * Changes between scroll-to-bottom and scroll-to-top functionality.
    */
   updateScrollButtonState() {
-    if (!this.scrollBottomHelpBtn) return;
-
     const helpModalContent = this.helpModal.querySelector(
       ".help-modal-content"
     );
@@ -885,47 +893,30 @@ class ModalManager {
     const scrollHeight = helpModalContent.scrollHeight;
     const clientHeight = helpModalContent.clientHeight;
 
-    // Check if we're near the bottom (within 100px)
-    const isNearBottom = scrollPosition + clientHeight >= scrollHeight - 100;
-
-    if (isNearBottom) {
-      // Change to scroll-to-top mode
-      this.scrollBottomHelpBtn.classList.add("scroll-top-mode");
-      this.scrollBottomHelpBtn.setAttribute("data-tooltip", "Scroll to Top");
-    } else {
-      // Change to scroll-to-bottom mode
-      this.scrollBottomHelpBtn.classList.remove("scroll-top-mode");
-      this.scrollBottomHelpBtn.setAttribute("data-tooltip", "Scroll to Bottom");
+    // Show/hide scroll buttons based on position
+    if (this.scrollTopBtn) {
+      this.scrollTopBtn.style.opacity = scrollPosition > 100 ? "1" : "0.5";
+    }
+    if (this.scrollBottomBtn) {
+      this.scrollBottomBtn.style.opacity =
+        scrollPosition + clientHeight < scrollHeight - 100 ? "1" : "0.5";
     }
   }
 
   /**
-   * Handles scrolling in the help modal.
-   * Scrolls to bottom or top depending on current position.
+   * Handles scrolling in the help modal
+   * @param {"top" | "bottom"} direction - The direction to scroll
    */
-  scrollToBottomOfHelp() {
+  scrollHelpModal(direction) {
     const helpModalContent = this.helpModal.querySelector(
       ".help-modal-content"
     );
     if (!helpModalContent) return;
 
-    // Get current button state
-    const isInTopMode =
-      this.scrollBottomHelpBtn.classList.contains("scroll-top-mode");
-
-    if (isInTopMode) {
-      // Scroll to top
-      helpModalContent.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    } else {
-      // Scroll to bottom
-      helpModalContent.scrollTo({
-        top: helpModalContent.scrollHeight,
-        behavior: "smooth",
-      });
-    }
+    helpModalContent.scrollTo({
+      top: direction === "top" ? 0 : helpModalContent.scrollHeight,
+      behavior: "smooth",
+    });
   }
 
   /**
@@ -951,6 +942,42 @@ class ModalManager {
     applyScrollReset(50);
     applyScrollReset(100);
     applyScrollReset(200);
+  }
+
+  /**
+   * Updates the settings scroll button state based on current scroll position
+   */
+  updateSettingsScrollButtonState() {
+    const modalContent = this.settingsModal.querySelector(".modal-content");
+    if (!modalContent) return;
+
+    const scrollPosition = modalContent.scrollTop;
+    const scrollHeight = modalContent.scrollHeight;
+    const clientHeight = modalContent.clientHeight;
+
+    // Show/hide scroll buttons based on position
+    if (this.scrollTopSettingsBtn) {
+      this.scrollTopSettingsBtn.style.opacity =
+        scrollPosition > 100 ? "1" : "0.5";
+    }
+    if (this.scrollBottomSettingsBtn) {
+      this.scrollBottomSettingsBtn.style.opacity =
+        scrollPosition + clientHeight < scrollHeight - 100 ? "1" : "0.5";
+    }
+  }
+
+  /**
+   * Handles scrolling in the settings modal
+   * @param {"top" | "bottom"} direction - The direction to scroll
+   */
+  scrollSettingsModal(direction) {
+    const modalContent = this.settingsModal.querySelector(".modal-content");
+    if (!modalContent) return;
+
+    modalContent.scrollTo({
+      top: direction === "top" ? 0 : modalContent.scrollHeight,
+      behavior: "smooth",
+    });
   }
 }
 
@@ -1017,7 +1044,6 @@ function customConfirm({
     cancelButton.addEventListener("click", onCancel);
   });
 }
-
 // Initialize on document load
 document.addEventListener("DOMContentLoaded", () => {
   new ModalManager();

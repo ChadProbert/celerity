@@ -161,6 +161,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999; /* Make sure it's below modal overlay but above most content */
 }
 
 /* Icon inside the settings button */
@@ -338,6 +339,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999; /* Make sure it's below modal overlay but above most content */
 }
 
 .help-button i {
@@ -467,7 +469,6 @@ button {
     color: var(--color-text-subtle);
   }
 }
-
 /* Icon styling */
 .fa-sliders {
   font-size: 20px;

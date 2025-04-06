@@ -409,8 +409,32 @@
     -->
     <div class="modal-overlay" id="modalOverlay"></div>
     <div class="custom-modal" id="settingsModal">
+      <div class="scroll-buttons-container" id="settingsScrollButtons">
+        <button
+          class="scroll-button tooltip-left"
+          id="scrollTopSettings"
+          data-tooltip="Scroll to Top"
+        >
+          <i class="fa-solid fa-arrow-up"></i>
+        </button>
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
+          id="scrollBottomSettings"
+          data-tooltip="Scroll to Bottom"
+        >
+          <i class="fa-solid fa-arrow-down"></i>
+        </button>
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
+          id="closeModal"
+          data-tooltip="Close Settings"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
       <div class="modal-content">
-        <span class="close-button" id="closeModal">&times;</span>
         <!-- 
           Shortcut Manager Section
           Displays a dynamic list of keyboard shortcuts that users can
@@ -573,19 +597,32 @@
       The modal appears when the help button is clicked.
     -->
     <div id="helpModal" class="help-modal">
-      <div class="help-modal-content">
-        <span class="close-button" id="closeHelpModal">&times;</span>
+      <div class="scroll-buttons-container" id="helpScrollButtons">
         <button
-          class="scroll-bottom-button tooltip-left"
+          class="scroll-button tooltip-left"
+          id="scrollTopHelp"
+          data-tooltip="Scroll to Top"
+        >
+          <i class="fa-solid fa-arrow-up"></i>
+        </button>
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
           id="scrollBottomHelp"
           data-tooltip="Scroll to Bottom"
         >
-          <i
-            class="fa-solid fa-arrow-down"
-            style="color: var(--color-text-subtle)"
-          ></i>
+          <i class="fa-solid fa-arrow-down"></i>
         </button>
-
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
+          id="closeHelpModal"
+          data-tooltip="Close Guide"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="help-modal-content">
         <!-- Help documentation -->
         <div class="help-section">
           <!-- Introduction -->
@@ -632,7 +669,7 @@
             </div>
             <p class="shortcut-description">
               Example: <br />
-              <code>r/r/pics</code> opens reddit.com/r/pics<br />
+              <code>r/r/webdev</code> opens reddit.com/r/webdev<br />
             </p>
           </div>
 
@@ -709,7 +746,9 @@
     -->
     <div id="feedbackModal" class="feedback-modal">
       <div class="feedback-modal-content">
-        <span class="close-button" id="closeFeedbackModal">&times;</span>
+        <button class="close-button" id="closeFeedbackModal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
         <h2 class="feedback-title">Feedback</h2>
 
         <form id="feedbackForm" class="feedback-form">
