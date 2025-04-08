@@ -27,9 +27,21 @@ class Commands extends HTMLElement {
     const commands = clone.querySelector(".commands");
     const commandTemplate = document.getElementById("command-template");
 
-    let count = 0;
-    const columns = this.getColumns();
+    // Count available commands first to determine layout
+    let availableCommands = 0;
+    for (const [key, { name, url }] of COMMANDS.entries()) {
+      if (name && url) availableCommands++;
+    }
 
+    // Get column count based on available commands and screen width
+    const columns = this.getColumns(availableCommands);
+
+    // Apply the column count directly to the commands element
+    commands.style.columns = columns;
+    // Adjust max-width based on column count
+    commands.style.maxWidth = columns === 2 ? "25rem" : "45rem";
+
+    let count = 0;
     // Render each shortcut
     for (const [key, { name, url }] of COMMANDS.entries()) {
       if (!name || !url) continue;
@@ -52,10 +64,17 @@ class Commands extends HTMLElement {
   }
 
   /**
-   * Determines the number of columns based on screen width.
+   * Determines the number of columns based on screen width and command count.
+   * @param {number} commandCount - The total number of visible commands
    * @returns {number} The number of columns to display (2 or 4)
    */
-  getColumns() {
+  getColumns(commandCount) {
+    // Uses 2 columns for when there are 5, 2, or 1 commands (2x3 grid)
+    if (commandCount === 5 || commandCount === 2 || commandCount === 1) {
+      return 2;
+    }
+
+    // Use default responsive behavior for other cases
     if (window.innerWidth >= 900) return 4;
     return 2; // Default to 2 columns for all desktop widths below 900px
   }
@@ -99,9 +118,24 @@ class Commands extends HTMLElement {
     // For 4-column layout, allow the button to fill remaining cells
     // For 2-column layout, keep the height fixed to match command items
     if (columns === 4) {
+      console.log("4 columns");
       // In 4-column layout, allow the button to fill remaining cells (original behavior)
-      button.style.height = `${remainingCells * CELL_HEIGHT + 1}px`;
+      button.style.height = `${remainingCells * CELL_HEIGHT}px`;
+      let cmdLength = commands.children.length;
+      if (cmdLength === 13) {
+        button.style.height = `${remainingCells * CELL_HEIGHT + 2}px`;
+      }
+      if (cmdLength === 15 || cmdLength === 19 || cmdLength === 11) {
+        button.style.height = `${remainingCells * CELL_HEIGHT - 1}px`;
+      }
+      if (cmdLength === 17) {
+        button.style.height = `${remainingCells * CELL_HEIGHT + 1}px`;
+      }
+      if (cmdLength === 9 || cmdLength === 6) {
+        button.style.height = `${remainingCells * CELL_HEIGHT + 2}px`;
+      }
     } else {
+      console.log("2 columns");
       // In 2-column layout, keep height fixed to match command items
       button.style.height = `${CELL_HEIGHT - 1}px`;
     }

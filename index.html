@@ -409,31 +409,6 @@
     -->
     <div class="modal-overlay" id="modalOverlay"></div>
     <div class="custom-modal" id="settingsModal">
-      <div class="scroll-buttons-container" id="settingsScrollButtons">
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollTopSettings"
-          data-tooltip="Scroll to Top"
-        >
-          <i class="fa-solid fa-arrow-up"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollBottomSettings"
-          data-tooltip="Scroll to Bottom"
-        >
-          <i class="fa-solid fa-arrow-down"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="closeModal"
-          data-tooltip="Close Settings"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
       <div class="modal-content">
         <!-- 
           Shortcut Manager Section
@@ -442,7 +417,9 @@
           shortcut) and a value (the URL to navigate to).
         -->
         <div class="shortcut-section">
-          <h2><i class="far fa-keyboard"></i>Keyboard Shortcuts</h2>
+          <h2 class="keyboard-shortcuts-heading">
+            <i class="far fa-keyboard"></i>Keyboard Shortcuts
+          </h2>
 
           <!-- Container with accent color background -->
           <div class="shortcuts-container">
@@ -465,9 +442,9 @@
           <div class="theme-container">
             <div class="custom-select-wrapper">
               <select id="themeSelect" class="custom-select">
-                <option value="dark">Dark</option>
-                <option value="dark-abyss">Dark Abyss</option>
-                <option value="light">Light</option>
+                <option value="dark">Celerity (Dark)</option>
+                <option value="dark-abyss">Celerity (Dark Abyss)</option>
+                <option value="light">Celerity (Light)</option>
                 <option value="one-dark-pro">One Dark Pro</option>
                 <option value="catppuccin-frappe">Catppuccin (Frappe)</option>
                 <option value="catppuccin-macchiato">
@@ -568,6 +545,33 @@
           </button>
         </div>
       </div>
+
+      <!-- Moved the scroll buttons container below the modal content -->
+      <div class="scroll-buttons-container" id="settingsScrollButtons">
+        <button
+          class="scroll-button tooltip-left"
+          id="scrollTopSettings"
+          data-tooltip="Scroll to Top"
+        >
+          <i class="fa-solid fa-arrow-up"></i>
+        </button>
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
+          id="scrollBottomSettings"
+          data-tooltip="Scroll to Bottom"
+        >
+          <i class="fa-solid fa-arrow-down"></i>
+        </button>
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
+          id="closeModal"
+          data-tooltip="Close Settings"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
     </div>
 
     <!-- 
@@ -597,41 +601,18 @@
       The modal appears when the help button is clicked.
     -->
     <div id="helpModal" class="help-modal">
-      <div class="scroll-buttons-container" id="helpScrollButtons">
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollTopHelp"
-          data-tooltip="Scroll to Top"
-        >
-          <i class="fa-solid fa-arrow-up"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollBottomHelp"
-          data-tooltip="Scroll to Bottom"
-        >
-          <i class="fa-solid fa-arrow-down"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="closeHelpModal"
-          data-tooltip="Close Guide"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
       <div class="help-modal-content">
         <!-- Help documentation -->
         <div class="help-section">
           <!-- Introduction -->
           <div class="callout-icon">
-            <h3><i class="fa-solid fa-bolt"></i>Using Keyboard Shortcuts</h3>
+            <h3 class="callout-title-1">
+              <i class="fa-solid fa-bolt"></i>Using Keyboard Shortcuts
+            </h3>
           </div>
           <!-- Keyboard Shortcuts Section -->
 
-          <div class="help-card">
+          <div class="help-card utility-card">
             <div class="shortcut-example">
               <span class="shortcut-description"
                 ><strong>Direct Navigation</strong> - Type a key and press
@@ -673,9 +654,13 @@
             </p>
           </div>
 
+          <div class="help-divider callout-divider"></div>
+
           <!-- Settings Section -->
           <div class="callout-icon">
-            <h3><i class="fa-solid fa-gear"></i>Customizing Your Experience</h3>
+            <h3 class="callout-title-2">
+              <i class="fa-solid fa-gear"></i>Customizing Your Experience
+            </h3>
           </div>
 
           <div class="help-card">
@@ -734,6 +719,33 @@
             >
           </p>
         </div>
+      </div>
+
+      <!-- Moved the scroll buttons container below the modal content -->
+      <div class="scroll-buttons-container" id="helpScrollButtons">
+        <button
+          class="scroll-button tooltip-left"
+          id="scrollTopHelp"
+          data-tooltip="Scroll to Top"
+        >
+          <i class="fa-solid fa-arrow-up"></i>
+        </button>
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
+          id="scrollBottomHelp"
+          data-tooltip="Scroll to Bottom"
+        >
+          <i class="fa-solid fa-arrow-down"></i>
+        </button>
+        <div class="scroll-button-divider"></div>
+        <button
+          class="scroll-button tooltip-left"
+          id="closeHelpModal"
+          data-tooltip="Close Guide"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
     </div>
 

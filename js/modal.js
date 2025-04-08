@@ -287,6 +287,9 @@ class ModalManager {
     if (modalContent) {
       modalContent.classList.add("scrollable");
 
+      // Reset scroll position to top
+      modalContent.scrollTop = 0;
+
       if (this.settingsScrollButtonsContainer) {
         this.settingsScrollButtonsContainer.classList.remove("animate-pulse");
         void this.settingsScrollButtonsContainer.offsetWidth;
@@ -574,36 +577,24 @@ class ModalManager {
     const saveEditedShortcut = async () => {
       const newKey = keyInput.value.trim();
       const newName = nameInput.value.trim();
-      const newValue = valueInput.value.trim();
+      let newValue = valueInput.value.trim();
 
       // Validation
       if (!newKey || !newName || !newValue) {
         return false;
       }
 
-      // URL validation - check if URL starts with http:// or https://
+      // Automatically add https:// prefix to URLs without a protocol
       if (!newValue.startsWith("http://") && !newValue.startsWith("https://")) {
-        const shouldProceed = await customConfirm({
-          message: `URL should start with "http://" or "https://". Would you like to add "https://" automatically?`,
-          confirmText: "Add https://",
-          cancelText: "Edit URL",
-          confirmClass: "confirm-url-validation",
-        });
-
-        if (shouldProceed) {
-          // Add https:// prefix automatically
-          valueInput.value = `https://${newValue}`;
-          return saveEditedShortcut(); // Call function again with updated URL
-        } else {
-          valueInput.focus();
-          return false;
-        }
+        newValue = `https://${newValue}`;
+        valueInput.value = newValue;
       }
 
       // Check if key changed and if new key already exists
       if (newKey !== key && COMMANDS.has(newKey)) {
+        const existingShortcut = COMMANDS.get(newKey);
         const shouldOverride = await customConfirm({
-          message: `The shortcut key "${newKey}" already exists. Are you sure you want to override it?`,
+          message: `The shortcut key "${newKey}" already exists (${existingShortcut.name}). Are you sure you want to override it?`,
           confirmText: "Override",
           cancelText: "Cancel",
           confirmClass: "confirm-override",
@@ -623,7 +614,7 @@ class ModalManager {
       COMMANDS.set(newKey, {
         ...value,
         name: newName,
-        url: valueInput.value.trim(), // Use the potentially modified URL
+        url: newValue,
       });
 
       // Save and refresh
@@ -727,36 +718,24 @@ class ModalManager {
     const createNewShortcut = async () => {
       const newKey = newKeyInput.value.trim();
       const newName = newNameInput.value.trim();
-      const newValue = newValueInput.value.trim();
+      let newValue = newValueInput.value.trim();
 
       // Check all fields
       if (newKeyInput.value && newNameInput.value && newValueInput.value) {
-        // URL validation - check if URL starts with http:// or https://
+        // Automatically add https:// prefix to URLs without a protocol
         if (
           !newValue.startsWith("http://") &&
           !newValue.startsWith("https://")
         ) {
-          const shouldProceed = await customConfirm({
-            message: `URL should start with "http://" or "https://". Would you like to add "https://" automatically?`,
-            confirmText: "Add https://",
-            cancelText: "Edit URL",
-            confirmClass: "confirm-url-validation",
-          });
-
-          if (shouldProceed) {
-            // Add https:// prefix automatically
-            newValueInput.value = `https://${newValue}`;
-            return createNewShortcut(); // Call function again with updated URL
-          } else {
-            newValueInput.focus();
-            return false;
-          }
+          newValue = `https://${newValue}`;
+          newValueInput.value = newValue;
         }
 
         // If the shortcut key already exists, show the custom confirmation modal.
         if (COMMANDS.has(newKeyInput.value)) {
+          const existingShortcut = COMMANDS.get(newKeyInput.value);
           const shouldOverride = await customConfirm({
-            message: `The shortcut key "${newKeyInput.value}" already exists. Are you sure you want to override it?`,
+            message: `The shortcut key "${newKeyInput.value}" already exists (${existingShortcut.name}). Are you sure you want to override it?`,
             confirmText: "Override",
             cancelText: "Cancel",
             confirmClass: "confirm-override",
@@ -767,7 +746,7 @@ class ModalManager {
         }
         COMMANDS.set(newKeyInput.value, {
           name: newNameInput.value,
-          url: newValueInput.value,
+          url: newValue,
         });
         saveCommands();
         this.renderShortcuts();
@@ -819,8 +798,7 @@ class ModalManager {
    */
   async resetSettings() {
     const confirmed = await customConfirm({
-      message:
-        "Are you sure you want to reset all settings to default? This cannot be undone.",
+      message: `Are you sure you want to reset all settings to default? This will remove all custom shortcuts.`,
       confirmText: "Reset",
       cancelText: "Cancel",
       confirmClass: "confirm-warning",
@@ -1044,6 +1022,24 @@ function customConfirm({
     cancelButton.addEventListener("click", onCancel);
   });
 }
+
+// Add event listener for Enter key to confirm dialog
+function addEnterKeyListenerToConfirmDialog() {
+  const modal = document.getElementById("confirmModal");
+  const okButton = modal.querySelector(".confirm-ok");
+
+  // Listen for keydown events on the document
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && modal.style.display === "flex") {
+      event.preventDefault(); // Prevent default Enter behavior
+      okButton.click(); // Trigger the OK button click
+    }
+  });
+}
+
+// Call this function when initializing the modal manager
+addEnterKeyListenerToConfirmDialog();
+
 // Initialize on document load
 document.addEventListener("DOMContentLoaded", () => {
   new ModalManager();
