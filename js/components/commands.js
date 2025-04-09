@@ -1,11 +1,25 @@
 /**
- * Commands component for displaying and managing keyboard shortcuts.
- * Handles the rendering and layout of command shortcuts in a responsive grid.
+ * Commands Component (Web Component)
+ *
+ * A custom element that displays and manages keyboard shortcuts in a responsive grid layout.
+ * This component renders command shortcuts as clickable links and includes a dynamic
+ * "add new shortcut" button that integrates with the settings modal.
+ *
+ * Usage:
+ * <commands-component></commands-component>
+ *
+ * Features:
+ * - Responsive grid layout (2-4 columns based on screen width)
+ * - Dynamic shortcut rendering from the COMMANDS map
+ * - Interactive "+" button for adding new shortcuts
+ * - Automatic layout adjustment based on number of commands
  */
 class Commands extends HTMLElement {
   /**
-   * Initializes the Commands component and sets up event listeners.
-   * Creates a shadow DOM and renders the initial commands layout.
+   * Initializes the Commands component with Shadow DOM and event listeners.
+   *
+   * Creates a shadow DOM for encapsulation and sets up a resize event listener
+   * to ensure the layout remains responsive as the viewport size changes.
    */
   constructor() {
     super();
@@ -16,9 +30,13 @@ class Commands extends HTMLElement {
   }
 
   /**
-   * Renders the commands grid with all shortcuts.
-   * Creates a column layout based on screen width and populates with command shortcuts.
-   * Also adds a dynamic "+" button when appropriate.
+   * Renders the commands grid with all shortcuts and the dynamic "+" button.
+   *
+   * This method:
+   * - Creates a column layout based on screen width and command count
+   * - Renders each shortcut as a clickable link with key and name display
+   * - Adds a dynamic "+" button in the appropriate position
+   * - Adjusts styling based on the layout configuration
    */
   render() {
     this.shadowRoot.innerHTML = "";
@@ -39,7 +57,7 @@ class Commands extends HTMLElement {
     // Apply the column count directly to the commands element
     commands.style.columns = columns;
     // Adjust max-width based on column count
-    commands.style.maxWidth = columns === 2 ? "25rem" : "45rem";
+    commands.style.maxWidth = "45rem";
 
     let count = 0;
     // Render each shortcut
@@ -64,7 +82,11 @@ class Commands extends HTMLElement {
   }
 
   /**
-   * Determines the number of columns based on screen width and command count.
+   * Determines the optimal number of columns based on available commands and screen width.
+   *
+   * Uses special handling for certain command counts (1, 2, 5) to ensure
+   * a balanced layout, and falls back to responsive behavior for other counts.
+   *
    * @param {number} commandCount - The total number of visible commands
    * @returns {number} The number of columns to display (2 or 4)
    */
@@ -80,8 +102,10 @@ class Commands extends HTMLElement {
   }
 
   /**
-   * Checks if the dynamic "+" button should be added.
-   * Only adds the button if the last row has space.
+   * Determines if the dynamic "+" button should be added to the layout.
+   *
+   * Only adds the button if the last row has empty space to maintain a balanced grid.
+   *
    * @param {number} count - The number of commands
    * @param {number} columns - The number of columns
    * @returns {boolean} True if the button should be added
@@ -92,8 +116,14 @@ class Commands extends HTMLElement {
   }
 
   /**
-   * Appends the dynamic "+" button to the commands grid.
-   * Sizes the button appropriately based on column layout.
+   * Adds the dynamic "+" button to the commands grid.
+   *
+   * This method:
+   * - Creates a button sized appropriately for the current layout
+   * - Positions it in the last row
+   * - Adds a click handler to open the settings modal
+   * - Applies height adjustments for different grid configurations
+   *
    * @param {HTMLElement} commands - The commands container element
    * @param {number} count - The number of commands
    * @param {number} columns - The number of columns
@@ -110,17 +140,17 @@ class Commands extends HTMLElement {
       // Open the modal to add a new shortcut
       const openModalBtn = document.getElementById("openModal");
       openModalBtn.click();
-      // Dispatch a custom event to indicate we want to focus on the new shortcut inputs
-      document.dispatchEvent(new CustomEvent("focusNewShortcut"));
     });
 
     // Adjust height based on column layout
     // For 4-column layout, allow the button to fill remaining cells
     // For 2-column layout, keep the height fixed to match command items
     if (columns === 4) {
-      // In 4-column layout, allow the button to fill remaining cells (original behavior)
+      // Default height for 4-column layout
       button.style.height = `${remainingCells * CELL_HEIGHT}px`;
+      
       let cmdLength = commands.children.length;
+
       if (cmdLength === 13) {
         button.style.height = `${remainingCells * CELL_HEIGHT + 2}px`;
       }

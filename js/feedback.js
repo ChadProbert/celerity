@@ -1,12 +1,20 @@
 /**
- * Feedback Modal Functionality
+ * Feedback System
  *
- * This file handles the feedback modal, form submission, and email functionality.
- * It allows users to submit feedback directly from the app which is then emailed
- * to the developer.
+ * Provides a complete user feedback collection system with emotion selection,
+ * categorized feedback, and email submission functionality.
+ *
+ * This module:
+ * - Manages the feedback modal UI
+ * - Handles form submission and validation
+ * - Submits feedback via EmailJS
+ * - Provides visual feedback on submission status
+ * - Supports different feedback types and emotion selection
+ *
+ * @requires EmailJS Service - https://www.emailjs.com/
  */
 
-// Initialize EmailJS with a public key when the script loads
+// Initialize EmailJS with the public key when the script loads
 emailjs.init({
   publicKey: "YbS029vg8L512hed1",
   // Block headless browsers to prevent automated submissions
@@ -24,7 +32,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const emotionLabels = document.querySelectorAll(".emotion-label");
 
   /**
-   * Opens the feedback modal
+   * Opens the feedback modal and resets form state.
+   *
+   * Displays the modal, clears any previous status messages,
+   * and prepares the form for a new submission.
    */
   function openFeedbackModal() {
     feedbackModal.style.display = "flex";
@@ -34,16 +45,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /**
-   * Closes the feedback modal
+   * Closes the feedback modal.
+   *
+   * Hides the modal without affecting form data,
+   * allowing users to resume later if desired.
    */
   function closeFeedbackModal() {
     feedbackModal.style.display = "none";
   }
 
   /**
-   * Sets a status message on the form
+   * Sets a status message on the feedback form.
+   *
+   * Displays a success or error message to provide
+   * user feedback on form submission status.
+   *
    * @param {string} message - The message to display
-   * @param {string} type - The type of message ('success' or 'error')
+   * @param {string} type - The message type ('success' or 'error')
    */
   function setFeedbackStatus(message, type) {
     feedbackStatus.textContent = message;
@@ -52,7 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /**
-   * Handles hover effects for emotion icons
+   * Sets up emotion icon interactions and animations.
+   *
+   * Adds event listeners for emotion selection and handles
+   * visual effects when emotions are selected.
    */
   function setupEmotionIconEffects() {
     // Handle checked state changes
@@ -66,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         label.style.animation = "none";
         setTimeout(() => {
           label.style.animation = "";
-        }, 10);
+        }, 10); 
       });
     });
 
@@ -78,8 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /**
-   * Handles form submission
-   * @param {Event} e - Form submission event
+   * Handles feedback form submission.
+   *
+   * Validates form inputs, sends the feedback via email,
+   * and provides appropriate user feedback on submission status.
+   *
+   * @param {Event} e - The form submission event
    */
   async function handleFormSubmit(e) {
     e.preventDefault();
@@ -128,8 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("Error sending feedback:", error);
       setFeedbackStatus(
-        "Oops! We couldn't send your feedback right now. This might be due to a temporary \
-        connection issue or our email service has used up its monthly limit. \
+        "We couldn't send your feedback right now. This might be due to a temporary \
+        connection issue or our email service has used up its monthly request limit. \
         However, your thoughts are important to us. You can contact us directly at \
         chadcprobert@gmail.com",
         "error"
@@ -143,8 +168,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /**
-   * Sends feedback email using the Email.js service
+   * Sends feedback via EmailJS service.
+   *
+   * Prepares the submission data and sends it to the configured
+   * EmailJS service and template.
+   *
    * @param {Object} formData - The form data to send
+   * @param {string} formData.type - Feedback type/category
+   * @param {string} formData.message - Feedback message content
+   * @param {string} formData.contact - User contact information (optional)
+   * @param {string} formData.emotion - Selected emotion
+   * @param {string} formData.date - Submission date/time
+   * @param {string} formData.userAgent - Browser user agent
    * @returns {Promise} - Promise that resolves when email is sent
    */
   function sendFeedbackEmail(formData) {
@@ -189,6 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize the emotion icons
   setupEmotionIconEffects();
+
+  /**
+   * Modal Accessibility Features
+   */
 
   // Close modal when clicking outside of it
   window.addEventListener("click", function (event) {

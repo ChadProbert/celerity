@@ -1,36 +1,69 @@
-// Configuration for the new tab page
+/**
+ * Celerity Configuration System
+ *
+ * This file defines the core configuration settings and keyboard shortcuts
+ * for the new tab page. It handles loading saved settings from localStorage
+ * and provides the default configuration when no saved settings exist.
+ */
 
 /**
- * Global configuration object for the new tab page.
- * Contains settings for command delimiters, search templates, and display options.
- * @type {Object}
+ * Global Configuration Object
+ *
+ * Contains all user-configurable settings for the application including
+ * command delimiters, search templates, and display preferences.
+ * Settings are persisted in localStorage and loaded on initialization.
+ *
+ * @namespace
  */
 const CONFIG = {
-  /** Delimiter character for path-based commands (e.g., r/subreddit) */
+  /**
+   * Path command delimiter character.
+   * Used for path-based navigation, e.g., "r/subreddit" for Reddit.
+   * @type {string}
+   */
   commandPathDelimiter: "/",
 
-  /** Delimiter character for search commands (e.g., g search term) */
+  /**
+   * Search command delimiter character.
+   * Used for search queries, e.g., "g search term" for Google search.
+   * @type {string}
+   */
   commandSearchDelimiter: " ",
 
   /**
-   * Search engine templates.
-   * The {} placeholder will be replaced with the search query.
+   * Search engine template URLs.
+   * The {} placeholder is replaced with the encoded search query.
+   * @type {Object.<string, string>}
    */
   searchEngineTemplates: {
     google: "https://www.google.com/search?q={}",
     duckduckgo: "https://duckduckgo.com/?q={}",
   },
 
-  /** Default search engine (can be 'google' or 'duckduckgo') */
+  /**
+   * Default search engine key.
+   * Must match a key in searchEngineTemplates.
+   * @type {string}
+   */
   defaultSearchEngine: "google",
 
-  /** Whether links should open in new tabs (default is true - open in new tab) */
+  /**
+   * Whether links should open in new tabs.
+   * True: open in new tab, False: use current tab.
+   * @type {boolean}
+   */
   openLinksInNewTab: true,
 
-  /** Maximum number of search suggestions to display */
+  /**
+   * Maximum number of search suggestions to display.
+   * @type {number}
+   */
   suggestionLimit: 4,
 
-  /** Initialize settings from localStorage */
+  /**
+   * Initializes configuration by loading saved settings from localStorage.
+   * Restores tab behavior and search engine preferences if available.
+   */
   init: function () {
     // Load tab behavior setting
     const tabBehavior = localStorage.getItem("tabBehavior");
@@ -54,12 +87,16 @@ const CONFIG = {
 CONFIG.init();
 
 /**
- * Command definitions for keyboard shortcuts.
- * Each command is defined with a key (shortcut) and an object containing:
- * - name: The display name for the shortcut
- * - url: The URL to navigate to
- * - searchTemplate (optional): The search path template with {} placeholder
- * - suggestions (optional): Array of search suggestions related to this command
+ * Command Definitions
+ *
+ * A Map containing all keyboard shortcuts and their associated actions.
+ * Each entry consists of a key (shortcut) and an object with properties:
+ *
+ * - name: Display name for the shortcut
+ * - url: Target URL for navigation
+ * - searchTemplate (optional): Search path template with {} placeholder
+ * - suggestions (optional): Array of related shortcut suggestions
+ *
  * @type {Map<string, Object>}
  */
 const COMMANDS = new Map([
@@ -135,8 +172,8 @@ const COMMANDS = new Map([
 ]);
 
 /**
- * Saves the current commands to localStorage for persistence.
- * Converts the Map to a JSON object for storage.
+ * Saves the current commands to localStorage.
+ * Converts the Map to a JSON-serializable object for storage.
  */
 function saveCommands() {
   const commandsObj = Object.fromEntries(COMMANDS);
@@ -145,7 +182,7 @@ function saveCommands() {
 
 /**
  * Loads saved commands from localStorage.
- * Restores the commands Map from the saved JSON.
+ * Restores the commands Map from the saved JSON if available.
  */
 function loadCommands() {
   const commandsStr = localStorage.getItem("commands");

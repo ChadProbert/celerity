@@ -1,11 +1,31 @@
 /**
- * Modal functionality for the application.
- * Handles all modal-related interactions including settings and help modals.
+ * Modal Manager
+ *
+ * Responsible for handling all modal-related interactions throughout the application.
+ * This class manages the settings modal, help guide modal, confirmation dialogs,
+ * and all related event listeners and interactions.
+ *
+ * Features:
+ * - Opening and closing settings modal
+ * - Opening and closing help documentation modal
+ * - Handling keyboard shortcuts for modal interaction (Escape to close)
+ * - Managing modal scroll functionality
+ * - First-time visitor detection and guidance
+ * - Settings reset functionality
+ * - Shortcut management (add, edit, delete)
  */
 class ModalManager {
   /**
    * Initializes the ModalManager with all required DOM elements and event bindings.
-   * Sets up the modal overlay, settings modal, help modal, and form controls.
+   *
+   * The constructor:
+   * 1. Detects if this is a first-time visitor
+   * 2. Fetches all required DOM elements
+   * 3. Binds all methods to maintain 'this' context
+   * 4. Sets up default settings
+   * 5. Initializes event listeners and settings
+   *
+   * @throws {Error} If critical DOM elements cannot be found
    */
   constructor() {
     // Check if this is a first-time visitor - do this first before other initialization
@@ -221,7 +241,16 @@ class ModalManager {
   }
 
   /**
-   * Opens the settings modal, initializes shortcuts, and handles focus management.
+   * Opens the settings modal and initializes its content.
+   *
+   * This method:
+   * - Updates first-time visitor state if needed
+   * - Closes the search dialog if open
+   * - Displays the settings modal and overlay
+   * - Refreshes the shortcuts list
+   * - Sets up scrolling functionality
+   * - Positions the modal at the top
+   * - Adds scroll event listeners
    */
   openSettingsModal() {
     // If user has seen help only, mark as having seen settings too
@@ -272,6 +301,15 @@ class ModalManager {
 
   /**
    * Opens the help modal and initializes its content.
+   *
+   * This method:
+   * - Updates UI for first-time visitors
+   * - Closes the search dialog if open
+   * - Displays the help modal and overlay
+   * - Resets the scroll position to the top
+   * - Sets up scroll button indicators
+   * - Adds scroll event listeners
+   * - Sets focus on the close button for accessibility
    */
   openHelpModalHandler() {
     // Just remove the animation class from help button for first-time visitors
@@ -329,6 +367,11 @@ class ModalManager {
 
   /**
    * Closes the settings modal and removes the overlay.
+   *
+   * This method:
+   * - Removes scroll event listeners to prevent memory leaks
+   * - Hides the settings modal
+   * - Removes the modal overlay
    */
   closeSettingsModal() {
     // Remove scroll event listener
@@ -346,6 +389,12 @@ class ModalManager {
 
   /**
    * Closes the help modal and removes the overlay.
+   *
+   * This method:
+   * - Updates the visit history for first-time visitors
+   * - Removes scroll event listeners to prevent memory leaks
+   * - Hides the help modal
+   * - Removes the modal overlay
    */
   closeHelpModal() {
     // Remove scroll event listener
@@ -359,7 +408,8 @@ class ModalManager {
       );
     }
 
-    // If this is a first-time visitor, update the localStorage flags AFTER they've seen the help content
+    // If this is a first-time visitor, update the localStorage flags AFTER
+    // they've seen the help content
     if (this.isFirstTimeVisitor) {
       localStorage.setItem("hasVisitedBefore", "true");
       localStorage.setItem("hasSeenHelpOnly", "true");
@@ -374,7 +424,8 @@ class ModalManager {
     this.helpModal.style.display = "none";
     this.modalOverlay.classList.remove("active");
 
-    // If user has seen help but hasn't seen settings yet, add animation to settings button
+    // If user has seen help but hasn't seen settings yet, add animation
+    // to settings button
     if (this.hasSeenHelpOnly && this.openModalBtn) {
       setTimeout(() => {
         this.openModalBtn.classList.add("pulse-border");
@@ -383,8 +434,13 @@ class ModalManager {
   }
 
   /**
-   * Handles clicks on the window to close modals when clicking outside modal content.
-   * @param {Event} event - The click event
+   * Handles clicks on the window to close modals when clicking outside of modal content.
+   *
+   * This implements the common UI pattern where clicking outside a modal
+   * dismisses it. The method checks if the click occurred outside the modal content
+   * area but within the modal container or overlay.
+   *
+   * @param {MouseEvent} event - The mouse click event
    */
   handleWindowClick(event) {
     // If clicking on help modal or overlay while help modal is open
@@ -426,7 +482,11 @@ class ModalManager {
   }
 
   /**
-   * Handles keyboard events to close modals when pressing Escape.
+   * Handles keyboard events for modal navigation and accessibility.
+   *
+   * Currently handles:
+   * - Escape key to close open modals
+   *
    * @param {KeyboardEvent} e - The keyboard event
    */
   handleKeydown(e) {
@@ -455,9 +515,13 @@ class ModalManager {
   }
 
   /**
-   * Renders the list of shortcuts in the modal.
-   * Clears the current list, adds all existing shortcuts,
-   * and adds a new shortcut field at the end.
+   * Renders the list of keyboard shortcuts in the settings modal.
+   *
+   * This method:
+   * - Clears the existing shortcuts list
+   * - Iterates through all defined commands
+   * - Creates editable input fields for each shortcut
+   * - Adds event listeners for editing, saving, and deleting shortcuts
    */
   renderShortcuts() {
     this.shortcutList.innerHTML = "";
@@ -805,7 +869,10 @@ class ModalManager {
   }
 
   /**
-   * Checks if the modal content needs to be scrollable and adds the scrollable class.
+   * Checks if the modal content is scrollable and updates UI accordingly.
+   *
+   * This determines whether scroll buttons should be displayed based on
+   * the content height compared to the viewport height.
    */
   checkModalScrollability() {
     // Ensure we have the modal content reference
@@ -824,8 +891,10 @@ class ModalManager {
   }
 
   /**
-   * Updates the scroll button state based on current scroll position.
-   * Changes between scroll-to-bottom and scroll-to-top functionality.
+   * Updates the visibility state of scroll buttons in the help modal.
+   *
+   * Shows/hides the top and bottom scroll buttons based on the current
+   * scroll position relative to the content.
    */
   updateScrollButtonState() {
     const helpModalContent = this.helpModal.querySelector(
@@ -848,8 +917,9 @@ class ModalManager {
   }
 
   /**
-   * Handles scrolling in the help modal
-   * @param {"top" | "bottom"} direction - The direction to scroll
+   * Scrolls the help modal content in the specified direction.
+   *
+   * @param {string} direction - The direction to scroll ('top' or 'bottom')
    */
   scrollHelpModal(direction) {
     const helpModalContent = this.helpModal.querySelector(
@@ -864,11 +934,14 @@ class ModalManager {
   }
 
   /**
-   * Forces the modal to scroll to the top and prevents any automatic scrolling.
-   * This is used to ensure the modal always starts at the top when opened.
-   * It's applied after focus operations to override browser's automatic scroll behavior.
+   * Forces the modal content to scroll to the top.
+   *
+   * Uses a small delay to ensure the scroll reset occurs after
+   * the modal is fully visible for better user experience.
+   *
+   * @param {number} [delay=100] - Optional delay in milliseconds before scrolling
    */
-  forceModalScrollToTop() {
+  forceModalScrollToTop(delay = 100) {
     // Get a direct reference to the modal content for the settings modal
     const modalContent = this.settingsModal.querySelector(".modal-content");
     if (!modalContent) return;

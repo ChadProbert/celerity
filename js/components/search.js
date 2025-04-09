@@ -1,17 +1,39 @@
 /**
- * Search component that provides search functionality with suggestions.
- * Handles keyboard shortcuts, text input, and search suggestions.
+ * Search Component (Web Component)
+ *
+ * A custom element that provides a powerful search interface with suggestions.
+ * This component handles keyboard shortcuts, text input, search suggestions,
+ * and multiple search modes including direct URLs, command shortcuts, and
+ * search engine queries.
+ *
+ * Usage:
+ * <search-component></search-component>
+ *
+ * Features:
+ * - Keyboard-activated search dialog (any key opens it)
+ * - Command shortcut integration (e.g., "y" for YouTube)
+ * - Path-based commands (e.g., "r/webdev" for Reddit's webdev subreddit)
+ * - Live search suggestions from DuckDuckGo
+ * - Keyboard navigation for suggestions (arrows, tab)
+ * - Direct URL detection and navigation
  */
 class Search extends HTMLElement {
   /**
-   * Initializes the Search component with DOM elements and event listeners.
-   * Sets up the dialog, form, input field, and suggestions container.
+   * Initializes the Search component with Shadow DOM and event listeners.
+   *
+   * This constructor:
+   * - Creates a shadow DOM for style encapsulation
+   * - Clones the search template from the main document
+   * - Initializes DOM element references
+   * - Binds event handlers to maintain context
+   * - Sets up event listeners for search interaction
    */
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
 
-    // Get the search template from the main document and clone it with all its children
+    // Get the search template from the main document and clone it with
+    // all its children
     const template = document.getElementById("search-template");
     const clone = template.content.cloneNode(true);
 
@@ -92,9 +114,10 @@ class Search extends HTMLElement {
    */
   formatSearchUrl(url, searchPath, search) {
     if (!searchPath) return url;
-    const [baseUrl] = this.splitUrl(url);
-    const urlQuery = encodeURIComponent(search);
-    searchPath = searchPath.replace(/{}/g, urlQuery);
+    const [baseUrl] = this.splitUrl(url); // https://www.google.com or https://duckduckgo.com
+    console.log("Base URL", baseUrl);
+    const urlQuery = encodeURIComponent(search); // Make the search query URL-safe
+    searchPath = searchPath.replace(/{}/g, urlQuery); // Replace the placeholder with the URL-safe search query
     return baseUrl + searchPath;
   }
 
@@ -118,9 +141,16 @@ class Search extends HTMLElement {
 
   /**
    * Parses a search query and determines the appropriate action.
-   * Handles URLs, command shortcuts, search commands, and path commands.
-   * @param {string} raw - The raw search query
-   * @returns {Object} An object containing the parsed query and action
+   *
+   * The method analyzes the input and categorizes it into one of these types:
+   * 1. Direct URL - Navigates directly to the URL
+   * 2. Command shortcut - Uses a predefined shortcut (e.g., "g" for Gmail)
+   * 3. Search command - Combines a command with a search term (e.g., "y cats" to search YouTube for cats)
+   * 4. Path command - Navigates to a specific path (e.g., "r/webdev" for Reddit webdev)
+   * 5. Default search - Uses the default search engine for general queries
+   *
+   * @param {string} raw - The raw search query text
+   * @returns {Object} An object containing the parsed query details and action URL
    */
   parseQuery(raw) {
     // Trim whitespace from the query
@@ -215,7 +245,14 @@ class Search extends HTMLElement {
   }
 
   /**
-   * Executes a search query by opening the URL in a new tab or window.
+   * Executes a search query by opening the appropriate URL.
+   *
+   * This method:
+   * 1. Parses the search query
+   * 2. Determines the target URL
+   * 3. Opens the URL in either a new tab or the current tab based on configuration
+   * 4. Closes the search dialog
+   *
    * @param {string} query - The search query to execute
    */
   execute(query) {
@@ -251,21 +288,26 @@ class Search extends HTMLElement {
    * Handles input events by fetching suggestions and rendering them.
    */
   async onInput() {
+    // Parse the input value
     const oq = this.parseQuery(this.input.value);
 
+    // If no query, close the search dialog
     if (!oq.query) {
       this.close();
       return;
     }
 
+    // Get suggestions from commands
     let suggestions = COMMANDS.get(oq.query)?.suggestions ?? [];
 
+    // Get suggestions from DuckDuckGo
     if (oq.search && suggestions.length < CONFIG.suggestionLimit) {
       const res = await this.fetchDuckDuckGoSuggestions(oq.search);
       const formatted = this.attachSearchPrefix(res, oq);
       suggestions = suggestions.concat(formatted);
     }
 
+    // Render the suggestions
     const nq = this.parseQuery(this.input.value);
     if (nq.query !== oq.query) return;
     this.renderSuggestions(suggestions, oq.query);
@@ -273,8 +315,13 @@ class Search extends HTMLElement {
 
   /**
    * Handles keyboard events for search interactions.
-   * Opens/closes the search dialog, handles navigation keys,
-   * and supports keyboard shortcuts.
+   *
+   * Manages:
+   * - Opening/closing the search dialog
+   * - Navigation between suggestions using keyboard (arrows, tab)
+   * - Preventing conflicts with modal interactions
+   * - Focusing the input field appropriately
+   *
    * @param {KeyboardEvent} e - The keyboard event
    */
   onKeydown(e) {
