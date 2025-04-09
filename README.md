@@ -8,23 +8,23 @@
 ### Celerity
 
   <p>
-    Press, enter, done.
+    Press, Enter, Done.
     <br />
     <br />
-    <a href="https://chadprobert.github.io/custom-new-tab/">View Demo</a>
+    <a href="https://chadprobert.github.io/celerity/">View Demo</a>
     »
-    <a href="https://github.com/ChadProbert/new-page-app/issues">Report Bug</a>
+    <a href="https://github.com/ChadProbert/celerity/issues">Report Bug</a>
     »
-    <a href="https://github.com/ChadProbert/new-page-app/pulls">Request Feature</a>
+    <a href="https://github.com/ChadProbert/celerity/pulls">Request Feature</a>
   </p>
 
   <!-- SHIELDS.IO -->
 
-![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/new-page-app)
-![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/new-page-app)
-![GitHub issues](https://img.shields.io/github/issues-raw/ChadProbert/new-page-app)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ChadProbert/new-page-app)
-![GitHub Repo stars](https://img.shields.io/github/stars/ChadProbert/new-page-app?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/celerity)
+![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/celerity)
+![GitHub issues](https://img.shields.io/github/issues-raw/ChadProbert/celerity)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/ChadProbert/celerity)
+![GitHub Repo stars](https://img.shields.io/github/stars/ChadProbert/celerity?style=social)
 
 #### Tech Stack:
 
@@ -43,16 +43,9 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#about-the-app">About The App</a></li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#setup">Setup</a></li>
-      </ul>
-    </li>
+    <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#modifying-the-app">Modifying The App</a></li>
+    <li><a href="#customization">Customization</a></li>
     <li><a href="#contributors">Contributors</a></li>
   </ol>
 </details>
@@ -67,7 +60,7 @@ It allows you to:
 
 - **Rapidly access sites** with simple key commands (press a key, hit enter, done)
 - **Direct search from any site** by typing a key followed by your query
-- **Customise shortcuts** to match your workflow needs
+- **Customize shortcuts** to match your workflow needs
 - **Switch between themes** including dark mode, light mode, and developer-inspired colour schemes
 - **Configure settings** including tab behaviour and search engine preferences
 
@@ -102,7 +95,6 @@ git clone https://github.com/ChadProbert/celerity.git
 ## Usage
 
 <br>
-<br>
 
 <img src="images/themes/dark.jpg" alt="Celerity Logo" width="1000" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5);">
 
@@ -118,9 +110,9 @@ To visit a site, type its keyboard shortcut and press enter:
 
 Type a space after a site's shortcut to search directly on that site:
 
-- `y JavaScript` ➜ Searches YouTube for "JavaScript" videos
-- `a Why is JavaScript so popular?` ➜ Prompts ChatGPT with a question
-- `s Lofi coding` ➜ Searches Spotify for "Lofi coding" songs
+- `y JavaScript tutorial` ➜ Search YouTube for "JavaScript tutorial" videos
+- `a Why is JavaScript so popular?` ➜ Prompt ChatGPT with a question
+- `s Lofi coding` ➜ Search Spotify for "Lofi coding" songs, playlists and podcasts
 
 ### Path Navigation
 
@@ -137,7 +129,7 @@ If your input doesn't match any shortcut, Celerity performs a Google search:
 
 <br />
 
-## Customising Celerity
+## Customization
 
 ### Shortcut Management
 
