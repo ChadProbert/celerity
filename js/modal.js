@@ -54,7 +54,6 @@ class ModalManager {
     this.boundUpdateScrollButtonState = this.updateScrollButtonState.bind(this);
     this.scrollHelpModal = this.scrollHelpModal.bind(this);
     this.forceModalScrollToTop = this.forceModalScrollToTop.bind(this);
-    this.resetFirstTimeVisitor = this.resetFirstTimeVisitor.bind(this);
     this.boundUpdateSettingsScrollButtonState =
       this.updateSettingsScrollButtonState.bind(this);
 
