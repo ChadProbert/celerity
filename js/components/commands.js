@@ -118,7 +118,6 @@ class Commands extends HTMLElement {
     // For 4-column layout, allow the button to fill remaining cells
     // For 2-column layout, keep the height fixed to match command items
     if (columns === 4) {
-      console.log("4 columns");
       // In 4-column layout, allow the button to fill remaining cells (original behavior)
       button.style.height = `${remainingCells * CELL_HEIGHT}px`;
       let cmdLength = commands.children.length;
@@ -135,7 +134,6 @@ class Commands extends HTMLElement {
         button.style.height = `${remainingCells * CELL_HEIGHT + 2}px`;
       }
     } else {
-      console.log("2 columns");
       // In 2-column layout, keep height fixed to match command items
       button.style.height = `${CELL_HEIGHT - 1}px`;
     }

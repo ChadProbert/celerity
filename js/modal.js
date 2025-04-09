@@ -145,9 +145,8 @@ class ModalManager {
    * Includes opening/closing modals, resetting settings, and keyboard shortcuts.
    */
   initializeEventListeners() {
-    // Open Settings Modal - make sure these event listeners are working
+    // Open Settings Modal
     if (this.openModalBtn) {
-      console.log("Adding click listener to settings button");
       this.openModalBtn.addEventListener("click", this.openSettingsModal);
     } else {
       console.error("Settings button element not found!");
@@ -155,7 +154,6 @@ class ModalManager {
 
     // Open Help Modal
     if (this.openHelpBtn) {
-      console.log("Adding click listener to help button");
       this.openHelpBtn.addEventListener("click", this.openHelpModalHandler);
     } else {
       console.error("Help button element not found!");
@@ -207,14 +205,8 @@ class ModalManager {
     this.renderShortcuts();
     this.commandsComponent.render();
 
-    // Debug first-time visitor status
-    console.log("First time visitor:", this.isFirstTimeVisitor);
-    console.log("Has seen help only:", this.hasSeenHelpOnly);
-
-    // Add animation for first-time visitors (to compass button)
+    // If this is a first-time visitor, add animation to help button
     if (this.isFirstTimeVisitor && this.openHelpBtn) {
-      console.log("Applying animation to help button");
-
       // Apply animation with a slight delay
       setTimeout(() => {
         this.openHelpBtn.classList.add("pulse-border");
@@ -222,36 +214,11 @@ class ModalManager {
     }
     // Add animation for users who have seen help but not settings
     else if (this.hasSeenHelpOnly && this.openModalBtn) {
-      console.log("Applying animation to settings button");
-
       // Apply animation with a slight delay
       setTimeout(() => {
         this.openModalBtn.classList.add("pulse-border");
       }, 1000);
     }
-  }
-
-  /**
-   * FOR TESTING: Resets the first-time visitor flag
-   * This can be called from the console: document.dispatchEvent(new CustomEvent('resetFirstTimeVisitor'))
-   */
-  resetFirstTimeVisitor() {
-    localStorage.removeItem("hasVisitedBefore");
-    localStorage.removeItem("hasSeenHelpOnly");
-    this.isFirstTimeVisitor = true;
-    this.hasSeenHelpOnly = false;
-
-    // Remove animation classes from both buttons
-    if (this.openHelpBtn) {
-      this.openHelpBtn.classList.remove("pulse-border");
-    }
-    if (this.openModalBtn) {
-      this.openModalBtn.classList.remove("pulse-border");
-    }
-
-    console.log(
-      "First-time visitor status reset. Reload the page to see the animation."
-    );
   }
 
   /**
@@ -287,12 +254,12 @@ class ModalManager {
     if (modalContent) {
       modalContent.classList.add("scrollable");
 
-      // Reset scroll position to top
+      // Reset scroll position to top when opening the modal
       modalContent.scrollTop = 0;
 
       if (this.settingsScrollButtonsContainer) {
         this.settingsScrollButtonsContainer.classList.remove("animate-pulse");
-        void this.settingsScrollButtonsContainer.offsetWidth;
+        void this.settingsScrollButtonsContainer.offsetWidth; // Force reflow
         this.settingsScrollButtonsContainer.classList.add("animate-pulse");
       }
 

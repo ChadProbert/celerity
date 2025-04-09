@@ -162,7 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return emailjs
       .send("service_2t29umi", "template_feedback", templateParams)
       .then(function (response) {
-        console.log("Email sent successfully:", response);
         return response;
       })
       .catch(function (error) {
