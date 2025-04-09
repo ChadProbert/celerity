@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         label.style.animation = "none";
         setTimeout(() => {
           label.style.animation = "";
-        }, 10); 
+        }, 10);
       });
     });
 
@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
    *
    * Validates form inputs, sends the feedback via email,
    * and provides appropriate user feedback on submission status.
+   * On success, shows a confirmation message and closes the modal.
    *
    * @param {Event} e - The form submission event
    */
@@ -150,6 +151,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Reset form after successful submission
       feedbackForm.reset();
+
+      // Close the modal after a short delay to show the success message
+      setTimeout(() => {
+        closeFeedbackModal();
+      }, 3000);
     } catch (error) {
       console.error("Error sending feedback:", error);
       setFeedbackStatus(
