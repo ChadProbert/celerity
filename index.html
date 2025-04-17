@@ -145,6 +145,10 @@
         .name {
           color: var(--color-text-subtle);
           transition: color var(--transition-speed);
+          /* Truncate the command name if it's too long */
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .command:where(:focus, :hover) .name {

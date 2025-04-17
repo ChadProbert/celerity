@@ -58,7 +58,7 @@ class Commands extends HTMLElement {
     // Apply the column count directly to the commands element
     commands.style.columns = columns;
     // Adjust max-width based on column count
-    commands.style.maxWidth = "50rem";
+    commands.style.maxWidth = "45rem";
 
     let count = 0;
     // Render each shortcut
@@ -76,10 +76,7 @@ class Commands extends HTMLElement {
       // Capitalise the first letter of each word in the name
       name = this.capitaliseWords(name);
 
-      // Truncate the name if it's too long
-      const maxLength = 11;
-      commandClone.querySelector(".name").innerText =
-        name.length > maxLength ? name.substring(0, maxLength) + "..." : name;
+      commandClone.querySelector(".name").innerText = name;
       commands.append(commandClone);
       count++;
     }
