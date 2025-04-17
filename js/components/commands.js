@@ -66,9 +66,16 @@ class Commands extends HTMLElement {
       const commandClone = commandTemplate.content.cloneNode(true);
       const command = commandClone.querySelector(".command");
       command.href = url;
+
+      // Open links in new tab if enabled
       if (CONFIG.openLinksInNewTab) command.target = "_blank";
       commandClone.querySelector(".key").innerText = key;
-      commandClone.querySelector(".name").innerText = name;
+
+      // Truncate the name if it's too long
+      // If the name contains a space, use a max length of 8, otherwise use 10
+      const maxLength = name.includes(" ") ? 8 : 10;
+      commandClone.querySelector(".name").innerText =
+        name.length > maxLength ? name.substring(0, maxLength) + "..." : name;
       commands.append(commandClone);
       count++;
     }
@@ -148,7 +155,7 @@ class Commands extends HTMLElement {
     if (columns === 4) {
       // Default height for 4-column layout
       button.style.height = `${remainingCells * CELL_HEIGHT}px`;
-      
+
       let cmdLength = commands.children.length;
 
       if (cmdLength === 13) {
