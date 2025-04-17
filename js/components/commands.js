@@ -47,7 +47,8 @@ class Commands extends HTMLElement {
 
     // Count available commands first to determine layout
     let availableCommands = 0;
-    for (const [key, { name, url }] of COMMANDS.entries()) {
+    for (const [key, commandData] of COMMANDS.entries()) {
+      let { name, url } = commandData;
       if (name && url) availableCommands++;
     }
 
@@ -57,11 +58,12 @@ class Commands extends HTMLElement {
     // Apply the column count directly to the commands element
     commands.style.columns = columns;
     // Adjust max-width based on column count
-    commands.style.maxWidth = "45rem";
+    commands.style.maxWidth = "50rem";
 
     let count = 0;
     // Render each shortcut
-    for (const [key, { name, url }] of COMMANDS.entries()) {
+    for (const [key, commandData] of COMMANDS.entries()) {
+      let { name, url } = commandData;
       if (!name || !url) continue;
       const commandClone = commandTemplate.content.cloneNode(true);
       const command = commandClone.querySelector(".command");
@@ -71,9 +73,11 @@ class Commands extends HTMLElement {
       if (CONFIG.openLinksInNewTab) command.target = "_blank";
       commandClone.querySelector(".key").innerText = key;
 
+      // Capitalise the first letter of each word in the name
+      name = this.capitaliseWords(name);
+
       // Truncate the name if it's too long
-      // If the name contains a space, use a max length of 8, otherwise use 10
-      const maxLength = name.includes(" ") ? 8 : 10;
+      const maxLength = 11;
       commandClone.querySelector(".name").innerText =
         name.length > maxLength ? name.substring(0, maxLength) + "..." : name;
       commands.append(commandClone);
@@ -178,6 +182,16 @@ class Commands extends HTMLElement {
     button.style.width = "99.5%";
 
     commands.append(button);
+  }
+
+  // Capitalise the first letter of each word in the command name
+  // Avoids allowing the user to use full-caps in the command name
+  // Using full caps would break the grid layout
+  capitaliseWords(str) {
+    return str.replace(
+      /\b\w+/g,
+      (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    );
   }
 }
 
