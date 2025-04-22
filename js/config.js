@@ -119,7 +119,14 @@ const COMMANDS = new Map([
     },
   ],
   // Column 2
-  ["d", { name: "Dropbox", url: "https://www.dropbox.com/work" }],
+  [
+    "d",
+    {
+      name: "Dropbox",
+      url: "https://www.dropbox.com/work",
+      searchTemplate: "/search/work?path=%2F&query={}",
+    },
+  ],
   [
     "a",
     {
@@ -139,7 +146,14 @@ const COMMANDS = new Map([
     },
   ],
   ["l", { name: "Localhost", url: "http://localhost:3000" }],
-  ["gh", { name: "GitHub", url: "https://github.com/" }],
+  [
+    "gh",
+    {
+      name: "GitHub",
+      url: "https://github.com/",
+      searchTemplate: "/hyperiondev-bootcamps/{}",
+    },
+  ],
   // Column 4
   [
     "k",
@@ -168,7 +182,7 @@ const COMMANDS = new Map([
       searchTemplate: "/search/{}",
       url: "https://open.spotify.com",
     },
-  ],
+  ]
 ]);
 
 /**
