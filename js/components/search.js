@@ -117,16 +117,8 @@ class Search extends HTMLElement {
     const [baseUrl] = this.splitUrl(url); // https://www.google.com or https://duckduckgo.com
     console.log("Base URL", baseUrl);
     const urlQuery = encodeURIComponent(search); // Make the search query URL-safe
-
-    if (Array.isArray(searchPath)) {
-      return searchPath.map((path) => {
-        const formattedPath = path.replace(/{}/g, urlQuery);
-        return baseUrl + formattedPath;
-      });
-    }
-
-    const formattedPath = searchPath.replace(/{}/g, urlQuery); // Replace the placeholder with the URL-safe search query
-    return baseUrl + formattedPath;
+    searchPath = searchPath.replace(/{}/g, urlQuery); // Replace the placeholder with the URL-safe search query
+    return baseUrl + searchPath;
   }
 
   /**
@@ -195,8 +187,8 @@ class Search extends HTMLElement {
       const search = rawSearch.trim();
       // Format the URL with the search terms
       const url = this.formatSearchUrl(base, searchTemplate, search);
-      // Return complete search information including searchTemplate
-      return { key: searchKey, query, search, splitBy, url, searchTemplate };
+      // Return complete search information
+      return { key: searchKey, query, search, splitBy, url };
     }
 
     // CASE 4: Path command syntax (e.g., "r/subreddit")
@@ -264,21 +256,9 @@ class Search extends HTMLElement {
    * @param {string} query - The search query to execute
    */
   execute(query) {
-    const parsedQuery = this.parseQuery(query);
-    const { url, searchTemplate } = parsedQuery;
+    const { url } = this.parseQuery(query);
     const target = CONFIG.openLinksInNewTab ? "_blank" : "_self";
-
-    // Check if url is an array (from formatSearchUrl returning multiple URLs)
-    if (Array.isArray(url)) {
-      // Open each URL in the array
-      url.forEach((singleUrl) => {
-        window.open(singleUrl, target, "noopener noreferrer");
-      });
-    } else {
-      // Open the single URL
-      window.open(url, target, "noopener noreferrer");
-    }
-
+    window.open(url, target, "noopener noreferrer");
     this.close();
     // Re-show navigation buttons when search dialog is closed
     this.toggleNavigationButtons(true);
