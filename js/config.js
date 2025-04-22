@@ -182,7 +182,7 @@ const COMMANDS = new Map([
       searchTemplate: "/search/{}",
       url: "https://open.spotify.com",
     },
-  ]
+  ],
 ]);
 
 /**
