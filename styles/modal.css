@@ -221,7 +221,7 @@ label {
 
 /* Container for theme selection with accent color background */
 .theme-container {
-  background-color: var(--accent-color);
+  background: var(--accent-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
   padding: 50px 25px;
@@ -1095,7 +1095,7 @@ p.shortcut-description code {
 
 /* Container for options with accent color background */
 .options-container {
-  background-color: var(--accent-color);
+  background: var(--accent-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
   padding: 30px 25px;
@@ -1164,7 +1164,7 @@ p.shortcut-description code {
 
 /* Container for keyboard shortcuts with accent color background */
 .shortcuts-container {
-  background-color: var(--accent-color);
+  background: var(--accent-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
   padding: 30px 25px;
@@ -1286,7 +1286,7 @@ p.shortcut-description code {
 }
 
 .feedback-submit {
-  background-color: var(--accent-color);
+  background: var(--submit-button-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
   min-width: 170px;

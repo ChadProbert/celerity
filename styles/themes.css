@@ -274,3 +274,26 @@
   border-color: rgb(255, 255, 255);
   box-shadow: 0 0 10px rgb(255, 255, 255);
 }
+
+/*
+ * HyperionDev Theme
+ *
+ * A custom theme inspired by HyperionDev's branding.
+ */
+[data-theme="hyperiondev"] {
+  --color-background: linear-gradient(to bottom, #15b26f, #03a0d5);
+  --color-text: #fff;
+  --color-text-subtle: #cccccc;
+  --accent-color: linear-gradient(to right, #15b26f, #03a0d5);
+  --hover-color: #28282885;
+  --input-color: #2a2a2a78;
+  --modal-background-color: #103452b7;
+  --plus-icon-color: #fff;
+  --plus-button-color: #ffffff00;
+  --confirm-border-color: #fff;
+  --help-card-bg-color: rgba(0, 0, 0, 0.1);
+  --code-bg-color: #2a2a2a;
+  --code-text-color: #e0e0e0;
+  --code-border-color: #e0e0e0;
+  --submit-button-color: #d6a737;
+}

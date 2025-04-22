@@ -70,7 +70,7 @@ html {
 }
 
 body {
-  background-color: var(--color-background);
+  background: var(--color-background);
   color: var(--color-text);
   margin: 0;
   padding: 0;
