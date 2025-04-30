@@ -100,8 +100,8 @@ CONFIG.init();
  * @type {Map<string, Object>}
  */
 const COMMANDS = new Map([
-  ["g", { name: "Gmail", url: "https://mail.google.com/mail/u/0/#inbox" }],
   // Column 1
+  ["g", { name: "Gmail", url: "https://mail.google.com/mail/u/0/#inbox" }],
   [
     "y",
     {
@@ -202,8 +202,22 @@ function loadCommands() {
   const commandsStr = localStorage.getItem("commands");
   if (commandsStr) {
     const commandsObj = JSON.parse(commandsStr);
+    let updated = false;
     for (const [key, value] of Object.entries(commandsObj)) {
+      // Check and add searchTemplate values for user's running on older localStorage config.
+      if (key === "d" && !value.searchTemplate) {
+        value.searchTemplate = "/search/work?path=%2F&query={}";
+        updated = true;
+      }
+      if (key === "gh" && !value.searchTemplate) {
+        value.searchTemplate = "/hyperiondev-bootcamps/{}";
+        updated = true;
+      }
       COMMANDS.set(key, value);
+    }
+    // Save back to localStorage if updated
+    if (updated) {
+      localStorage.setItem("commands", JSON.stringify(commandsObj));
     }
   }
 }

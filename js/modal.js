@@ -101,7 +101,14 @@ class ModalManager {
             url: "https://metabase.hyperiondev.com/dashboard/157-my-dashboard",
           },
         ],
-        ["d", { name: "Dropbox", url: "https://www.dropbox.com/work" }],
+        [
+          "d",
+          {
+            name: "Dropbox",
+            url: "https://www.dropbox.com/work",
+            searchTemplate: "/search/work?path=%2F&query={}",
+          },
+        ],
         [
           "a",
           {
@@ -123,7 +130,14 @@ class ModalManager {
           },
         ],
         ["l", { name: "Localhost", url: "http://localhost:3000" }],
-        ["gh", { name: "GitHub", url: "https://github.com/" }],
+        [
+          "gh",
+          {
+            name: "GitHub",
+            url: "https://github.com/",
+            searchTemplate: "/hyperiondev-bootcamps/{}",
+          },
+        ],
         [
           "k",
           {
@@ -229,14 +243,14 @@ class ModalManager {
       // Apply animation with a slight delay
       setTimeout(() => {
         this.openHelpBtn.classList.add("pulse-border");
-      }, 1000);
+      }, 200);
     }
     // Add animation for users who have seen help but not settings
     else if (this.hasSeenHelpOnly && this.openModalBtn) {
       // Apply animation with a slight delay
       setTimeout(() => {
         this.openModalBtn.classList.add("pulse-border");
-      }, 1000);
+      }, 200);
     }
   }
 
