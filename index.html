@@ -460,6 +460,7 @@
                   GitHub (High Contrast)
                 </option>
                 <option value="hyperiondev">HyperionDev (NEW)</option>
+                <option value="bongo-cat">Bongo Cat (NEW)</option>
               </select>
               <span class="custom-arrow">▼</span>
             </div>
@@ -542,12 +543,29 @@
           </div>
         </div>
 
-        <!-- Reset Button Section - Centered between theme and shortcuts -->
-        <div class="reset-section">
-          <button id="resetSettings" class="reset-button">
-            <i class="fa-solid fa-rotate-left"></i>
-            Reset to Default
-          </button>
+        <!-- Configuration Section  -->
+        <div class="config-section">
+          <h2 class="config-label"><i class="far fa-save"></i>Configuration</h2>
+          <div class="reset-section">
+            <button id="exportConfig" class="export-button">
+              <i class="fa-solid fa-file-export"></i>
+              Export Config
+            </button>
+            <button id="importConfigBtn" class="import-button">
+              <i class="fa-solid fa-file-import"></i>
+              Import Config
+            </button>
+            <button id="resetSettings" class="reset-button">
+              <i class="fa-solid fa-rotate-left"></i>
+              Reset to Default
+            </button>
+            <input
+              type="file"
+              id="importConfigFile"
+              accept=".json"
+              style="display: none"
+            />
+          </div>
         </div>
       </div>
 

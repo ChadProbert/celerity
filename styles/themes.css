@@ -284,16 +284,153 @@
   --color-background: linear-gradient(to bottom, #15b26f, #03a0d5);
   --color-text: #fff;
   --color-text-subtle: #cccccc;
-  --accent-color: linear-gradient(to right, #15b26f, #03a0d5);
+  --accent-color: #ff000000;
   --hover-color: #28282885;
   --input-color: #2a2a2a78;
-  --modal-background-color: #103452b7;
-  --plus-icon-color: #fff;
-  --plus-button-color: #ffffff00;
-  --confirm-border-color: #fff;
+  --modal-background-color: #000000b7;
+  --plus-icon-color: #ffffff;
+  --plus-button-color: #cccccc0c;
+  --confirm-border-color: #ffffff;
   --help-card-bg-color: rgba(0, 0, 0, 0.1);
   --code-bg-color: #2a2a2a;
   --code-text-color: #e0e0e0;
   --code-border-color: #e0e0e0;
   --submit-button-color: #d6a737;
+}
+
+/* Divider styling for HyperionDev theme */
+[data-theme="hyperiondev"] .help-divider {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/*
+ * Bongo Cat Theme
+ *
+ * A playful theme inspired by the Bongo Cat steam game.
+ */
+[data-theme="bongo-cat"] {
+  --color-background: linear-gradient(to bottom, #da7072, #e8cc9c);
+  --color-text: #ffffff;
+  --color-text-rgb: 51, 51, 51;
+  --color-text-subtle: #d8e1ea;
+  --accent-color: #ff000000;
+  --hover-color: #fda893;
+  --input-color: #ffffff00;
+  --modal-background-color: #000000b7;
+  --plus-icon-color: #ffffff;
+  --plus-button-color: #d8e1ea0f;
+  --confirm-border-color: #fff;
+  --help-card-bg-color: rgba(255, 255, 255, 0);
+  --code-bg-color: #ffffff;
+  --code-text-color: #333333;
+  --code-border-color: #333333;
+  --submit-button-color: #fff;
+}
+
+/* Specific style changes for Bongo Cat theme */
+[data-theme="bongo-cat"] .custom-select {
+  border: 1px solid #fff;
+}
+
+/* Style changes for the inputs - not applied to the viewable list of commands */
+[data-theme="bongo-cat"] .key-input:not([readonly]),
+[data-theme="bongo-cat"] .name-input:not([readonly]),
+[data-theme="bongo-cat"] .value-input:not([readonly]) {
+  border: 1px solid #ffffff;
+}
+
+/* Placeholder styling */
+[data-theme="bongo-cat"] .key-input::placeholder,
+[data-theme="bongo-cat"] .name-input::placeholder,
+[data-theme="bongo-cat"] .value-input::placeholder {
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+/* Help card styling for Bongo Cat theme */
+[data-theme="bongo-cat"] .help-card {
+  border: 1px solid #ffffff;
+  background-color: transparent;
+  transition: background-color transform 0.3s ease;
+}
+
+[data-theme="bongo-cat"] .help-card:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Divider styling for Bongo Cat theme */
+[data-theme="bongo-cat"] .help-divider {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Feedback form styling for Bongo Cat theme */
+[data-theme="bongo-cat"] .feedback-submit {
+  color: #333333;
+  border: 2px solid #333333;
+}
+
+[data-theme="bongo-cat"] .reset-button {
+  color: #333333;
+  border: 2px solid #333333;
+  background-color: #fff;
+}
+
+[data-theme="bongo-cat"] .export-button,
+[data-theme="bongo-cat"] .import-button {
+  color: #333333;
+  border: 2px solid #333333;
+  background-color: #fff;
+}
+
+[data-theme="bongo-cat"] .feedback-cancel,
+[data-theme="bongo-cat"] #feedbackMessage,
+[data-theme="bongo-cat"] #feedbackContact,
+[data-theme="bongo-cat"] .confirm-cancel {
+  border: 1px solid #ffffff;
+}
+
+[data-theme="bongo-cat"] .feedback-cancel:hover,
+[data-theme="bongo-cat"] #feedbackMessage:hover,
+[data-theme="bongo-cat"] #feedbackContact:hover,
+[data-theme="bongo-cat"] .confirm-cancel:hover {
+  background-color: transparent;
+}
+
+[data-theme="bongo-cat"] .feedback-field textarea::placeholder,
+[data-theme="bongo-cat"] .feedback-field input::placeholder {
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+/* Plus button styling for help modal in Bongo Cat theme */
+[data-theme="bongo-cat"] .help-modal .fa-plus {
+  color: #333333;
+}
+
+/* Tooltip styling for Bongo Cat theme */
+[data-theme="bongo-cat"] [data-tooltip].tooltip-left::after {
+  background-color: #ffffff;
+  color: #333333;
+  border: 2px solid #333333;
+  font-weight: 500;
+}
+
+/* Custom pulse animation for Bongo Cat theme */
+[data-theme="bongo-cat"] .scroll-buttons-container.animate-pulse {
+  animation: pulse-bongo-cat 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pulse-bongo-cat {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
+    transform: scale(1);
+  }
 }

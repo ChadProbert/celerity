@@ -44,6 +44,9 @@ class ModalManager {
     this.shortcutList = document.getElementById("shortcutList");
     this.themeSelect = document.getElementById("themeSelect");
     this.resetButton = document.getElementById("resetSettings");
+    this.exportButton = document.getElementById("exportConfig");
+    this.importButton = document.getElementById("importConfigBtn");
+    this.importFileInput = document.getElementById("importConfigFile");
     this.addButton = document.getElementById("addShortcut");
     this.modalContent = document.querySelector(".modal-content");
     this.commandsComponent = document.querySelector("commands-component");
@@ -68,6 +71,9 @@ class ModalManager {
     this.handleKeydown = this.handleKeydown.bind(this);
     this.renderShortcuts = this.renderShortcuts.bind(this);
     this.resetSettings = this.resetSettings.bind(this);
+    this.exportConfig = this.exportConfig.bind(this);
+    this.importConfig = this.importConfig.bind(this);
+    this.handleImportFile = this.handleImportFile.bind(this);
     this.addNewShortcutField = this.addNewShortcutField.bind(this);
     this.checkModalScrollability = this.checkModalScrollability.bind(this);
     this.updateScrollButtonState = this.updateScrollButtonState.bind(this);
@@ -206,6 +212,11 @@ class ModalManager {
 
     // Reset settings button
     this.resetButton.addEventListener("click", this.resetSettings);
+
+    // Export/Import config buttons
+    this.exportButton.addEventListener("click", this.exportConfig);
+    this.importButton.addEventListener("click", this.importConfig);
+    this.importFileInput.addEventListener("change", this.handleImportFile);
 
     // Scroll buttons in help modal
     if (this.scrollTopBtn && this.scrollBottomBtn) {
@@ -1010,6 +1021,152 @@ class ModalManager {
       behavior: "smooth",
     });
   }
+
+  /**
+   * Exports user configuration to a JSON file.
+   * This includes the theme, shortcuts, tab behavior and search preferences.
+   */
+  exportConfig() {
+    // Collect all settings from localStorage
+    const settings = {
+      theme: localStorage.getItem("selectedTheme") || "dark",
+      tabBehavior: localStorage.getItem("tabBehavior") || "current",
+      searchEngine: localStorage.getItem("searchEngine") || "google",
+      commands: Object.fromEntries(COMMANDS),
+    };
+
+    // Convert to JSON and prepare for download
+    const dataStr = JSON.stringify(settings, null, 2);
+    const dataUri =
+      "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+    // Create download link
+    const exportName = `celerity-config-${new Date()
+      .toISOString()
+      .slice(0, 10)}.json`;
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", exportName);
+
+    // Trigger download
+    document.body.appendChild(linkElement);
+    linkElement.click();
+    document.body.removeChild(linkElement);
+  }
+
+  /**
+   * Triggers the file input to import configuration.
+   */
+  importConfig() {
+    this.importFileInput.click();
+  }
+
+  /**
+   * Handles the file import process after a file is selected.
+   * Parses the JSON, validates it, and applies the settings.
+   */
+  async handleImportFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Confirm with the user
+    const confirmImport = await customConfirm({
+      message: "This will replace your current configuration. Continue?",
+      confirmText: "Import",
+      cancelText: "Cancel",
+      confirmClass: "confirm-override",
+    });
+
+    if (!confirmImport) {
+      this.importFileInput.value = ""; // Clear the file input
+      return;
+    }
+
+    try {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const settings = JSON.parse(e.target.result);
+
+          // Validate the imported data has required elements
+          if (!settings || typeof settings !== "object") {
+            throw new Error("Invalid configuration format");
+          }
+
+          // Apply theme
+          if (settings.theme) {
+            localStorage.setItem("selectedTheme", settings.theme);
+            document.documentElement.setAttribute("data-theme", settings.theme);
+            document.getElementById("themeSelect").value = settings.theme;
+          }
+
+          // Apply tab behavior
+          if (settings.tabBehavior) {
+            localStorage.setItem("tabBehavior", settings.tabBehavior);
+            CONFIG.openLinksInNewTab = settings.tabBehavior === "new";
+            document.getElementById("tabBehaviorNew").checked =
+              settings.tabBehavior === "new";
+            document.getElementById("tabBehaviorCurrent").checked =
+              settings.tabBehavior === "current";
+          }
+
+          // Apply search engine
+          if (settings.searchEngine) {
+            localStorage.setItem("searchEngine", settings.searchEngine);
+            CONFIG.defaultSearchEngine = settings.searchEngine;
+            CONFIG.defaultSearchTemplate =
+              CONFIG.searchEngineTemplates[settings.searchEngine];
+            document.getElementById("searchEngineGoogle").checked =
+              settings.searchEngine === "google";
+            document.getElementById("searchEngineDuckDuckGo").checked =
+              settings.searchEngine === "duckduckgo";
+          }
+
+          // Apply commands
+          if (settings.commands && typeof settings.commands === "object") {
+            COMMANDS.clear();
+            for (const [key, value] of Object.entries(settings.commands)) {
+              COMMANDS.set(key, value);
+            }
+            saveCommands();
+          }
+
+          // Refresh UI
+          this.renderShortcuts();
+          this.commandsComponent.render();
+
+          // Show success message
+          customConfirm({
+            message: "Configuration imported successfully! 🚀",
+            confirmText: "OK",
+            cancelText: "",
+            confirmClass: "",
+          });
+        } catch (error) {
+          console.error("Import error:", error);
+          customConfirm({
+            message: "Error importing configuration: " + error.message,
+            confirmText: "OK",
+            cancelText: "",
+            confirmClass: "confirm-warning",
+          });
+        }
+      };
+
+      reader.readAsText(file);
+    } catch (error) {
+      console.error("File reading error:", error);
+      customConfirm({
+        message: "Error reading file: " + error.message,
+        confirmText: "OK",
+        cancelText: "",
+        confirmClass: "confirm-warning",
+      });
+    } finally {
+      this.importFileInput.value = ""; // Clear the file input
+    }
+  }
 }
 
 /**
@@ -1035,7 +1192,15 @@ function customConfirm({
 
     confirmMessage.innerText = message;
     okButton.innerText = confirmText;
-    cancelButton.innerText = cancelText;
+
+    // Only show and set up the cancel button if cancelText is provided
+    if (cancelText) {
+      cancelButton.style.display = "block";
+      cancelButton.innerText = cancelText;
+      cancelButton.addEventListener("click", onCancel);
+    } else {
+      cancelButton.style.display = "none";
+    }
 
     if (confirmClass) {
       okButton.classList.add(confirmClass);
@@ -1048,7 +1213,9 @@ function customConfirm({
      */
     function cleanUp() {
       okButton.removeEventListener("click", onOk);
-      cancelButton.removeEventListener("click", onCancel);
+      if (cancelText) {
+        cancelButton.removeEventListener("click", onCancel);
+      }
       modal.style.display = "none";
       if (confirmClass) {
         okButton.classList.remove(confirmClass);
@@ -1072,7 +1239,6 @@ function customConfirm({
     }
 
     okButton.addEventListener("click", onOk);
-    cancelButton.addEventListener("click", onCancel);
   });
 }
 

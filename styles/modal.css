@@ -60,7 +60,7 @@
  * Has a distinctive background, border, and padding to separate it from the overlay.
  */
 .modal-content {
-  background-color: var(--color-background);
+  background: var(--color-background);
   color: var(--color-text);
   border-radius: var(--border-radius);
   max-width: 70%;
@@ -158,36 +158,71 @@
  * Button to reset settings to default.
  * Features a warning hover state to indicate destructive action.
  */
-.reset-button {
+.reset-button,
+.export-button,
+.import-button {
   background-color: var(--accent-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
-  padding: 10px 15px;
-  border-radius: 4px;
+  padding: 12px 20px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
   font-size: 15px;
-  min-width: 170px;
+  min-width: 180px;
   font-family: var(--font-family);
-  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.reset-button:hover {
+.reset-button:hover,
+.export-button:hover,
+.import-button:hover {
   transform: translateY(-2px);
 }
 
-/* Icon inside reset button */
-.reset-button i {
-  font-size: 14px;
-  margin-right: 4px;
+/* Icon inside buttons */
+.reset-button i,
+.export-button i,
+.import-button i {
+  font-size: 15px;
+}
+
+/* Config section styling */
+.config-section {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.config-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: var(--color-text);
+}
+
+.config-label i {
+  margin-right: 16px;
+  font-size: 32px;
 }
 
 /* Styling for the reset section between theme and shortcuts */
 .reset-section {
   display: flex;
   justify-content: center;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  align-items: center;
+  margin: 20px auto 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 700px;
+  padding: 40px;
+  background: var(--accent-color);
+  border: 1px solid var(--confirm-border-color);
+  border-radius: 8px;
 }
 
 /**
@@ -1102,6 +1137,26 @@ p.shortcut-description code {
   margin: 20px auto 30px;
   width: 100%;
   max-width: 45%;
+}
+
+/* Styles for half-window usage */
+@media (max-width: 1024px) {
+  .options-container,
+  .theme-container {
+    max-width: 70%;
+  }
+
+  /* Adjust the headings for better proportions */
+  .options-label,
+  .theme-label {
+    font-size: 32px;
+  }
+
+  /* Ensure modal content is properly sized */
+  .modal-content {
+    max-width: 95%;
+    width: 95%;
+  }
 }
 
 /* Add styles for vertical layout of option groups */
