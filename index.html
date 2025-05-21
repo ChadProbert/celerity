@@ -351,14 +351,29 @@
       5. Search component - Handles search functionality
       6. Footer with branding link
     -->
-    <main>
+    <header
+      role="banner"
+      aria-label="Site header"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      "
+    >
+      Celerity New Tab Page
+    </header>
+    <main id="mainContent" tabindex="-1" role="main">
       <!-- Settings Button - Opens the settings modal -->
       <button
         class="settings-button tooltip-left"
         id="openModal"
         data-tooltip="Settings"
+        aria-label="Open settings"
       >
-        <i class="fa-solid fa-sliders"></i>
+        <i class="fa-solid fa-sliders" aria-hidden="true"></i>
       </button>
 
       <!-- Help Button - Opens the help documentation -->
@@ -366,8 +381,9 @@
         class="help-button tooltip-left"
         id="openHelp"
         data-tooltip="Quick Guide"
+        aria-label="Open quick guide"
       >
-        <i class="fas fa-compass"></i>
+        <i class="fas fa-compass" aria-hidden="true"></i>
       </button>
 
       <!-- Feedback Button - Links to external feedback form -->
@@ -375,8 +391,9 @@
         class="feedback-button tooltip-left"
         id="feedbackButton"
         data-tooltip="Provide Feedback"
+        aria-label="Provide feedback"
       >
-        <i class="fas fa-flask"></i>
+        <i class="fas fa-flask" aria-hidden="true"></i>
       </button>
 
       <!-- 
@@ -384,19 +401,25 @@
         These components are defined in separate JavaScript files
         and provide the core functionality of the application.
       -->
-      <commands-component></commands-component>
-      <search-component></search-component>
+      <commands-component
+        tabindex="0"
+        aria-label="Keyboard shortcuts grid"
+      ></commands-component>
+      <search-component tabindex="0"></search-component>
 
       <!-- Footer with branding link -->
-      <a
-        href="https://chadprobert.github.io/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <div class="footer-container">
-          <p class="footer-text">Celerity</p>
-        </div>
-      </a>
+      <footer role="contentinfo">
+        <a
+          href="https://chadprobert.github.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Celerity homepage (opens in new tab)"
+        >
+          <div class="footer-container">
+            <p class="footer-text">Celerity</p>
+          </div>
+        </a>
+      </footer>
     </main>
 
     <!-- 
@@ -411,8 +434,20 @@
       disappears when the close button is clicked or when clicking
       outside the modal.
     -->
-    <div class="modal-overlay" id="modalOverlay"></div>
-    <div class="custom-modal" id="settingsModal">
+    <div
+      class="modal-overlay"
+      id="modalOverlay"
+      tabindex="-1"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="custom-modal"
+      id="settingsModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="settingsModalTitle"
+      tabindex="-1"
+    >
       <div class="modal-content">
         <!-- 
           Shortcut Manager Section
@@ -421,8 +456,8 @@
           shortcut) and a value (the URL to navigate to).
         -->
         <div class="shortcut-section">
-          <h2 class="keyboard-shortcuts-heading">
-            <i class="far fa-keyboard"></i>Keyboard Shortcuts
+          <h2 class="keyboard-shortcuts-heading" id="settingsModalTitle">
+            <i class="far fa-keyboard" aria-hidden="true"></i>Keyboard Shortcuts
           </h2>
 
           <!-- Container with accent color background -->
@@ -605,12 +640,21 @@
       a message and offers Cancel and OK buttons. The appearance of
       the OK button changes based on the action type.
     -->
-    <div id="confirmModal" class="confirm-modal">
+    <div
+      id="confirmModal"
+      class="confirm-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirmModalTitle"
+      tabindex="-1"
+    >
       <div class="confirm-modal-content">
-        <p class="confirm-message">Are you sure?</p>
+        <p class="confirm-message" id="confirmModalTitle">Are you sure?</p>
         <div class="confirm-buttons">
-          <button class="confirm-cancel">Cancel</button>
-          <button class="confirm-ok">Yes</button>
+          <button class="confirm-cancel" aria-label="Cancel action">
+            Cancel
+          </button>
+          <button class="confirm-ok" aria-label="Confirm action">Yes</button>
         </div>
       </div>
     </div>
@@ -623,14 +667,22 @@
       managing settings, adding new shortcuts, searching, and themes.
       The modal appears when the help button is clicked.
     -->
-    <div id="helpModal" class="help-modal">
+    <div
+      id="helpModal"
+      class="help-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="helpModalTitle"
+      tabindex="-1"
+    >
       <div class="help-modal-content">
         <!-- Help documentation -->
         <div class="help-section">
           <!-- Introduction -->
           <div class="callout-icon">
-            <h3 class="callout-title-1">
-              <i class="fa-solid fa-bolt"></i>Using Keyboard Shortcuts
+            <h3 class="callout-title-1" id="helpModalTitle">
+              <i class="fa-solid fa-bolt" aria-hidden="true"></i>Using Keyboard
+              Shortcuts
             </h3>
           </div>
           <!-- Keyboard Shortcuts Section -->
@@ -779,12 +831,23 @@
       The form includes fields for feedback type, message, and optional contact information.
       Submissions are emailed directly to the developer.
     -->
-    <div id="feedbackModal" class="feedback-modal">
+    <div
+      id="feedbackModal"
+      class="feedback-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="feedbackModalTitle"
+      tabindex="-1"
+    >
       <div class="feedback-modal-content">
-        <button class="close-button" id="closeFeedbackModal">
-          <i class="fa-solid fa-xmark"></i>
+        <button
+          class="close-button"
+          id="closeFeedbackModal"
+          aria-label="Close feedback modal"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
-        <h2 class="feedback-title">Feedback</h2>
+        <h2 class="feedback-title" id="feedbackModalTitle">Feedback</h2>
 
         <form id="feedbackForm" class="feedback-form">
           <div class="feedback-field">
@@ -795,6 +858,8 @@
                 name="feedbackType"
                 class="feedback-select custom-select"
                 required
+                aria-required="true"
+                aria-label="Select feedback type"
               >
                 <option value="" disabled selected>Please select...</option>
                 <option value="bug">Bug Report</option>
@@ -802,7 +867,7 @@
                 <option value="suggestion">Suggestion</option>
                 <option value="other">Other</option>
               </select>
-              <span class="custom-arrow">▼</span>
+              <span class="custom-arrow" aria-hidden="true">▼</span>
             </div>
           </div>
 
@@ -812,8 +877,10 @@
               id="feedbackMessage"
               name="feedbackMessage"
               rows="5"
-              placeholder="Tell us what's on your mind..."
+              placeholder="What's on your mind..."
               required
+              aria-required="true"
+              aria-label="Your feedback message"
             ></textarea>
           </div>
 
@@ -824,10 +891,15 @@
               id="feedbackContact"
               name="feedbackContact"
               placeholder="example@email.com"
+              aria-label="Your email address (optional)"
             />
           </div>
 
-          <div id="feedbackStatus" class="feedback-status"></div>
+          <div
+            id="feedbackStatus"
+            class="feedback-status"
+            aria-live="polite"
+          ></div>
 
           <div class="feedback-actions-container">
             <div class="feedback-emotions">
