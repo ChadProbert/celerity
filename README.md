@@ -2,15 +2,13 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
-<!-- light.png -->
-    <img src="images/logos/logo-stencil/dark-removebg-preview.png" alt="Logo" width="200" height="200" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5); padding: 15px;">
 
-### Celerity
+<!--<img src="images/logos/logo-stencil/dark-removebg-preview.png" alt="Logo" width="200" height="200" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5); padding: 15px;"> -->
+
+### Celerity 
+Press, enter — done
 
   <p>
-    Press, Enter, Done.
-    <br />
-    <br />
     <a href="https://chadprobert.github.io/celerity/">View Demo</a>
     »
     <a href="https://github.com/ChadProbert/celerity/issues">Report Bug</a>
@@ -20,22 +18,15 @@
 
   <!-- SHIELDS.IO -->
 
-![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/celerity)
-![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/celerity)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ChadProbert/celerity)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/ChadProbert/celerity)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ChadProbert/celerity?style=social)
 
-#### Tech Stack:
-
-<!-- Add padding to the badges -->
-
-![HTML5](https://img.shields.io/badge/HTML5-red?style=flat&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS-blue?&style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=flat&logo=javascript&logoColor=white)
-
+<br/>
+<img src="images/themes/dark.jpg" alt="Celerity Logo" width="1000" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5);">
 </div>
 
+<br/>
 <br/>
 
 <!-- TABLE OF CONTENTS -->
@@ -93,12 +84,6 @@ git clone https://github.com/ChadProbert/celerity.git
 <br/>
 
 ## Usage
-
-<br>
-
-<img src="images/themes/dark.jpg" alt="Celerity Logo" width="1000" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5);">
-
-### Basic Navigation
 
 To visit a site, type its keyboard shortcut and press enter:
 
