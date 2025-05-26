@@ -5,11 +5,11 @@
 
 <!--<img src="images/logos/logo-stencil/dark-removebg-preview.png" alt="Logo" width="200" height="200" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5); padding: 15px;"> -->
 
-### Celerity 
+# Celerity
 Press, enter — done
 
   <p>
-    <a href="https://chadprobert.github.io/celerity/">View Demo</a>
+    <a href="https://chadprobert.github.io/celerity/">Demo</a>
     »
     <a href="https://github.com/ChadProbert/celerity/issues">Report Bug</a>
     »
