@@ -1,11 +1,60 @@
 /**
- * Main stylesheet for the new tab page
- * 
+ * MAIN STYLESHEET FOR CELERITY
+ *
  * This file contains the base styles, CSS custom properties (variables)
  * and core layout structure for the application.
  */
 
-/* 
+/* Bundled the Poppins font family locally to avoid Content Security Policy (CSP) issues. */
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/poppins-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/poppins-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/poppins-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/poppins-medium-italic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/poppins-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/poppins-bold-italic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/**
  * GLOBAL CSS VARIABLES
  * 
  * These variables define the theme colors, spacing, typography, and other
@@ -23,7 +72,7 @@
 
   /* Typography */
   --font-family: "Poppins", sans-serif;
-  --font-size: 18px; /* Fixed font size for desktop */
+  --font-size: 18px;
   --font-weight-bold: 700;
   --font-weight-normal: 500;
 
@@ -54,22 +103,33 @@
   --code-border-color: rgba(255, 255, 255, 0.07);
 }
 
-/* 
+/**
  * BASE ELEMENT STYLES
  * 
  * These are the foundational styles for HTML elements.
  * They establish the base appearance for the entire application.
  */
+/* Base font styles with !important to override Chrome's defaults */
+html, body {
+  font-family: var(--font-family) !important;
+  font-size: 100% !important; /* Overrides injected 75% */
+  font-weight: var(--font-weight-normal) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html {
   box-sizing: border-box;
   font-family: var(--font-family);
-  font-size: var(--font-size);
+  font-size: var(--font-size) !important;
   height: 100%;
   overflow: hidden; /* Prevent scrolling */
-  line-height: 1.4;
+  line-height: 1.4 !important;
 }
 
 body {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
   background: var(--color-background);
   color: var(--color-text);
   margin: 0;
@@ -106,7 +166,7 @@ main {
  */
 @media (prefers-color-scheme: light) {
   :root {
-    /* 
+    /** 
      * Light Theme Variables
      * 
      * These values override the default dark theme when the user's
@@ -122,7 +182,7 @@ main {
       --modal-background-color: rgba(0, 0, 0, 0.5);
     }
 
-    /* 
+    /**
      * Light Theme Focus Styles
      * 
      * Special focus styles for form elements in light mode.

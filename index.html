@@ -16,76 +16,24 @@
     <meta charset="utf-8" />
     <meta name="color-scheme" content="dark light" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      /* Force font size to prevent Chrome's 75% override */
+      html,
+      body {
+        font-size: 16px !important;
+      }
+    </style>
     <meta
       name="description"
       content="Celerity is a customisable new tab page featuring lightning-fast search capabilities, developer-inspired themes, and productivity tools."
     />
-    <meta
-      name="keywords"
-      content="celerity, new tab, chrome extension, productivity, shortcuts, search, themes, customisable"
-    />
-    <meta
-      property="og:title"
-      content="Celerity – Customisable New Tab Page & Chrome Extension"
-    />
-    <meta
-      property="og:description"
-      content="Celerity is a customisable new tab page featuring lightning-fast search capabilities, developer-inspired themes, and productivity tools."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://chadprobert.github.io/celerity/" />
-    <meta
-      property="og:image"
-      content="https://chadprobert.github.io/celerity/images/logos/rounded-corner-logo/dark.png"
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Celerity – Customisable New Tab Page & Chrome Extension"
-    />
-    <meta
-      name="twitter:description"
-      content="Celerity is a customisable new tab page featuring lightning-fast search capabilities, developer-inspired themes, and productivity tools."
-    />
-    <meta
-      name="twitter:image"
-      content="https://chadprobert.github.io/celerity/images/logos/rounded-corner-logo/dark.png"
-    />
-    <link rel="canonical" href="https://chadprobert.github.io/celerity/" />
-    <link rel="manifest" href="/manifest.json" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Celerity",
-        "url": "https://chadprobert.github.io/celerity/",
-        "description": "Celerity is a customisable new tab page featuring lightning-fast search capabilities, developer-inspired themes, and productivity tools.",
-        "applicationCategory": "Productivity",
-        "operatingSystem": "All",
-        "browserRequirements": "Requires Chrome or Chromium-based browser",
-        "image": "https://chadprobert.github.io/celerity/images/logos/rounded-corner-logo/dark.png",
-        "author": {
-          "@type": "Person",
-          "name": "Chad Probert"
-        }
-      }
-    </script>
     <title>New tab</title>
 
     <!-- 
-      External Font Resources
-      - Poppins: Primary UI font with only essential weights (500 normal, 700 bold)
-      
-      Optimised to include only the weights actually used in the application.
-      The preconnect links improve performance by establishing early connections
-      to the font providers.
+      Local Font Resources
+      The Poppins font is now embedded locally via @font-face rules in
+      styles/style.css, eliminating any external font requests.
     -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,500;1,700&display=swap"
-      rel="stylesheet"
-    />
 
     <!-- 
       Font Awesome Icons
@@ -116,11 +64,9 @@
     -->
     <script src="./js/config.js"></script>
 
-    <!-- EmailJS library for sending emails directly from JavaScript -->
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
-    ></script>
+    <!-- EmailJS library for sending emails directly from the UI -->
+    <!-- EmailJS library included locally for Chrome Extension compliance -->
+    <script src="./js/vendor/email.min.js"></script>
   </head>
   <body>
     <!-- 
@@ -439,6 +385,16 @@
         <i class="fas fa-compass" aria-hidden="true"></i>
       </button>
 
+      <!-- Notes Button - Opens Celerity Notes modal -->
+      <button
+        class="notes-button tooltip-left"
+        id="notesButton"
+        data-tooltip="Celerity Notes"
+        aria-label="Open Celerity Notes"
+      >
+        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+      </button>
+
       <!-- Feedback Button - Links to external feedback form -->
       <button
         class="feedback-button tooltip-left"
@@ -671,7 +627,7 @@
         <button
           class="scroll-button tooltip-left"
           id="scrollBottomSettings"
-          data-tooltip="Scroll to Bottom"
+          data-tooltip="Next Section"
         >
           <i class="fa-solid fa-arrow-down"></i>
         </button>
@@ -893,14 +849,6 @@
       tabindex="-1"
     >
       <div class="feedback-modal-content">
-        <button
-          id="closeFeedbackModal"
-          class="close-button tooltip-left"
-          aria-label="Close feedback modal"
-          data-tooltip="Close Feedback"
-        >
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
         <h2 class="feedback-title" id="feedbackModalTitle">Feedback</h2>
 
         <form id="feedbackForm" class="feedback-form">
@@ -1016,6 +964,59 @@
       </div>
     </div>
 
+    <!-- Celerity Notes Modal -->
+    <div
+      id="notesModal"
+      class="notes-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="notesModalTitle"
+      tabindex="-1"
+    >
+      <div class="notes-modal-content">
+        <h2 class="notes-title" id="notesModalTitle">Celerity Notes</h2>
+
+        <div class="notes-container">
+          <form id="noteForm" class="note-form">
+            <div class="note-field">
+              <label>Title:</label>
+              <input
+                type="text"
+                id="noteTitle"
+                name="noteTitle"
+                placeholder="Note title..."
+                aria-label="Note title"
+                maxlength="100"
+              />
+            </div>
+
+            <div class="note-field">
+              <label for="noteContent">Content:</label>
+              <textarea
+                id="noteContent"
+                name="noteContent"
+                rows="7"
+                placeholder="Write your note here..."
+                aria-label="Note content"
+                required
+              ></textarea>
+            </div>
+
+            <div class="note-actions">
+              <button type="button" class="note-cancel" id="cancelNote">
+                Clear
+              </button>
+              <button type="submit" class="note-submit">Save Note</button>
+            </div>
+          </form>
+
+          <div class="notes-list" id="notesList">
+            <!-- Notes will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 
       JavaScript Components and Core Functionality
       
@@ -1025,11 +1026,13 @@
       - modal.js: Manages modal dialogs and settings
       - theme.js: Handles theme switching and persistence
       - feedback.js: Handles the feedback button
+      - notes.js: Handles the notes button
     -->
     <script src="./js/components/commands.js"></script>
     <script src="./js/components/search.js"></script>
     <script src="./js/modal.js"></script>
     <script src="./js/theme.js"></script>
     <script src="./js/feedback.js"></script>
+    <script src="./js/notes.js"></script>
   </body>
 </html>

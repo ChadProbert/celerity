@@ -286,16 +286,22 @@ class Search extends HTMLElement {
 
   /**
    * Handles input events by fetching suggestions and rendering them.
+   * Also manages the visibility of the notes button based on search input.
    */
   async onInput() {
     // Parse the input value
     const oq = this.parseQuery(this.input.value);
+    const notesButton = document.getElementById("notesButton");
 
-    // If no query, close the search dialog
+    // If no query, close the search dialog and show notes button
     if (!oq.query) {
       this.close();
+      if (notesButton) notesButton.style.display = "flex";
       return;
     }
+
+    // Hide notes button when user starts typing
+    if (notesButton) notesButton.style.display = "none";
 
     // Get suggestions from commands
     let suggestions = COMMANDS.get(oq.query)?.suggestions ?? [];

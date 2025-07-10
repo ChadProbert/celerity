@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Celerity – New Tab",
+  "description": "Productivity-focused new tab page",
+  "version": "1.0.0",
+  "icons": {
+    "16": "images/logos/rounded-corner-logo/light.png",
+    "48": "images/logos/rounded-corner-logo/light.png",
+    "128": "images/logos/rounded-corner-logo/light.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["storage"],
+  "optional_permissions": ["activeTab"],
+  "content_security_policy": {
+  "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com;"
+}
+}

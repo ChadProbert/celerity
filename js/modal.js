@@ -1016,10 +1016,46 @@ class ModalManager {
     const modalContent = this.settingsModal.querySelector(".modal-content");
     if (!modalContent) return;
 
-    modalContent.scrollTo({
-      top: direction === "top" ? 0 : modalContent.scrollHeight,
-      behavior: "smooth",
-    });
+    if (direction === "top") {
+      // Scroll to top behavior remains the same
+      modalContent.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } else {
+      // For scrolling down, find the next heading
+      const headings = Array.from(modalContent.querySelectorAll('h2'));
+      const currentScroll = modalContent.scrollTop; // Add small buffer
+      let nextHeading = null;
+
+      // Find the first heading that's below the current scroll position
+      for (const heading of headings) {
+        const headingTop = heading.getBoundingClientRect().top + modalContent.scrollTop;
+        if (headingTop > currentScroll) {
+          nextHeading = heading;
+          break;
+        }
+      }
+
+      if (nextHeading) {
+        // Calculate position with offset
+        const offset = -240; // Controls how much content shows below the heading
+        const elementPosition = nextHeading.getBoundingClientRect().top + modalContent.scrollTop;
+        const offsetPosition = elementPosition - offset;
+        
+        // Scroll to the position with offset
+        modalContent.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      } else {
+        // If no next heading, scroll to bottom as fallback
+        modalContent.scrollTo({
+          top: modalContent.scrollHeight,
+          behavior: "smooth"
+        });
+      }
+    }
   }
 
   /**

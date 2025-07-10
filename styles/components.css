@@ -310,7 +310,7 @@ button {
   color: var(--color-text-subtle);
   padding: 8px 16px;
   border-radius: 4px;
-  min-width: 120px;
+  min-width: 80px
 }
 
 .footer-text {
@@ -360,7 +360,7 @@ button {
 /* Feedback Button */
 .feedback-button {
   position: fixed;
-  top: 130px; /* Positioned below the help button */
+  top: 190px; /* Positioned below the help button */
   right: 10px; /* Aligned with the other buttons */
   width: 50px;
   height: 50px;
