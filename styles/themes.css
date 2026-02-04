@@ -12,7 +12,7 @@
  * Light Theme
  * 
  * A clean, bright theme with high contrast and subtle shadows.
- * Features a light gray background with black text and light blue accents.
+ * Features a light gray background with black text and light gray accents.
  */
 [data-theme="light"] {
   --color-background: #e9e9e9;
@@ -62,174 +62,12 @@
 }
 
 /**
- * One Dark Pro Theme
- * 
- * Inspired by the popular code editor theme.
- * Features a dark blue-gray color scheme with subtle blue accents.
- */
-[data-theme="one-dark-pro"] {
-  --color-background: #252931;
-  --color-text: #abb2bf;
-  --color-text-rgb: 171, 178, 191;
-  --color-text-subtle: #68707d;
-  --accent-color: #3e4551;
-  --hover-color: #424956;
-  --input-color: #1a1d23;
-  --modal-background-color: rgba(40, 44, 52, 0.9);
-  --plus-icon-color: #abb2bf;
-  --plus-button-color: #282d35;
-  --confirm-border-color: #5c6370;
-  --help-card-bg-color: rgba(171, 178, 191, 0.05);
-}
-
-/**
- * Catppuccin Themes
- * 
- * A collection of pastel themes inspired by the popular Catppuccin color scheme.
- * Available in multiple variants with different color intensities.
- */
-
-/* Catppuccin Frappe - Medium contrast, softer colors */
-[data-theme="catppuccin-frappe"] {
-  --color-background: #303446;
-  --color-text: #c6d0f5;
-  --color-text-rgb: 198, 208, 245;
-  --color-text-subtle: #6b7188;
-  --accent-color: #494d63;
-  --hover-color: #4d5067;
-  --input-color: #232634;
-  --modal-background-color: rgba(48, 52, 70, 0.9);
-  --plus-icon-color: #c6d0f5;
-  --plus-button-color: #333749;
-  --confirm-border-color: #737994;
-  --help-card-bg-color: rgba(198, 208, 245, 0.05);
-}
-
-/* Catppuccin Macchiato - Higher contrast, rich colors */
-[data-theme="catppuccin-macchiato"] {
-  --color-background: #24273a;
-  --color-text: #cad3f5;
-  --color-text-rgb: 202, 211, 245;
-  --color-text-subtle: #5c637b;
-  --accent-color: #3e425b;
-  --hover-color: #41455e;
-  --input-color: #181926;
-  --modal-background-color: rgba(36, 39, 58, 0.9);
-  --plus-icon-color: #cad3f5;
-  --plus-button-color: #272a3d;
-  --confirm-border-color: #6e738d;
-  --help-card-bg-color: rgba(202, 211, 245, 0.05);
-}
-
-/* Catppuccin Mocha - Highest contrast, deepest colors */
-[data-theme="catppuccin-mocha"] {
-  --color-background: #1e1e2e;
-  --color-text: #cdd6f4;
-  --color-text-rgb: 205, 214, 244;
-  --color-text-subtle: #505772;
-  --accent-color: #38394e;
-  --hover-color: #3a3c51;
-  --input-color: #11111b;
-  --modal-background-color: rgba(30, 30, 46, 0.9);
-  --plus-icon-color: #cdd6f4;
-  --plus-button-color: #202032;
-  --confirm-border-color: #6c7086;
-  --help-card-bg-color: rgba(205, 214, 244, 0.05);
-}
-
-/**
- * GitHub Dark Theme
- * 
- * Inspired by GitHub's dark mode interface.
- * Features a deep, almost black background with high contrast text.
- */
-[data-theme="github"] {
-  --color-background: #0d1117;
-  --color-text: #c9d1d9;
-  --color-text-rgb: 201, 209, 217;
-  --color-text-subtle: #555;
-  --accent-color: #161b22;
-  --hover-color: rgba(201, 209, 217, 0.068);
-  --input-color: #161b22;
-  --modal-background-color: rgba(13, 17, 23, 0.9);
-  --plus-icon-color: #c9d1d9;
-  --plus-button-color: #10141a;
-  --confirm-border-color: #30363d;
-  --help-card-bg-color: rgba(201, 209, 217, 0.05);
-  --border-color: #30363d;
-}
-
-/* Custom select styling for GitHub theme */
-[data-theme="github"] .custom-select {
-  background-color: #161b22;
-  color: #c9d1d9;
-}
-
-/**
- * GitHub High Contrast Theme
- * 
- * An accessibility-focused high contrast variant of the GitHub dark theme.
- * Features stronger contrasts between text and backgrounds for better readability.
- */
-[data-theme="github-high-contrast"] {
-  --color-background: #010409;
-  --color-text: #f0f6fc;
-  --color-text-rgb: 240, 246, 252;
-  --color-text-subtle: #b1bac4;
-  --accent-color: #0d1117;
-  --hover-color: #272b31;
-  --input-color: #0d1117;
-  --modal-background-color: rgba(1, 4, 9, 0.95);
-  --plus-icon-color: #f0f6fc;
-  --plus-button-color: #0a0d13;
-  --confirm-border-color: #30363d;
-  --help-card-bg-color: rgba(240, 246, 252, 0.07);
-  --code-bg-color: #161b22;
-  --code-text-color: #f0f6fc;
-  --code-border-color: #30363d;
-  --border-color: #30363d;
-}
-
-/* Custom select styling for GitHub High Contrast theme */
-[data-theme="github-high-contrast"] .custom-select {
-  background-color: #131922;
-  color: #f0f6fc;
-}
-
-/* Custom pulse animation for GitHub High Contrast theme */
-[data-theme="github-high-contrast"] .scroll-bottom-button.animate-pulse {
-  animation: pulse-high-contrast 2s ease-out 1;
-}
-
-@keyframes pulse-high-contrast {
-  0% {
-    box-shadow: 0 0 0 0 rgb(255, 255, 255);
-  }
-  40% {
-    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.85);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
-  }
-}
-
-/* Custom border pulse for GitHub High Contrast theme */
-[data-theme="github-high-contrast"] .help-button.pulse-border::before,
-[data-theme="github-high-contrast"] .settings-button.pulse-border::before {
-  border-color: rgb(255, 255, 255);
-  box-shadow: 0 0 10px rgb(255, 255, 255);
-}
-
-/**
- * Dark Abyss Theme
+ * Celerity Void Theme
  * 
  * An extremely dark variant of the standard dark theme.
  * Features true black backgrounds and deeper accents for OLED displays and night use.
  */
-[data-theme="dark-abyss"] {
+[data-theme="void"] {
   --color-background: #000000;
   --color-text: #ffffff;
   --color-text-rgb: 255, 255, 255;
@@ -248,12 +86,12 @@
   --border-color: #111111;
 }
 
-/* Custom pulse animation for Dark Abyss theme */
-[data-theme="dark-abyss"] .scroll-bottom-button.animate-pulse {
-  animation: pulse-dark-abyss 2s ease-out 1;
+/* Custom pulse animation for Celerity Void theme */
+[data-theme="void"] .scroll-bottom-button.animate-pulse {
+  animation: pulse-void 2s ease-out 1;
 }
 
-@keyframes pulse-dark-abyss {
+@keyframes pulse-void {
   0% {
     box-shadow: 0 0 0 0 rgb(255, 255, 255);
   }
@@ -268,169 +106,9 @@
   }
 }
 
-/* Custom border pulse for Dark Abyss theme */
-[data-theme="dark-abyss"] .help-button.pulse-border::before,
-[data-theme="dark-abyss"] .settings-button.pulse-border::before {
+/* Custom border pulse for Celerity Void theme */
+[data-theme="void"] .help-button.pulse-border::before,
+[data-theme="void"] .settings-button.pulse-border::before {
   border-color: rgb(255, 255, 255);
   box-shadow: 0 0 10px rgb(255, 255, 255);
-}
-
-/*
- * HyperionDev Theme
- *
- * A custom theme inspired by HyperionDev's branding.
- */
-[data-theme="hyperiondev"] {
-  --color-background: linear-gradient(to bottom, #15b26f, #03a0d5);
-  --color-text: #fff;
-  --color-text-subtle: #cccccc;
-  --accent-color: #ff000000;
-  --hover-color: #28282885;
-  --input-color: #2a2a2a78;
-  --modal-background-color: #000000b7;
-  --plus-icon-color: #ffffff;
-  --plus-button-color: #cccccc0c;
-  --confirm-border-color: #ffffff;
-  --help-card-bg-color: rgba(0, 0, 0, 0.1);
-  --code-bg-color: #2a2a2a;
-  --code-text-color: #e0e0e0;
-  --code-border-color: #e0e0e0;
-  --submit-button-color: #d6a737;
-}
-
-/* Divider styling for HyperionDev theme */
-[data-theme="hyperiondev"] .help-divider {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-/*
- * Bongo Cat Theme
- *
- * A playful theme inspired by the Bongo Cat steam game.
- */
-[data-theme="bongo-cat"] {
-  --color-background: linear-gradient(to bottom, #da7072, #e8cc9c);
-  --color-text: #ffffff;
-  --color-text-rgb: 51, 51, 51;
-  --color-text-subtle: #d8e1ea;
-  --accent-color: #ff000000;
-  --hover-color: #fda893;
-  --input-color: #ffffff00;
-  --modal-background-color: #000000b7;
-  --plus-icon-color: #ffffff;
-  --plus-button-color: #d8e1ea0f;
-  --confirm-border-color: #fff;
-  --help-card-bg-color: rgba(255, 255, 255, 0);
-  --code-bg-color: #ffffff;
-  --code-text-color: #333333;
-  --code-border-color: #333333;
-  --submit-button-color: #fff;
-}
-
-/* Specific style changes for Bongo Cat theme */
-[data-theme="bongo-cat"] .custom-select {
-  border: 1px solid #fff;
-}
-
-/* Style changes for the inputs - not applied to the viewable list of commands */
-[data-theme="bongo-cat"] .key-input:not([readonly]),
-[data-theme="bongo-cat"] .name-input:not([readonly]),
-[data-theme="bongo-cat"] .value-input:not([readonly]) {
-  border: 1px solid #ffffff;
-}
-
-/* Placeholder styling */
-[data-theme="bongo-cat"] .key-input::placeholder,
-[data-theme="bongo-cat"] .name-input::placeholder,
-[data-theme="bongo-cat"] .value-input::placeholder {
-  color: #ffffff;
-  opacity: 0.8;
-}
-
-/* Help card styling for Bongo Cat theme */
-[data-theme="bongo-cat"] .help-card {
-  border: 1px solid #ffffff;
-  background-color: transparent;
-  transition: background-color transform 0.3s ease;
-}
-
-[data-theme="bongo-cat"] .help-card:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Divider styling for Bongo Cat theme */
-[data-theme="bongo-cat"] .help-divider {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Feedback form styling for Bongo Cat theme */
-[data-theme="bongo-cat"] .feedback-submit {
-  color: #333333;
-  border: 2px solid #333333;
-}
-
-[data-theme="bongo-cat"] .reset-button {
-  color: #333333;
-  border: 2px solid #333333;
-  background-color: #fff;
-}
-
-[data-theme="bongo-cat"] .export-button,
-[data-theme="bongo-cat"] .import-button {
-  color: #333333;
-  border: 2px solid #333333;
-  background-color: #fff;
-}
-
-[data-theme="bongo-cat"] .feedback-cancel,
-[data-theme="bongo-cat"] #feedbackMessage,
-[data-theme="bongo-cat"] #feedbackContact,
-[data-theme="bongo-cat"] .confirm-cancel {
-  border: 1px solid #ffffff;
-}
-
-[data-theme="bongo-cat"] .feedback-cancel:hover,
-[data-theme="bongo-cat"] #feedbackMessage:hover,
-[data-theme="bongo-cat"] #feedbackContact:hover,
-[data-theme="bongo-cat"] .confirm-cancel:hover {
-  background-color: transparent;
-}
-
-[data-theme="bongo-cat"] .feedback-field textarea::placeholder,
-[data-theme="bongo-cat"] .feedback-field input::placeholder {
-  color: #ffffff;
-  opacity: 0.8;
-}
-
-/* Plus button styling for help modal in Bongo Cat theme */
-[data-theme="bongo-cat"] .help-modal .fa-plus {
-  color: #333333;
-}
-
-/* Tooltip styling for Bongo Cat theme */
-[data-theme="bongo-cat"] [data-tooltip].tooltip-left::after {
-  background-color: #ffffff;
-  color: #333333;
-  border: 2px solid #333333;
-  font-weight: 500;
-}
-
-/* Custom pulse animation for Bongo Cat theme */
-[data-theme="bongo-cat"] .scroll-buttons-container.animate-pulse {
-  animation: pulse-bongo-cat 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes pulse-bongo-cat {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
-    transform: scale(1);
-  }
 }

@@ -22,15 +22,38 @@ document.addEventListener("DOMContentLoaded", () => {
     "searchEngineDuckDuckGo"
   );
 
+  const VALID_THEMES = ["system", "dark", "light", "void"];
+
+  const resolveThemePreference = (preference) => {
+    if (preference === "system") {
+      return window.matchMedia("(prefers-color-scheme: light)").matches
+        ? "light"
+        : "dark";
+    }
+    return preference;
+  };
+
+  const normalizeThemePreference = (preference) => {
+    if (!VALID_THEMES.includes(preference)) return "system";
+    return preference;
+  };
+
+  const applyThemePreference = (preference) => {
+    const normalized = normalizeThemePreference(preference);
+    const resolved = resolveThemePreference(normalized);
+    document.documentElement.setAttribute("data-theme", resolved);
+    themeSelect.value = normalized;
+    localStorage.setItem("selectedTheme", normalized);
+  };
+
   /**
    * THEME SETTINGS
    *
    * Loads and applies the saved theme from localStorage.
-   * If no theme is saved, defaults to the 'Celerity (dark)' theme.
+   * If no theme is saved, defaults to system preference.
    */
-  const savedTheme = localStorage.getItem("selectedTheme") || "dark";
-  document.documentElement.setAttribute("data-theme", savedTheme);
-  themeSelect.value = savedTheme;
+  const savedTheme = localStorage.getItem("selectedTheme") || "system";
+  applyThemePreference(savedTheme);
 
   /**
    * TAB BEHAVIOR SETTINGS
@@ -76,8 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   const handleThemeChange = (event) => {
     const selectedTheme = event.target.value;
-    document.documentElement.setAttribute("data-theme", selectedTheme);
-    localStorage.setItem("selectedTheme", selectedTheme);
+    applyThemePreference(selectedTheme);
   };
 
   /**
@@ -121,5 +143,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll('input[name="searchEngine"]').forEach((radio) => {
     radio.addEventListener("change", handleSearchEngineChange);
+  });
+
+  const colorSchemeQuery = window.matchMedia("(prefers-color-scheme: light)");
+  colorSchemeQuery.addEventListener("change", () => {
+    const preference = localStorage.getItem("selectedTheme") || "system";
+    if (normalizeThemePreference(preference) === "system") {
+      applyThemePreference("system");
+    }
   });
 });

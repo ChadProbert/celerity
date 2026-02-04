@@ -85,7 +85,7 @@ class ModalManager {
 
     // Default settings
     this.DEFAULT_SETTINGS = {
-      theme: "dark",
+      theme: "system",
       commands: new Map([
         [
           "g",
@@ -860,14 +860,21 @@ class ModalManager {
     });
 
     if (confirmed) {
+      const applyThemePreference = (preference) => {
+        const normalized = preference === "dark-abyss" ? "void" : preference;
+        const resolved =
+          normalized === "system"
+            ? window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark"
+            : normalized;
+        localStorage.setItem("selectedTheme", normalized);
+        document.documentElement.setAttribute("data-theme", resolved);
+        document.getElementById("themeSelect").value = normalized;
+      };
+
       // Reset theme
-      localStorage.setItem("selectedTheme", this.DEFAULT_SETTINGS.theme);
-      document.documentElement.setAttribute(
-        "data-theme",
-        this.DEFAULT_SETTINGS.theme
-      );
-      document.getElementById("themeSelect").value =
-        this.DEFAULT_SETTINGS.theme;
+      applyThemePreference(this.DEFAULT_SETTINGS.theme);
 
       // Reset tab behavior
       localStorage.setItem("tabBehavior", "current"); // Default to current tab
@@ -1124,6 +1131,18 @@ class ModalManager {
       reader.onload = (e) => {
         try {
           const settings = JSON.parse(e.target.result);
+          const applyThemePreference = (preference) => {
+            const normalized = preference === "dark-abyss" ? "void" : preference;
+            const resolved =
+              normalized === "system"
+                ? window.matchMedia("(prefers-color-scheme: light)").matches
+                  ? "light"
+                  : "dark"
+                : normalized;
+            localStorage.setItem("selectedTheme", normalized);
+            document.documentElement.setAttribute("data-theme", resolved);
+            document.getElementById("themeSelect").value = normalized;
+          };
 
           // Validate the imported data has required elements
           if (!settings || typeof settings !== "object") {
@@ -1132,9 +1151,11 @@ class ModalManager {
 
           // Apply theme
           if (settings.theme) {
-            localStorage.setItem("selectedTheme", settings.theme);
-            document.documentElement.setAttribute("data-theme", settings.theme);
-            document.getElementById("themeSelect").value = settings.theme;
+            const validThemes = ["system", "dark", "light", "void", "dark-abyss"];
+            const safeTheme = validThemes.includes(settings.theme)
+              ? settings.theme
+              : "system";
+            applyThemePreference(safeTheme);
           }
 
           // Apply tab behavior
