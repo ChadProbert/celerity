@@ -204,9 +204,15 @@ function saveCommands() {
  */
 function loadCommands() {
   const commandsStr = localStorage.getItem("commands");
-  if (commandsStr) {
+  if (!commandsStr) return;
+
+  try {
     const commandsObj = JSON.parse(commandsStr);
     let updated = false;
+
+    // Use saved commands as the source of truth, even if empty.
+    COMMANDS.clear();
+
     for (const [key, value] of Object.entries(commandsObj)) {
       // Check and add searchTemplate values for user's running on older localStorage config.
       if (key === "d" && !value.searchTemplate) {
@@ -219,9 +225,12 @@ function loadCommands() {
       }
       COMMANDS.set(key, value);
     }
+
     // Save back to localStorage if updated
     if (updated) {
       localStorage.setItem("commands", JSON.stringify(commandsObj));
     }
+  } catch (e) {
+    console.error("Failed to parse commands from localStorage", e);
   }
 }
