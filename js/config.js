@@ -61,10 +61,14 @@ const CONFIG = {
   suggestionLimit: 4,
 
   /**
-   * Initializes configuration by loading saved settings from localStorage.
+   * Initializes configuration by loading saved settings from localStorage./
    * Restores tab behavior and search engine preferences if available.
    */
   init: function () {
+    // TODO: Remove in future version
+    // Remove deprecated notes storage
+    localStorage.removeItem("celerity-notes");
+
     // Load tab behavior setting
     const tabBehavior = localStorage.getItem("tabBehavior");
     if (tabBehavior !== null) {

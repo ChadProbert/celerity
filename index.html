@@ -385,16 +385,6 @@
         <i class="fas fa-compass" aria-hidden="true"></i>
       </button>
 
-      <!-- Notes Button - Opens Celerity Notes modal -->
-      <button
-        class="notes-button tooltip-left"
-        id="notesButton"
-        data-tooltip="Celerity Notes"
-        aria-label="Open Celerity Notes"
-      >
-        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-      </button>
-
       <!-- Feedback Button - Links to external feedback form -->
       <button
         class="feedback-button tooltip-left"
@@ -964,59 +954,6 @@
       </div>
     </div>
 
-    <!-- Celerity Notes Modal -->
-    <div
-      id="notesModal"
-      class="notes-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="notesModalTitle"
-      tabindex="-1"
-    >
-      <div class="notes-modal-content">
-        <h2 class="notes-title" id="notesModalTitle">Celerity Notes</h2>
-
-        <div class="notes-container">
-          <form id="noteForm" class="note-form">
-            <div class="note-field">
-              <label>Title:</label>
-              <input
-                type="text"
-                id="noteTitle"
-                name="noteTitle"
-                placeholder="Note title..."
-                aria-label="Note title"
-                maxlength="100"
-              />
-            </div>
-
-            <div class="note-field">
-              <label for="noteContent">Content:</label>
-              <textarea
-                id="noteContent"
-                name="noteContent"
-                rows="7"
-                placeholder="Write your note here..."
-                aria-label="Note content"
-                required
-              ></textarea>
-            </div>
-
-            <div class="note-actions">
-              <button type="button" class="note-cancel" id="cancelNote">
-                Clear
-              </button>
-              <button type="submit" class="note-submit">Save Note</button>
-            </div>
-          </form>
-
-          <div class="notes-list" id="notesList">
-            <!-- Notes will be dynamically inserted here -->
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- 
       JavaScript Components and Core Functionality
       
@@ -1026,13 +963,12 @@
       - modal.js: Manages modal dialogs and settings
       - theme.js: Handles theme switching and persistence
       - feedback.js: Handles the feedback button
-      - notes.js: Handles the notes button
+      - feedback.js: Handles the feedback button
     -->
     <script src="./js/components/commands.js"></script>
     <script src="./js/components/search.js"></script>
     <script src="./js/modal.js"></script>
     <script src="./js/theme.js"></script>
     <script src="./js/feedback.js"></script>
-    <script src="./js/notes.js"></script>
   </body>
 </html>
