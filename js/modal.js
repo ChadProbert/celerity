@@ -125,7 +125,7 @@ class ModalManager {
           {
             name: "GitHub",
             url: "https://github.com/",
-            searchTemplate: "/hyperiondev-bootcamps/{}",
+            searchTemplate: "/search?q={}",
           },
         ],
         [
