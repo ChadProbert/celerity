@@ -155,7 +155,7 @@ const COMMANDS = new Map([
     {
       name: "GitHub",
       url: "https://github.com/",
-      searchTemplate: "/hyperiondev-bootcamps/{}",
+      searchTemplate: "/search?q={}",
     },
   ],
   // Column 4
@@ -220,7 +220,7 @@ function loadCommands() {
         updated = true;
       }
       if (key === "gh" && !value.searchTemplate) {
-        value.searchTemplate = "/hyperiondev-bootcamps/{}";
+        value.searchTemplate = "/search?q={}";
         updated = true;
       }
       COMMANDS.set(key, value);
