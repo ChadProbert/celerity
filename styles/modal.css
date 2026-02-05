@@ -68,7 +68,7 @@
   min-width: 0;
   position: relative;
   text-align: center; /* Keep as center for settings modal */
-  border: 1px solid var(--confirm-border-color);
+  border: none;
   padding: 56px 56px 72px;
   margin-bottom: 0;
   box-sizing: border-box;
@@ -193,7 +193,7 @@
 .import-button {
   background-color: var(--config-button-bg, var(--accent-color));
   color: var(--color-text);
-  border: 1px solid var(--confirm-border-color);
+  border: none;
   padding: 12px 20px;
   border-radius: 6px;
   cursor: pointer;
@@ -650,7 +650,7 @@ label {
   background: var(--color-background);
   padding: 56px 56px 72px;
   border-radius: 0;
-  border: 1px solid var(--confirm-border-color);
+  border: none;
   text-align: left;
   max-width: none;
   width: 100%;
@@ -1387,6 +1387,6 @@ p.shortcut-description code {
 
 .keyboard-shortcuts-heading {
   margin-top: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 44px;
 }
 
