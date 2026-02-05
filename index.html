@@ -93,6 +93,50 @@
           max-height: 80vh;
         }
 
+        .commands.commands-empty {
+          align-items: center;
+          columns: 1;
+          display: flex;
+          justify-content: center;
+          max-width: 100%;
+          min-height: 60vh;
+        }
+
+        .commands.commands-empty .empty-plus {
+          align-items: center;
+          background: var(--plus-button-color);
+          border: 1px solid var(--confirm-border-color);
+          border-radius: 6px;
+          color: var(--color-text);
+          display: flex;
+          height: 160px;
+          justify-content: center;
+          width: 160px;
+          transition: background-color 0.2s ease, border-color 0.2s ease,
+            box-shadow 0.2s ease;
+        }
+
+        .commands.commands-empty .dynamic-button {
+          font-size: 2.4rem;
+        }
+
+        .commands.commands-empty .empty-plus:focus-visible {
+          outline: 2px solid var(--color-text);
+          outline-offset: 4px;
+        }
+
+        .commands.commands-empty .empty-plus:hover {
+          background-color: var(--hover-color);
+          border-color: var(--color-text-subtle);
+        }
+
+
+
+        .commands .empty-plus:focus-visible {
+          outline: 2px solid var(--color-text);
+          outline-offset: 4px;
+        }
+
         @media (min-width: 500px) {
           .commands {
             columns: 2;

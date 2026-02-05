@@ -55,6 +55,27 @@ class Commands extends HTMLElement {
     // Get column count based on available commands and screen width
     const columns = this.getColumns(availableCommands);
 
+    if (availableCommands === 0) {
+      commands.classList.add("commands-empty");
+      commands.style.columns = 1;
+      commands.style.maxWidth = "100%";
+
+      const emptyButton = document.createElement("button");
+      emptyButton.classList.add("dynamic-button", "empty-plus");
+      emptyButton.type = "button";
+      emptyButton.innerHTML = '<span class="empty-plus-icon" aria-hidden="true">+</span>';
+      emptyButton.title = "Add a shortcut";
+      emptyButton.setAttribute("aria-label", "Add a shortcut");
+      emptyButton.addEventListener("click", () => {
+        const openModalBtn = document.getElementById("openModal");
+        if (openModalBtn) openModalBtn.click();
+      });
+
+      commands.append(emptyButton);
+      this.shadowRoot.append(clone);
+      return;
+    }
+
     // Apply the column count directly to the commands element
     commands.style.columns = columns;
     // Adjust max-width based on column count
