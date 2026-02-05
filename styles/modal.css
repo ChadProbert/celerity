@@ -62,17 +62,47 @@
 .modal-content {
   background: var(--color-background);
   color: var(--color-text);
-  border-radius: var(--border-radius);
-  max-width: 70%;
-  width: 70%;
-  min-width: 500px; /* Set minimum width for desktop displays */
+  border-radius: 0;
+  max-width: none;
+  width: 100%;
+  min-width: 0;
   position: relative;
   text-align: center; /* Keep as center for settings modal */
   border: 1px solid var(--confirm-border-color);
-  padding: 40px;
-  margin-bottom: 5px; /* Small gap between content and buttons */
+  padding: 56px 56px 72px;
+  margin-bottom: 0;
   box-sizing: border-box;
   transition: border-color 0.3s ease, background 0.3s ease;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Close button for full-screen modals */
+.modal-close-button {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.modal-close-button i {
+  font-size: 24px;
+  color: var(--color-text);
+}
+
+.modal-close-button:hover {
+  background: transparent;
+  transform: none;
 }
 
 /* Update the close button styles to be specific to the feedback modal */
@@ -118,12 +148,12 @@
 }
 
 .shortcut-section {
-  margin-top: 10px;
+  margin-top: 50px;
   margin-bottom: 40px;
 }
 
 .theme-label {
-  margin-top: 50px;
+  margin-top: 60px;
   margin-bottom: 10px;
 }
 
@@ -161,7 +191,7 @@
 .reset-button,
 .export-button,
 .import-button {
-  background-color: var(--accent-color);
+  background-color: var(--config-button-bg, var(--accent-color));
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
   padding: 12px 20px;
@@ -262,7 +292,7 @@ label {
   padding: 50px 25px;
   margin: 20px auto 10px;
   width: 100%;
-  max-width: 45%;
+  max-width: 32%;
 }
 
 .theme-section label {
@@ -301,8 +331,8 @@ label {
 }
 
 .custom-select:focus {
-  border-color: var(--color-text);
-  box-shadow: 0 0 0 1px var(--color-text);
+  border-color: var(--focus-ring-color, var(--color-text));
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
   outline: none;
 }
 
@@ -342,8 +372,8 @@ label {
 .key-input:focus,
 .name-input:focus,
 .value-input:focus {
-  border-color: var(--color-text);
-  box-shadow: 0 0 0 1px var(--color-text);
+  border-color: var(--focus-ring-color, var(--color-text));
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
   outline: none;
 }
 
@@ -351,8 +381,8 @@ label {
 .shortcut-item:last-child .key-input:focus,
 .shortcut-item:last-child .name-input:focus,
 .shortcut-item:last-child .value-input:focus {
-  border-color: var(--color-text);
-  box-shadow: 0 0 0 1px var(--color-text);
+  border-color: var(--focus-ring-color, var(--color-text));
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
 }
 
 .key-input {
@@ -369,10 +399,10 @@ label {
 
 /* Plus button styles */
 .add-button {
-  background-color: var(--accent-color);
+  background-color: transparent;
   color: var(--color-text);
   border: none;
-  padding: 8px;
+  padding: 16px;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -409,7 +439,7 @@ label {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .shortcut-item .key-input {
@@ -428,34 +458,18 @@ label {
  * doesn't exceed the viewport height when resizing the window.
  */
 .modal-content.scrollable {
-  max-height: 85vh;
-  min-height: 500px; /* Minimum height for desktop */
+  max-height: none;
+  min-height: 0;
   overflow-y: auto;
-  padding-right: 40px; /* Keep padding consistent with non-scrollable modal */
   scroll-behavior: smooth; /* Smooth scrolling */
 }
 
 /* Apply the same styles to help modal content when scrollable */
 .help-modal-content.scrollable {
-  max-height: 85vh;
-  min-height: 500px; /* Minimum height for desktop */
+  max-height: none;
+  min-height: 0;
   overflow-y: auto;
-  padding-right: 40px; /* Keep padding consistent with non-scrollable modal */
   scroll-behavior: smooth;
-}
-
-/* Adjust tooltip position for the scroll buttons - now appearing above the buttons */
-.scroll-button.tooltip-left::after {
-  right: auto;
-  top: -35px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1010;
-}
-
-/* Make tooltips more visible */
-[data-tooltip].tooltip-left:hover::after {
-  opacity: 0.9;
 }
 
 /**
@@ -634,21 +648,21 @@ label {
  */
 .help-modal-content {
   background: var(--color-background);
-  padding: 40px;
-  border-radius: var(--border-radius);
+  padding: 56px 56px 72px;
+  border-radius: 0;
   border: 1px solid var(--confirm-border-color);
   text-align: left;
-  max-width: 60%;
-  width: 60%;
-  min-width: 500px;
-  max-height: 85vh;
-  min-height: 500px;
+  max-width: none;
+  width: 100%;
+  min-width: 0;
+  max-height: none;
+  min-height: 0;
   overflow-y: auto;
-  margin-bottom: 5px; /* Small gap between content and buttons */
+  margin-bottom: 0;
   transition: border-color 0.3s ease, background 0.3s ease;
   box-sizing: border-box;
   position: relative;
-  padding-bottom: 80px; /* Add extra padding at the bottom */
+  height: 100%;
 }
 
 /* Increase height to ensure content is spaced out */
@@ -922,98 +936,6 @@ p.shortcut-description code {
   margin-top: 12px;
 }
 
-/**
- * SCROLL BUTTONS CONTAINER
- * 
- * A modern container with navigation buttons positioned horizontally
- * beneath each modal. Features a sleek design with subtle hover effects.
- */
-.scroll-buttons-container {
-  position: relative;
-  background-color: var(--color-background);
-  border: 1px solid var(--confirm-border-color);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 10px;
-  gap: 8px;
-  margin: 15px auto 0;
-  max-width: fit-content;
-  z-index: 1002;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Style the close button to match other scroll buttons */
-.scroll-button {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  font-family: var(--font-family);
-  background-color: var(--color-background);
-}
-
-.scroll-button:hover {
-  background-color: var(--hover-color);
-}
-
-.scroll-button i {
-  font-size: 14px;
-  color: var(--color-text);
-  transition: color 0.2s ease;
-}
-
-/* Add a special hover effect for all buttons */
-.scroll-button:hover {
-  background-color: var(--hover-color);
-  transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.scroll-button:hover i {
-  color: var(--color-text);
-}
-
-.scroll-button-divider {
-  width: 1px;
-  height: 20px;
-  background-color: var(--confirm-border-color);
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-.scroll-buttons-container:hover .scroll-button-divider {
-  opacity: 0.8;
-}
-
-/* Add a subtle pulse animation when the modal first opens */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--color-text-rgb), 0.2);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(var(--color-text-rgb), 0.1);
-    transform: scale(1.05);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--color-text-rgb), 0.2);
-    transform: scale(1);
-  }
-}
-
-.scroll-buttons-container.animate-pulse {
-  animation: pulse 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
 .radio-option {
   display: flex;
@@ -1098,7 +1020,7 @@ p.shortcut-description code {
 }
 
 .search-preferences-title {
-  margin-top: 40px;
+  margin-top: 60px;
 }
 
 @keyframes radioPopIn {
@@ -1154,8 +1076,13 @@ p.shortcut-description code {
 
   /* Ensure modal content is properly sized */
   .modal-content {
-    max-width: 95%;
-    width: 95%;
+    max-width: none;
+    width: 100%;
+  }
+
+  .help-modal-content {
+    max-width: none;
+    width: 100%;
   }
 }
 
@@ -1223,9 +1150,9 @@ p.shortcut-description code {
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
   padding: 30px 25px;
-  margin: 20px auto 30px;
+  margin: 20px auto 60px;
   width: 100%;
-  max-width: 92%;
+  max-width: 66%;
 }
 
 /* Feedback Modal */
@@ -1300,7 +1227,8 @@ p.shortcut-description code {
 .feedback-field input:focus,
 .feedback-field textarea:focus {
   border-color: var(--color-text);
-  outline: 2px solid var(--color-text);
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
 }
 
 .feedback-select:hover,
@@ -1462,22 +1390,3 @@ p.shortcut-description code {
   margin-bottom: 40px;
 }
 
-/* Hide scrollbar for scrollable modal content */
-.modal-content.scrollable::-webkit-scrollbar {
-  display: none;
-}
-
-.modal-content.scrollable {
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Hide scrollbar for scrollable help modal content */
-.help-modal-content.scrollable::-webkit-scrollbar {
-  display: none;
-}
-
-.help-modal-content.scrollable {
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
-}

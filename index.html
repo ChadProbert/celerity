@@ -493,6 +493,13 @@
       tabindex="-1"
     >
       <div class="modal-content">
+        <button
+          class="modal-close-button"
+          id="closeModal"
+          aria-label="Close settings"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
         <!-- 
           Shortcut Manager Section
           Displays a dynamic list of keyboard shortcuts that users can
@@ -526,8 +533,8 @@
             <div class="custom-select-wrapper">
               <select id="themeSelect" class="custom-select">
                 <option value="system">System preference</option>
-                <option value="light">Celerity Light</option>
                 <option value="dark">Celerity Dark</option>
+                <option value="light">Celerity Light</option>
                 <option value="void">Celerity Void</option>
               </select>
               <span class="custom-arrow">▼</span>
@@ -636,33 +643,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Moved the scroll buttons container below the modal content -->
-      <div class="scroll-buttons-container" id="settingsScrollButtons">
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollTopSettings"
-          data-tooltip="Scroll to Top"
-        >
-          <i class="fa-solid fa-arrow-up"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollBottomSettings"
-          data-tooltip="Next Section"
-        >
-          <i class="fa-solid fa-arrow-down"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="closeModal"
-          data-tooltip="Close Settings"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
     </div>
 
     <!-- 
@@ -709,6 +689,13 @@
       tabindex="-1"
     >
       <div class="help-modal-content">
+        <button
+          class="modal-close-button"
+          id="closeHelpModal"
+          aria-label="Close quick guide"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
         <!-- Help documentation -->
         <div class="help-section">
           <!-- Introduction -->
@@ -825,33 +812,6 @@
             >
           </p>
         </div>
-      </div>
-
-      <!-- Moved the scroll buttons container below the modal content -->
-      <div class="scroll-buttons-container" id="helpScrollButtons">
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollTopHelp"
-          data-tooltip="Scroll to Top"
-        >
-          <i class="fa-solid fa-arrow-up"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="scrollBottomHelp"
-          data-tooltip="Scroll to Bottom"
-        >
-          <i class="fa-solid fa-arrow-down"></i>
-        </button>
-        <div class="scroll-button-divider"></div>
-        <button
-          class="scroll-button tooltip-left"
-          id="closeHelpModal"
-          data-tooltip="Close Guide"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
       </div>
     </div>
 

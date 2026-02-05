@@ -21,17 +21,20 @@
   --color-text-subtle: #555;
   --accent-color: #dadada;
   --hover-color: #cdcdcd;
-  --input-color: #ffffff;
+  --input-color: var(--color-background);
   --modal-background-color: rgba(0, 0, 0, 0.5);
   --border-color: #00000033;
-  --plus-icon-color: #555 !important;
+  --plus-icon-color: var(--color-text);
   --plus-button-color: #e1e1e1;
   --confirm-border-color: #aaaaaa;
   --help-card-bg-color: rgba(0, 0, 0, 0.03);
   --code-bg-color: #f0f0f0;
   --code-text-color: #0a0a0a;
   --code-border-color: #cccccc;
+  --config-button-bg: var(--color-background);
+  --focus-ring-color: #000000;
 }
+
 
 /* 
  * Light Theme Form Element Styles
@@ -84,6 +87,8 @@
   --code-text-color: #f0f0f0;
   --code-border-color: rgba(255, 255, 255, 0.05);
   --border-color: #111111;
+  --config-button-bg: var(--accent-color);
+  --focus-ring-color: var(--color-text);
 }
 
 /* Custom pulse animation for Celerity Void theme */

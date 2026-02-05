@@ -69,6 +69,7 @@
   --color-text-subtle: #5e5e5e;
   --color-text: #fff;
   --color-text-rgb: 255, 255, 255; /* RGB values for rgba functions */
+  --focus-ring-color: var(--color-text);
 
   /* Typography */
   --font-family: "Poppins", sans-serif;
@@ -84,6 +85,7 @@
   --accent-color: #090909;
   --hover-color: #222222;
   --button-color: #dadada;
+  --config-button-bg: #1f1f1f;
   --input-color: #1f1f1f;
   --border-color: #55555500;
   --green-color: #34c759;

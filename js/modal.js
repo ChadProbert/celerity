@@ -50,17 +50,6 @@ class ModalManager {
     this.addButton = document.getElementById("addShortcut");
     this.modalContent = document.querySelector(".modal-content");
     this.commandsComponent = document.querySelector("commands-component");
-    this.scrollTopBtn = document.getElementById("scrollTopHelp");
-    this.scrollBottomBtn = document.getElementById("scrollBottomHelp");
-    this.helpScrollButtonsContainer =
-      document.getElementById("helpScrollButtons");
-    this.scrollTopSettingsBtn = document.getElementById("scrollTopSettings");
-    this.scrollBottomSettingsBtn = document.getElementById(
-      "scrollBottomSettings"
-    );
-    this.settingsScrollButtonsContainer = document.getElementById(
-      "settingsScrollButtons"
-    );
 
     // Bind all methods to this instance
     this.openSettingsModal = this.openSettingsModal.bind(this);
@@ -76,12 +65,7 @@ class ModalManager {
     this.handleImportFile = this.handleImportFile.bind(this);
     this.addNewShortcutField = this.addNewShortcutField.bind(this);
     this.checkModalScrollability = this.checkModalScrollability.bind(this);
-    this.updateScrollButtonState = this.updateScrollButtonState.bind(this);
-    this.boundUpdateScrollButtonState = this.updateScrollButtonState.bind(this);
-    this.scrollHelpModal = this.scrollHelpModal.bind(this);
     this.forceModalScrollToTop = this.forceModalScrollToTop.bind(this);
-    this.boundUpdateSettingsScrollButtonState =
-      this.updateSettingsScrollButtonState.bind(this);
 
     // Default settings
     this.DEFAULT_SETTINGS = {
@@ -199,10 +183,14 @@ class ModalManager {
     }
 
     // Close Settings Modal
-    this.closeModalBtn.addEventListener("click", this.closeSettingsModal);
+    if (this.closeModalBtn) {
+      this.closeModalBtn.addEventListener("click", this.closeSettingsModal);
+    }
 
     // Close Help Modal
-    this.closeHelpModalBtn.addEventListener("click", this.closeHelpModal);
+    if (this.closeHelpModalBtn) {
+      this.closeHelpModalBtn.addEventListener("click", this.closeHelpModal);
+    }
 
     // Close Modal (clicking outside the modal content)
     window.addEventListener("click", this.handleWindowClick);
@@ -218,25 +206,6 @@ class ModalManager {
     this.importButton.addEventListener("click", this.importConfig);
     this.importFileInput.addEventListener("change", this.handleImportFile);
 
-    // Scroll buttons in help modal
-    if (this.scrollTopBtn && this.scrollBottomBtn) {
-      this.scrollTopBtn.addEventListener("click", () =>
-        this.scrollHelpModal("top")
-      );
-      this.scrollBottomBtn.addEventListener("click", () =>
-        this.scrollHelpModal("bottom")
-      );
-    }
-
-    // Scroll buttons in settings modal
-    if (this.scrollTopSettingsBtn && this.scrollBottomSettingsBtn) {
-      this.scrollTopSettingsBtn.addEventListener("click", () =>
-        this.scrollSettingsModal("top")
-      );
-      this.scrollBottomSettingsBtn.addEventListener("click", () =>
-        this.scrollSettingsModal("bottom")
-      );
-    }
   }
 
   /**
@@ -310,17 +279,6 @@ class ModalManager {
       // Reset scroll position to top when opening the modal
       modalContent.scrollTop = 0;
 
-      if (this.settingsScrollButtonsContainer) {
-        this.settingsScrollButtonsContainer.classList.remove("animate-pulse");
-        void this.settingsScrollButtonsContainer.offsetWidth; // Force reflow
-        this.settingsScrollButtonsContainer.classList.add("animate-pulse");
-      }
-
-      this.updateSettingsScrollButtonState();
-      modalContent.addEventListener(
-        "scroll",
-        this.boundUpdateSettingsScrollButtonState
-      );
     }
   }
 
@@ -364,22 +322,6 @@ class ModalManager {
       // Always add scrollable class to get consistent styling
       helpModalContent.classList.add("scrollable");
 
-      // Reset animation by removing and re-adding class
-      if (this.helpScrollButtonsContainer) {
-        this.helpScrollButtonsContainer.classList.remove("animate-pulse");
-        // Force reflow
-        void this.helpScrollButtonsContainer.offsetWidth;
-        this.helpScrollButtonsContainer.classList.add("animate-pulse");
-      }
-
-      // Initialize scroll button state
-      this.updateScrollButtonState();
-
-      // Add scroll event listener to monitor position
-      helpModalContent.addEventListener(
-        "scroll",
-        this.boundUpdateScrollButtonState
-      );
     }
 
     // Focus on close button for accessibility
@@ -399,15 +341,6 @@ class ModalManager {
    * - Removes the modal overlay
    */
   closeSettingsModal() {
-    // Remove scroll event listener
-    const modalContent = this.settingsModal.querySelector(".modal-content");
-    if (modalContent) {
-      modalContent.removeEventListener(
-        "scroll",
-        this.boundUpdateSettingsScrollButtonState
-      );
-    }
-
     this.settingsModal.style.display = "none";
     this.modalOverlay.classList.remove("active");
   }
@@ -422,17 +355,6 @@ class ModalManager {
    * - Removes the modal overlay
    */
   closeHelpModal() {
-    // Remove scroll event listener
-    const helpModalContent = this.helpModal.querySelector(
-      ".help-modal-content"
-    );
-    if (helpModalContent) {
-      helpModalContent.removeEventListener(
-        "scroll",
-        this.boundUpdateScrollButtonState
-      );
-    }
-
     // If this is a first-time visitor, update the localStorage flags AFTER
     // they've seen the help content
     if (this.isFirstTimeVisitor) {
@@ -923,49 +845,6 @@ class ModalManager {
   }
 
   /**
-   * Updates the visibility state of scroll buttons in the help modal.
-   *
-   * Shows/hides the top and bottom scroll buttons based on the current
-   * scroll position relative to the content.
-   */
-  updateScrollButtonState() {
-    const helpModalContent = this.helpModal.querySelector(
-      ".help-modal-content"
-    );
-    if (!helpModalContent) return;
-
-    const scrollPosition = helpModalContent.scrollTop;
-    const scrollHeight = helpModalContent.scrollHeight;
-    const clientHeight = helpModalContent.clientHeight;
-
-    // Show/hide scroll buttons based on position
-    if (this.scrollTopBtn) {
-      this.scrollTopBtn.style.opacity = scrollPosition > 100 ? "1" : "0.5";
-    }
-    if (this.scrollBottomBtn) {
-      this.scrollBottomBtn.style.opacity =
-        scrollPosition + clientHeight < scrollHeight - 100 ? "1" : "0.5";
-    }
-  }
-
-  /**
-   * Scrolls the help modal content in the specified direction.
-   *
-   * @param {string} direction - The direction to scroll ('top' or 'bottom')
-   */
-  scrollHelpModal(direction) {
-    const helpModalContent = this.helpModal.querySelector(
-      ".help-modal-content"
-    );
-    if (!helpModalContent) return;
-
-    helpModalContent.scrollTo({
-      top: direction === "top" ? 0 : helpModalContent.scrollHeight,
-      behavior: "smooth",
-    });
-  }
-
-  /**
    * Forces the modal content to scroll to the top.
    *
    * Uses a small delay to ensure the scroll reset occurs after
@@ -993,77 +872,6 @@ class ModalManager {
     applyScrollReset(200);
   }
 
-  /**
-   * Updates the settings scroll button state based on current scroll position
-   */
-  updateSettingsScrollButtonState() {
-    const modalContent = this.settingsModal.querySelector(".modal-content");
-    if (!modalContent) return;
-
-    const scrollPosition = modalContent.scrollTop;
-    const scrollHeight = modalContent.scrollHeight;
-    const clientHeight = modalContent.clientHeight;
-
-    // Show/hide scroll buttons based on position
-    if (this.scrollTopSettingsBtn) {
-      this.scrollTopSettingsBtn.style.opacity =
-        scrollPosition > 100 ? "1" : "0.5";
-    }
-    if (this.scrollBottomSettingsBtn) {
-      this.scrollBottomSettingsBtn.style.opacity =
-        scrollPosition + clientHeight < scrollHeight - 100 ? "1" : "0.5";
-    }
-  }
-
-  /**
-   * Handles scrolling in the settings modal
-   * @param {"top" | "bottom"} direction - The direction to scroll
-   */
-  scrollSettingsModal(direction) {
-    const modalContent = this.settingsModal.querySelector(".modal-content");
-    if (!modalContent) return;
-
-    if (direction === "top") {
-      // Scroll to top behavior remains the same
-      modalContent.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    } else {
-      // For scrolling down, find the next heading
-      const headings = Array.from(modalContent.querySelectorAll('h2'));
-      const currentScroll = modalContent.scrollTop; // Add small buffer
-      let nextHeading = null;
-
-      // Find the first heading that's below the current scroll position
-      for (const heading of headings) {
-        const headingTop = heading.getBoundingClientRect().top + modalContent.scrollTop;
-        if (headingTop > currentScroll) {
-          nextHeading = heading;
-          break;
-        }
-      }
-
-      if (nextHeading) {
-        // Calculate position with offset
-        const offset = -240; // Controls how much content shows below the heading
-        const elementPosition = nextHeading.getBoundingClientRect().top + modalContent.scrollTop;
-        const offsetPosition = elementPosition - offset;
-        
-        // Scroll to the position with offset
-        modalContent.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      } else {
-        // If no next heading, scroll to bottom as fallback
-        modalContent.scrollTo({
-          top: modalContent.scrollHeight,
-          behavior: "smooth"
-        });
-      }
-    }
-  }
 
   /**
    * Exports user configuration to a JSON file.
