@@ -137,7 +137,14 @@
 [data-tooltip].tooltip-left::after {
   right: 100%;
   top: 50%;
-  transform: translateY(-50%) translateX(-8px);
+  transform: translateY(-50%) translateX(-4px);
+}
+
+/* Right tooltip */
+[data-tooltip].tooltip-right::after {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
 }
 
 /**
@@ -172,7 +179,7 @@
 }
 
 .settings-button:hover {
-  background-color: var(--hover-color);
+  background-color: var(--background-color);
 }
 
 .settings-button:hover i {
@@ -323,6 +330,21 @@ button {
   transition: color 0.4s ease;
 }
 
+.core-label {
+  top: 16px;
+  left: 16px;
+  bottom: auto;
+  transform: none;
+  padding: 8px 12px;
+  border: 2px solid var(--confirm-border-color);
+  background-color: var(--plus-button-color);
+  border-radius: 4px;
+}
+
+.core-label .footer-text {
+  font-size: 18px;
+}
+
 /* Help Button */
 .help-button {
   position: fixed;
@@ -349,7 +371,7 @@ button {
 }
 
 .help-button:hover {
-  background-color: var(--hover-color);
+  background-color: var(--background-color);
 }
 
 .help-button:hover i {
@@ -381,7 +403,7 @@ button {
 }
 
 .feedback-button:hover {
-  background-color: var(--hover-color);
+  background-color: var(--background-color);
 }
 
 .feedback-button:hover i {

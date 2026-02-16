@@ -66,6 +66,7 @@
   /* Layout & Appearance */
   --border-radius: 16px;
   --color-background: #0d0d0d;
+  --background-color: var(--color-background);
   --color-text-subtle: #5e5e5e;
   --color-text: #fff;
   --color-text-rgb: 255, 255, 255; /* RGB values for rgba functions */
@@ -185,7 +186,7 @@ main {
       --accent-color: #dadada;
       --hover-color: #cfcfcf;
       --input-color: #e4e3e3;
-      --modal-background-color: rgba(0, 0, 0, 0.5);
+      --modal-background-color: rgba(233, 233, 233, 0.9);
     }
 
     /**

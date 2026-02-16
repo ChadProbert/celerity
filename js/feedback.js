@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const feedbackButton = document.getElementById("feedbackButton");
   const feedbackModal = document.getElementById("feedbackModal");
   const closeModalBtn = document.getElementById("closeFeedbackModal");
+  const closeModalBtnPage = document.getElementById("closeFeedbackModalPage");
   const cancelFeedback = document.getElementById("cancelFeedback");
   const feedbackForm = document.getElementById("feedbackForm");
   const feedbackStatus = document.getElementById("feedbackStatus");
@@ -220,6 +221,10 @@ document.addEventListener("DOMContentLoaded", function () {
     closeModalBtn.addEventListener("click", closeFeedbackModal);
   }
 
+  if (closeModalBtnPage) {
+    closeModalBtnPage.addEventListener("click", closeFeedbackModal);
+  }
+
   if (cancelFeedback) {
     cancelFeedback.addEventListener("click", closeFeedbackModal);
   }
@@ -234,13 +239,6 @@ document.addEventListener("DOMContentLoaded", function () {
   /**
    * Modal Accessibility Features
    */
-
-  // Close modal when clicking outside of it
-  window.addEventListener("click", function (event) {
-    if (event.target === feedbackModal) {
-      closeFeedbackModal();
-    }
-  });
 
   // Close modal on escape key
   document.addEventListener("keydown", function (event) {

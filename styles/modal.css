@@ -97,12 +97,17 @@
 
 .modal-close-button i {
   font-size: 24px;
-  color: var(--color-text);
+  color: var(--color-text-subtle);
+  transition: color 0.2s ease;
 }
 
 .modal-close-button:hover {
   background: transparent;
   transform: none;
+}
+
+.modal-close-button:hover i {
+  color: var(--color-text);
 }
 
 /* Update the close button styles to be specific to the feedback modal */
@@ -133,13 +138,6 @@
   transition: color 0.3s ease;
 }
 
-.feedback-modal .close-button:hover {
-  background-color: var(--hover-color);
-}
-
-.feedback-modal .close-button:hover i {
-  color: var(--color-text);
-}
 
 .shortcut-section,
 .theme-label {
@@ -193,9 +191,10 @@
 .import-button {
   background-color: var(--hover-color);
   color: var(--color-text);
+  font-weight: 500;
   border: 1px solid var(--confirm-border-color);
   padding: 12px 20px;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 15px;
@@ -244,7 +243,7 @@
   flex-wrap: wrap;
   max-width: 700px;
   padding: 40px;
-  background: var(--accent-color);
+  background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
 }
@@ -280,7 +279,7 @@ label {
 
 /* Container for theme selection with accent color background */
 .theme-container {
-  background: var(--accent-color);
+  background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
   padding: 50px 25px;
@@ -393,11 +392,11 @@ label {
 
 /* Plus button styles */
 .add-button {
-  background-color: var(--hover-color);
+  background-color: transparent;
   color: var(--color-text);
-  border: 1px solid var(--confirm-border-color);
-  padding: 16px;
-  border-radius: 5px;
+  border: none;
+  padding: 0;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -405,14 +404,16 @@ label {
   justify-content: center;
   width: 30px;
   height: 30px;
+  margin-left: 5px;
 }
 
 .add-button:hover {
-  background-color: var(--hover-color);
+  background-color: transparent;
 }
 
 .fa-plus {
-  font-size: 15px;
+  font-size: 14px;
+  line-height: 1;
   color: var(--color-text-subtle);
   transition: color 0.3s ease;
 }
@@ -436,12 +437,17 @@ label {
   margin-bottom: 8px;
 }
 
+.shortcut-item:last-child .add-button {
+  margin-left: -4px;
+}
+
 .shortcut-item .key-input {
   width: 5%;
 }
 
 .shortcut-item .value-input {
-  width: 5%;
+  flex: 1;
+  min-width: 0;
 }
 
 /**
@@ -533,7 +539,7 @@ label {
 }
 
 .confirm-ok {
-  background-color: var(--accent-color);
+  background-color: var(--plus-button-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
 }
@@ -583,7 +589,7 @@ label {
   height: 30px;
   border: none;
   border-radius: 4px;
-  background-color: var(--accent-color);
+  background-color: transparent;
   color: var(--color-text-subtle);
   cursor: pointer;
   margin-left: 5px;
@@ -595,7 +601,7 @@ label {
 
 .edit-button:hover,
 .delete-button:hover {
-  background-color: var(--hover-color);
+  background-color: transparent;
   color: var(--color-text);
 }
 
@@ -664,24 +670,30 @@ label {
   display: flex;
   flex-direction: column;
   min-height: 70vh;
+  height: 100%;
   justify-content: flex-start;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
 .help-modal-content h2 {
   font-size: 28px;
-  margin-top: 0;
-  margin-bottom: 30px;
+  margin-top: 14px;
+  margin-bottom: 56px;
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
   position: relative;
   padding-bottom: 12px;
+  text-align: center;
 }
 
 .help-modal-content h2::after {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   height: 3px;
   width: 60px;
   background-color: var(--color-text-subtle);
@@ -690,10 +702,20 @@ label {
 .help-section h3 {
   display: flex;
   align-items: center;
-  margin-bottom: 18px;
+  justify-content: center;
+  margin-top: 60px;
+  margin-bottom: 28px;
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
-  font-size: 1.3em;
+  font-size: 52px;
+  text-align: center;
+}
+
+.help-footer-note {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 24px;
+  padding-bottom: 12px;
 }
 
 .help-section h4 {
@@ -753,6 +775,10 @@ label {
   border-bottom: 1px solid var(--color-text);
 }
 
+.help-footer-note a:hover {
+  border-bottom: 1px dotted var(--color-text-subtle);
+}
+
 .help-section code {
   background-color: var(--code-bg-color);
   padding: 3px 6px;
@@ -777,6 +803,10 @@ label {
   margin-bottom: 20px;
   border-left: 3px solid var(--color-text-subtle);
   box-shadow: none;
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .feature-icon {
@@ -798,6 +828,10 @@ label {
   padding: 18px;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.03);
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Add extra margin to the keyboard shortcuts section card */
@@ -806,9 +840,9 @@ label {
 }
 
 .help-card:hover {
-  background-color: var(--hover-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--help-card-bg-color);
+  transform: none;
+  box-shadow: none;
 }
 
 .help-card h4 {
@@ -836,7 +870,7 @@ label {
   justify-content: center;
   background-color: var(--code-bg-color);
   color: var(--code-text-color);
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 8px;
   margin-right: 10px;
   min-width: 20px;
@@ -1046,7 +1080,7 @@ p.shortcut-description code {
 
 /* Container for options with accent color background */
 .options-container {
-  background: var(--accent-color);
+  background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
   padding: 30px 25px;
@@ -1140,7 +1174,7 @@ p.shortcut-description code {
 
 /* Container for keyboard shortcuts with accent color background */
 .shortcuts-container {
-  background: var(--accent-color);
+  background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
   padding: 30px 25px;
@@ -1157,14 +1191,23 @@ p.shortcut-description code {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--modal-background-color);
+  background: var(--color-background);
   justify-content: center;
   align-items: center;
+  gap: 0;
+  flex-direction: column;
   z-index: 2000;
 }
 
+.feedback-modal .feedback-page-close {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 2002;
+}
+
 .feedback-modal-content {
-  background: var(--color-background);
+  background: var(--plus-button-color);
   padding: 40px;
   border-radius: 10px;
   border: 1px solid var(--confirm-border-color);
@@ -1176,14 +1219,18 @@ p.shortcut-description code {
   position: relative;
 }
 
-.feedback-modal-content h2 {
-  margin-top: 0;
-  margin-bottom: 30px;
+.feedback-title {
+  margin: 0 0 44px;
   color: var(--color-text);
-  font-size: 2.2rem;
+  font-size: 54px;
+  font-weight: var(--font-weight-bold);
   display: flex;
   align-items: center;
-  gap: 15px; /* Space between icon and text */
+  justify-content: center;
+}
+
+.feedback-title i {
+  margin-right: 24px;
 }
 
 .feedback-field {
@@ -1209,7 +1256,7 @@ p.shortcut-description code {
 .feedback-field textarea {
   padding: 10px 12px;
   border-radius: 4px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--confirm-border-color);
   background-color: var(--input-color);
   color: var(--color-text);
   font-family: var(--font-family);
@@ -1225,16 +1272,11 @@ p.shortcut-description code {
   box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
 }
 
-.feedback-select:hover,
-.feedback-field input:hover,
-.feedback-field textarea:hover {
-  background-color: var(--hover-color);
-}
 
 .feedback-actions {
   display: flex;
   justify-content: right;
-  gap: 20px;
+  gap: 12px;
   margin-top: 30px;
 }
 
@@ -1246,32 +1288,33 @@ p.shortcut-description code {
   font-family: var(--font-family);
   font-size: 15px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .feedback-cancel {
-  background-color: var(--input-color);
+  background-color: transparent;
   color: var(--color-text-subtle);
   min-width: 100px;
   border: none;
+  transition: color 0.4s ease;
 }
 
 .feedback-cancel:hover {
-  background-color: var(--hover-color);
   color: var(--color-text);
-  transform: translateY(-2px);
 }
+
 
 .feedback-submit {
-  background: var(--submit-button-color);
+  background-color: var(--hover-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
-  min-width: 170px;
+  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: 4px;
+  min-width: 180px;
+  transition: all 0.2s ease;
 }
 
-.feedback-submit:hover {
-  transform: translateY(-2px);
-}
 
 .feedback-status {
   margin-top: 15px;
@@ -1308,7 +1351,7 @@ p.shortcut-description code {
 .feedback-emotions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
   flex: 1;
   margin-right: 20px;
@@ -1376,11 +1419,12 @@ p.shortcut-description code {
 /* Feedback Buttons */
 .feedback-buttons {
   display: flex;
-  gap: 20px;
+  gap: 12px;
 }
 
 .keyboard-shortcuts-heading {
   margin-top: 20px;
   margin-bottom: 44px;
 }
+
 
