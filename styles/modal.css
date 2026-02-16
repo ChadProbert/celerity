@@ -702,13 +702,17 @@ label {
 .help-section h3 {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 60px;
   margin-bottom: 28px;
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
   font-size: 52px;
-  text-align: center;
+  text-align: left;
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .help-footer-note {
@@ -923,15 +927,16 @@ p.shortcut-description code {
 }
 
 .callout-icon {
-  margin-right: 16px;
-  font-size: 2em;
-  color: var(--color-text);
-  padding: 0 20px;
+  margin-right: 0;
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
 }
 
 .callout-icon h3 {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .callout-icon h3 i {
