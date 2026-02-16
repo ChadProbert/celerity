@@ -1220,7 +1220,7 @@ p.shortcut-description code {
 }
 
 .feedback-title {
-  margin: 0 0 44px;
+  margin: -60px 0 44px;
   color: var(--color-text);
   font-size: 54px;
   font-weight: var(--font-weight-bold);
