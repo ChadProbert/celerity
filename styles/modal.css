@@ -191,9 +191,9 @@
 .reset-button,
 .export-button,
 .import-button {
-  background-color: var(--config-button-bg, var(--accent-color));
+  background-color: var(--hover-color);
   color: var(--color-text);
-  border: none;
+  border: 1px solid var(--confirm-border-color);
   padding: 12px 20px;
   border-radius: 6px;
   cursor: pointer;
@@ -205,12 +205,6 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-
-.reset-button:hover,
-.export-button:hover,
-.import-button:hover {
-  transform: translateY(-2px);
 }
 
 /* Icon inside buttons */
@@ -316,9 +310,9 @@ label {
 .custom-select {
   width: 100%;
   padding: 10px 35px 10px 12px;
-  background-color: var(--input-color);
+  background-color: var(--hover-color);
   color: var(--color-text);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--confirm-border-color);
   border-radius: 4px;
   appearance: none;
   -webkit-appearance: none;
@@ -361,9 +355,9 @@ label {
 .name-input,
 .value-input {
   padding: 8px;
-  background-color: var(--input-color);
+  background-color: var(--hover-color);
   color: var(--color-text);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--confirm-border-color);
   border-radius: 4px;
   transition: all 0.2s ease;
 }
@@ -399,9 +393,9 @@ label {
 
 /* Plus button styles */
 .add-button {
-  background-color: transparent;
+  background-color: var(--hover-color);
   color: var(--color-text);
-  border: none;
+  border: 1px solid var(--confirm-border-color);
   padding: 16px;
   border-radius: 5px;
   cursor: pointer;
@@ -419,7 +413,7 @@ label {
 
 .fa-plus {
   font-size: 15px;
-  color: var(--plus-icon-color);
+  color: var(--color-text-subtle);
   transition: color 0.3s ease;
 }
 
@@ -618,8 +612,8 @@ label {
 }
 
 .shortcut-item input:not([readonly]) {
-  background-color: var(--input-color);
-  border-color: var(--border-color);
+  background-color: var(--hover-color);
+  border-color: var(--confirm-border-color);
 }
 
 /**

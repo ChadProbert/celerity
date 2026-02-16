@@ -319,9 +319,8 @@ button {
 }
 
 .footer-container:hover {
-  background-color: var(--hover-color);
   color: var(--color-text);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: color 0.4s ease;
 }
 
 /* Help Button */
