@@ -6,7 +6,7 @@
 <!--<img src="images/logos/logo-stencil/dark-removebg-preview.png" alt="Logo" width="200" height="200" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5); padding: 15px;"> -->
 
 # Celerity
-Press, enter — done
+Press. Enter. Done
 
   <p>
     <a href="https://chadprobert.github.io/celerity/">Demo</a>
@@ -33,7 +33,9 @@ Press, enter — done
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-the-app">About The App</a></li>
+    <li><a href="#about-celerity">About Celerity</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#features">Features</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#customization">Customization</a></li>
@@ -43,19 +45,52 @@ Press, enter — done
 
 <br/>
 
-## About The App
+## About Celerity
 
-Celerity is a productivity-focused custom new tab page that transforms browser navigation with powerful keyboard shortcuts.
+Celerity is a keyboard-first new tab experience designed to reduce friction between intent and action.
 
-It allows you to:
+It provides a fast, minimal surface for navigating the web using short commands instead of menus, bookmarks, and repeated clicks.
 
-- **Rapidly access sites** with simple key commands (press a key, hit enter, done)
-- **Direct search from any site** by typing a key followed by your query
-- **Customize shortcuts** to match your workflow needs
-- **Switch between themes** including dark mode, light mode, and developer-inspired colour schemes
-- **Configure settings** including tab behaviour and search engine preferences
+The goal is simple:  
+move from *thinking about where to go* → *being there* with as little interruption as possible.
 
-It is designed for keyboard-centric users who value efficiency and minimalism. Celerity eliminates the need for bookmarks and reduces repetitive navigation to frequently visited sites.
+Celerity is intentionally restrained. It prioritizes clarity, speed, and consistency over visual noise or feature overload.
+
+<br/>
+
+## Philosophy
+
+Celerity is built around a few core ideas:
+
+- Navigation should feel immediate, not procedural  
+- Speed should be calm and controlled, not chaotic  
+- The interface should stay out of the user's way once learned 
+- Keyboard input should act as a command surface, not just text entry  
+
+It is **not** meant to replace the browser or become a dashboard.  
+It acts as a lightweight layer that helps you move across sites, searches, and workflows more swiftly.
+
+<br/>
+
+## Features
+
+- **Keyboard-first navigation**  
+  Launch sites and workflows with short commands.
+
+- **Direct site search**  
+  Query platforms without opening them first.
+
+- **Path-based navigation**  
+  Jump directly to known destinations.
+
+- **Default search fallback**  
+  Unknown inputs resolve into a search automatically.
+
+- **Custom shortcuts**  
+  Tailor commands to match personal workflows.
+
+- **Local configuration**  
+  Control tab behaviour and search engine selection.
 
 <br/>
 
@@ -85,99 +120,54 @@ git clone https://github.com/ChadProbert/celerity.git
 
 ## Usage
 
-To visit a site, type its keyboard shortcut and press enter:
+Celerity interprets short inputs as commands.
 
-- `g` ➜ Gmail
-- `r` ➜ Reddit
-- `y` ➜ YouTube
+### Site Launching
+
+Type a shortcut and press enter:
+
+- **`g`** → Gmail  
+- **`r`** → Reddit  
+- **`y`** → YouTube  
 
 ### Site Search
 
-Type a space after a site's shortcut to search directly on that site:
+Add a space and a query to search directly:
 
-- `y JavaScript tutorial` ➜ Search YouTube for "JavaScript tutorial" videos
-- `a Why is JavaScript so popular?` ➜ Prompt ChatGPT with a question
-- `s Lofi coding` ➜ Search Spotify for "Lofi coding" songs, playlists and podcasts
+- **`y JavaScript tutorial`** → YouTube search  
+- **`s Lofi coding`** → Spotify search  
 
 ### Path Navigation
 
-Navigate to specific paths:
+### Path Navigation
 
-- `r/r/webdev` ➜ Navigates to Reddit's /r/webdev subreddit
-- `y/feed/subscriptions` ➜ Navigates to your YouTube subscription feed
+Navigate directly to known routes:
+
+- **`r/r/webdev`** → Reddit /r/webdev  
+- **`y/feed/subscriptions`** → YouTube subscriptions  
 
 ### Default Search
 
-If your input doesn't match any shortcut, Celerity performs a Google search:
+If no shortcut matches, input is treated as a search:
 
-- `hello world javascript` ➜ Searches Google for "hello world javascript"
+- **`hello world javascript`** → Google search  
 
-<br />
+<br/>
 
 ## Customization
 
 ### Shortcut Management
 
-Add, edit, or remove shortcuts.
+Add, edit, and remove shortcuts to match your workflow.
 
 <img src="images/settings-interface.jpg" alt="Celerity Logo" width="1000" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5);">
-
-### Theme Selection
-
-Choose from several built-in themes including Dark, Light, One Dark Pro, Catppuccin and GitHub themes.
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <strong>Dark Abyss</strong><br/>
-        <img src="images/themes/dark-abyss2.jpg" alt="Dark Abyss Theme" width="400" style="border-radius: 2px;">
-      </td>
-      <td align="center">
-        <strong>Light Theme</strong><br/>
-        <img src="images/themes/light.jpg" alt="Light Theme" width="400" style="border-radius: 2px;">
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <strong>One Dark Pro</strong><br/>
-        <img src="images/themes/one-dark-pro.jpg" alt="One Dark Pro Theme" width="400" style="border-radius: 2px;">
-      </td>
-      <td align="center">
-        <strong>Catppuccin (Frappe)</strong><br/>
-        <img src="images/themes/catppuccin-frappe.jpg" alt="Catppuccin Frappe Theme" width="400" style="border-radius: 2px;">
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <strong>Catppuccin (Macchiato)</strong><br/>
-        <img src="images/themes/catppuccin-macchiato.jpg" alt="Catppuccin Macchiato Theme" width="400" style="border-radius: 2px;">
-      </td>
-      <td align="center">
-        <strong>Catppuccin (Mocha)</strong><br/>
-        <img src="images/themes/catppuccin-mocha.jpg" alt="Catppuccin Mocha Theme" width="400" style="border-radius: 2px;">
-      </td>
-    </tr>
-     <tr>
-      <td align="center">
-        <strong>GitHub Dark</strong><br/>
-        <img src="images/themes/github-dark.jpg" alt="GitHub Dark Theme" width="400" style="border-radius: 2px;">
-      </td>
-      <td align="center">
-        <strong>GitHub High Contrast</strong><br/>
-        <img src="images/themes/github-high-contrast.jpg" alt="GitHub Dark Theme" width="400" style="border-radius: 2px;">
-      </td>
-    </tr>
-  </table>
-</div>
 
 <br/>
 
 ## Contributors
 
 [<img src="https://github.com/ChadProbert.png" width="50px"/>](https://github.com/ChadProbert/)
-<br />
-<br />
+
 <br />
 
-<p align="center"><a href="#readme-top">(back to top)</a></p>
+<p align="center"><a href="#readme-top">[back to top]</a></p>
