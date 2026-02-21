@@ -171,6 +171,13 @@
   font-size: 36px;
 }
 
+.keyboard-shortcuts-heading,
+.theme-label,
+.options-label,
+.config-label {
+  color: var(--color-text);
+}
+
 .fa-keyboard {
   margin-right: 24px;
 }

@@ -22,6 +22,16 @@
       body {
         font-size: 16px !important;
       }
+
+      /* Prevent first-paint button background flash before CSS files load */
+      .settings-button,
+      .help-button,
+      .feedback-button {
+        background: transparent !important;
+        background-color: transparent !important;
+        -webkit-appearance: none;
+        appearance: none;
+      }
     </style>
     <meta
       name="description"
