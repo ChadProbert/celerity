@@ -745,7 +745,6 @@ label {
 }
 
 .help-section p {
-  margin-bottom: 15px;
   line-height: 1.6;
   color: var(--color-text-subtle);
 }
@@ -862,12 +861,6 @@ label {
   margin-bottom: 0;
 }
 
-.shortcut-example {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
 .shortcut-key {
   display: inline-flex;
   align-items: center;
@@ -892,6 +885,25 @@ label {
 .shortcut-description strong {
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
+  font-size: larger;
+}
+
+.utility-card .shortcut-example {
+  margin-bottom: 6px;
+}
+
+.utility-card p.shortcut-description {
+  margin-top: 0;
+  line-height: 1.55;
+}
+
+.customization-card h4 {
+  margin-bottom: 6px;
+}
+
+.customization-card p {
+  margin-top: 0;
+  line-height: 1.55;
 }
 
 .shortcut-description code,

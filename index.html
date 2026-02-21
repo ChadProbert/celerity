@@ -420,7 +420,7 @@
         data-tooltip="Settings"
         aria-label="Open settings"
       >
-        <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+        <i class="fa-solid fa-gear" aria-hidden="true"></i>
       </button>
 
       <!-- Help Button - Opens the help documentation -->
@@ -707,37 +707,48 @@
           <!-- Introduction -->
           <div class="callout-icon">
             <h3 class="callout-title-1" id="helpModalTitle">
-              <i class="fa-solid fa-bolt" aria-hidden="true"></i>Using Keyboard
-              Shortcuts
+              Quick Guide
             </h3>
           </div>
           <!-- Keyboard Shortcuts Section -->
           <div class="help-card utility-card">
             <div class="shortcut-example">
               <span class="shortcut-description"
-                ><strong>Site Launch</strong> - Type a key and press
-                enter</span
+                ><strong>Site Launch</strong></span
               >
             </div>
             <p class="shortcut-description">
-              Examples: <br />
-              <code>g</code> opens <strong>Gmail</strong><br />
-              <code>y</code> opens <strong>YouTube</strong><br />
-              <code>n</code> opens <strong>Netflix</strong>
+              Type a shortcut and press Enter:
+              <br />
+              <br />
+              <code>g</code> &rarr; Gmail<br />
+              <code>y</code> &rarr; YouTube<br />
+              <code>n</code> &rarr; Netflix
             </p>
 
             <div class="help-divider"></div>
 
             <div class="shortcut-example">
               <span class="shortcut-description"
-                ><strong>Direct Site Search</strong> - Type key + space +
-                query</span
+                ><strong>Direct Site Search</strong></span
+              >
+            </div>
+             <p class="shortcut-description">
+               Add a space and your query:<br />
+               <br />
+               <code>y javascript tutorial</code> &rarr; search YouTube<br />
+               <code>s taylor swift</code> &rarr; search Spotify
+             </p>
+
+            <div class="help-divider"></div>
+
+            <div class="shortcut-example">
+              <span class="shortcut-description"
+                ><strong>Default Search Fallback</strong></span
               >
             </div>
             <p class="shortcut-description">
-              Examples: <br />
-              <code>y python</code> searches <strong> YouTube</strong><br />
-              <code>s taylor swift</code> searches <strong>Spotify</strong>
+              If no shortcut matches, a web search is performed automatically.
             </p>
           </div>
 
@@ -750,39 +761,17 @@
             </h3>
           </div>
 
-          <div class="help-card">
-            <h4>Managing Shortcuts</h4>
-            <div class="shortcut-example">
-              <span class="shortcut-key"><i class="fa-solid fa-pen"></i></span>
-              <span class="shortcut-description"
-                ><strong>Edit</strong> existing shortcuts</span
-              >
-            </div>
-            <div class="shortcut-example">
-              <span class="shortcut-key"
-                ><i class="fa-solid fa-trash"></i
-              ></span>
-              <span class="shortcut-description"
-                ><strong>Delete</strong> shortcuts you no longer need</span
-              >
-            </div>
-            <div class="shortcut-example">
-              <span class="shortcut-key"><i class="fa-solid fa-plus"></i></span>
-              <span class="shortcut-description"
-                ><strong>Add</strong> new shortcuts via settings or the "+"
-                button</span
-              >
-            </div>
+          <div class="help-card customization-card">
+            <h4><strong>Shortcuts</strong></h4>
+            <p style="color: var(--color-text-subtle)">
+              Add, edit, or remove commands to match your workflow.
+            </p>
           </div>
 
-          <div class="help-card">
-            <h4>Themes</h4>
+          <div class="help-card customization-card">
+            <h4><strong>Themes & Settings</strong></h4>
             <p style="color: var(--color-text-subtle)">
-              Click the settings icon (<i
-                class="fa-solid fa-sliders"
-                style="color: var(--color-text); padding: 5px; font-size: 16px"
-              ></i
-              >) to access settings and choose from multiple visual themes.
+              Open the settings icon to adjust appearance and behavior.
             </p>
           </div>
 
@@ -790,7 +779,7 @@
 
           <p class="help-footer-note">
             <em
-              >Need more help? Visit the
+              >Need more detail? See the full documentation in the
               <a
                 href="https://github.com/ChadProbert/new-page-app"
                 target="_blank"
@@ -801,8 +790,7 @@
                   class="fa-solid fa-external-link-alt"
                   style="font-size: 0.8em"
                 ></i
-              ></a>
-              for additional documentation.</em
+              ></a>.</em
             >
           </p>
         </div>
