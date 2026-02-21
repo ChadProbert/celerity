@@ -846,7 +846,7 @@ label {
 
 /* Add extra margin to the keyboard shortcuts section card */
 .help-card {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .help-card:hover {
@@ -910,7 +910,30 @@ label {
 
 .customization-card p {
   margin-top: 0;
+  margin-bottom: 0;
   line-height: 1.55;
+}
+
+.quick-nav-card {
+  cursor: pointer;
+  padding-right: 48px;
+  position: relative;
+}
+
+.quick-nav-arrow {
+  color: var(--color-text);
+  font-size: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translate(0, -50%);
+  transition: opacity 0.2s ease;
+}
+
+.quick-nav-card:where(:hover, :focus-visible) .quick-nav-arrow {
+  opacity: 1;
 }
 
 .shortcut-description code,

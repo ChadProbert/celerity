@@ -72,6 +72,7 @@ class ModalManager {
     this.addButton = document.getElementById("addShortcut");
     this.modalContent = document.querySelector(".modal-content");
     this.commandsComponent = document.querySelector("commands-component");
+    this.quickNavCards = Array.from(document.querySelectorAll(".quick-nav-card"));
 
     // Bind all methods to this instance
     this.openSettingsModal = this.openSettingsModal.bind(this);
@@ -88,6 +89,9 @@ class ModalManager {
     this.addNewShortcutField = this.addNewShortcutField.bind(this);
     this.checkModalScrollability = this.checkModalScrollability.bind(this);
     this.forceModalScrollToTop = this.forceModalScrollToTop.bind(this);
+    this.handleQuickNavCardClick = this.handleQuickNavCardClick.bind(this);
+    this.handleQuickNavCardKeydown = this.handleQuickNavCardKeydown.bind(this);
+    this.openSettingsFromQuickView = this.openSettingsFromQuickView.bind(this);
 
     // Default settings
     this.DEFAULT_SETTINGS = {
@@ -216,6 +220,12 @@ class ModalManager {
     this.exportButton.addEventListener("click", this.exportConfig);
     this.importButton.addEventListener("click", this.importConfig);
     this.importFileInput.addEventListener("change", this.handleImportFile);
+
+    // Quick View navigation cards
+    this.quickNavCards.forEach((card) => {
+      card.addEventListener("click", this.handleQuickNavCardClick);
+      card.addEventListener("keydown", this.handleQuickNavCardKeydown);
+    });
 
   }
 
@@ -365,7 +375,11 @@ class ModalManager {
    * - Hides the help modal
    * - Removes the modal overlay
    */
-  closeHelpModal() {
+  closeHelpModal(options = null) {
+    const suppressSettingsPulse = Boolean(
+      options && options.suppressSettingsPulse
+    );
+
     // If this is a first-time visitor, update the localStorage flags AFTER
     // they've seen the help content
     if (this.isFirstTimeVisitor) {
@@ -384,10 +398,48 @@ class ModalManager {
 
     // If user has seen help but hasn't seen settings yet, add animation
     // to settings button
-    if (this.hasSeenHelpOnly && this.openModalBtn) {
+    if (this.hasSeenHelpOnly && this.openModalBtn && !suppressSettingsPulse) {
       setTimeout(() => {
         this.openModalBtn.classList.add("pulse-border");
       }, 500);
+    }
+  }
+
+  handleQuickNavCardClick(event) {
+    const target = event.currentTarget?.dataset?.settingsTarget;
+    this.openSettingsFromQuickView(target);
+  }
+
+  handleQuickNavCardKeydown(event) {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    const target = event.currentTarget?.dataset?.settingsTarget;
+    this.openSettingsFromQuickView(target);
+  }
+
+  openSettingsFromQuickView(target) {
+    this.closeHelpModal({ suppressSettingsPulse: true });
+    this.openSettingsModal();
+
+    if (target !== "themes") {
+      return;
+    }
+
+    const modalContent = this.settingsModal.querySelector(".modal-content");
+    const targetSection = this.settingsModal.querySelector("#settingsThemeSection");
+    const targetHeading = this.settingsModal.querySelector("#settingsThemeHeading");
+
+    if (modalContent && targetSection) {
+      const scrollTarget = Math.max(targetSection.offsetTop - 12, 0);
+      modalContent.scrollTo({ top: scrollTarget, behavior: "smooth" });
+    }
+
+    if (targetHeading) {
+      targetHeading.setAttribute("tabindex", "-1");
+      targetHeading.focus({ preventScroll: true });
     }
   }
 

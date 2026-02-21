@@ -521,7 +521,7 @@
           edit, delete, or add to. Each shortcut has a key (the keyboard
           shortcut) and a value (the URL to navigate to).
         -->
-        <div class="shortcut-section">
+        <div class="shortcut-section" id="settingsShortcutsSection">
           <h2 class="keyboard-shortcuts-heading" id="settingsModalTitle">
             Keyboard Shortcuts
           </h2>
@@ -539,8 +539,8 @@
           Allows users to choose from various visual themes
           using a custom styled select dropdown.
         -->
-        <div class="theme-section">
-          <h2 class="theme-label">
+        <div class="theme-section" id="settingsThemeSection">
+          <h2 class="theme-label" id="settingsThemeHeading">
             Theme
           </h2>
           <!-- Container with accent color background -->
@@ -771,18 +771,32 @@
             </h3>
           </div>
 
-          <div class="help-card customization-card">
+          <div
+            class="help-card customization-card quick-nav-card"
+            data-settings-target="shortcuts"
+            role="button"
+            tabindex="0"
+            aria-label="Open settings shortcuts section"
+          >
             <h4><strong>Shortcuts</strong></h4>
             <p style="color: var(--color-text-subtle)">
               Add, edit, or remove commands to match your workflow.
             </p>
+            <i class="fa-solid fa-arrow-right-long quick-nav-arrow" aria-hidden="true"></i>
           </div>
 
-          <div class="help-card customization-card">
+          <div
+            class="help-card customization-card quick-nav-card"
+            data-settings-target="themes"
+            role="button"
+            tabindex="0"
+            aria-label="Open settings themes section"
+          >
             <h4><strong>Themes & Settings</strong></h4>
             <p style="color: var(--color-text-subtle)">
               Open the settings icon to adjust appearance and behavior.
             </p>
+            <i class="fa-solid fa-arrow-right-long quick-nav-arrow" aria-hidden="true"></i>
           </div>
 
           <div class="help-divider"></div>
