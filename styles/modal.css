@@ -95,6 +95,15 @@
   z-index: 2;
 }
 
+/* Keep close buttons pinned while settings/help content scrolls */
+.custom-modal .modal-close-button,
+.help-modal .modal-close-button {
+  position: fixed;
+  top: 18px;
+  right: 28px;
+  z-index: 1002;
+}
+
 .modal-close-button i {
   font-size: 24px;
   color: var(--color-text-subtle);
