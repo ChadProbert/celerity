@@ -80,9 +80,6 @@ It acts as a lightweight layer that helps you move across sites, searches, and w
 - **Direct site search**  
   Query platforms without opening them first.
 
-- **Path-based navigation**  
-  Jump directly to known destinations.
-
 - **Default search fallback**  
   Unknown inputs resolve into a search automatically.
 
@@ -136,15 +133,6 @@ Add a space and a query to search directly:
 
 - **`y JavaScript tutorial`** → YouTube search  
 - **`s Lofi coding`** → Spotify search  
-
-### Path Navigation
-
-### Path Navigation
-
-Navigate directly to known routes:
-
-- **`r/r/webdev`** → Reddit /r/webdev  
-- **`y/feed/subscriptions`** → YouTube subscriptions  
 
 ### Default Search
 

@@ -17,13 +17,6 @@
  */
 const CONFIG = {
   /**
-   * Path command delimiter character.
-   * Used for path-based navigation, e.g., "r/subreddit" for Reddit.
-   * @type {string}
-   */
-  commandPathDelimiter: "/",
-
-  /**
    * Search command delimiter character.
    * Used for search queries, e.g., "g search term" for Google search.
    * @type {string}
@@ -111,7 +104,6 @@ const COMMANDS = new Map([
     {
       name: "YouTube",
       searchTemplate: "/results?search_query={}",
-      suggestions: ["y/feed/subscriptions"],
       url: "https://youtube.com/",
     },
   ],
@@ -145,7 +137,6 @@ const COMMANDS = new Map([
     "c",
     {
       name: "Cogrammer",
-      suggestions: ["c/reviewer/completed/", "c/reviewer/returned_reviews/"],
       url: "https://hyperiondev.cogrammar.com/",
     },
   ],
@@ -170,12 +161,6 @@ const COMMANDS = new Map([
     "r",
     {
       name: "Reddit",
-      suggestions: [
-        "r/r/webdev",
-        "r/r/learnprogramming",
-        "r/r/gamedev",
-        "r/r/LifeProTips/",
-      ],
       url: "https://reddit.com",
     },
   ],

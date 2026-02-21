@@ -12,7 +12,6 @@
  * Features:
  * - Keyboard-activated search dialog (any key opens it)
  * - Command shortcut integration (e.g., "y" for YouTube)
- * - Path-based commands (e.g., "r/webdev" for Reddit's webdev subreddit)
  * - Live search suggestions from DuckDuckGo
  * - Keyboard navigation for suggestions (arrows, tab)
  * - Direct URL detection and navigation
@@ -146,8 +145,7 @@ class Search extends HTMLElement {
    * 1. Direct URL - Navigates directly to the URL
    * 2. Command shortcut - Uses a predefined shortcut (e.g., "g" for Gmail)
    * 3. Search command - Combines a command with a search term (e.g., "y cats" to search YouTube for cats)
-   * 4. Path command - Navigates to a specific path (e.g., "r/webdev" for Reddit webdev)
-   * 5. Default search - Uses the default search engine for general queries
+   * 4. Default search - Uses the default search engine for general queries
    *
    * @param {string} raw - The raw search query text
    * @returns {Object} An object containing the parsed query details and action URL
@@ -191,25 +189,7 @@ class Search extends HTMLElement {
       return { key: searchKey, query, search, splitBy, url };
     }
 
-    // CASE 4: Path command syntax (e.g., "r/subreddit")
-    // Try to parse as a path command using the configured delimiter (typically /)
-    splitBy = CONFIG.commandPathDelimiter;
-    // Split into [commandKey, path]
-    const [pathKey, path] = query.split(new RegExp(`${splitBy}(.*)`));
-
-    // Check if it's a valid path command and has a path
-    if (COMMANDS.has(pathKey) && path) {
-      // Get the command's base URL
-      const { url: base } = COMMANDS.get(pathKey);
-      // Extract just the base URL without path
-      const [baseUrl] = this.splitUrl(base);
-      // Combine base URL with the specified path
-      const url = `${baseUrl}/${path}`;
-      // Return complete path command information
-      return { key: pathKey, path, query, splitBy, url };
-    }
-
-    // CASE 5: Default case - treat as a general search query
+    // CASE 4: Default case - treat as a general search query
     // Use the default search engine (e.g., Google, DuckDuckGo)
     const [baseUrl, rest] = this.splitUrl(CONFIG.defaultSearchTemplate);
     // Format using the default search template

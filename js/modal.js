@@ -80,7 +80,6 @@ class ModalManager {
           {
             name: "YouTube",
             searchTemplate: "/results?search_query={}",
-            suggestions: ["y/feed/subscriptions"],
             url: "https://youtube.com/",
           },
         ],
@@ -112,10 +111,6 @@ class ModalManager {
           "c",
           {
             name: "Cogrammer",
-            suggestions: [
-              "c/reviewer/completed/",
-              "c/reviewer/returned_reviews/",
-            ],
             url: "https://hyperiondev.cogrammar.com/",
           },
         ],
@@ -139,12 +134,6 @@ class ModalManager {
           "r",
           {
             name: "Reddit",
-            suggestions: [
-              "r/r/webdev",
-              "r/r/learnprogramming",
-              "r/r/gamedev",
-              "r/r/LifeProTips/",
-            ],
             url: "https://reddit.com",
           },
         ],
