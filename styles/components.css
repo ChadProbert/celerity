@@ -147,6 +147,13 @@
   transform: translateY(-50%) translateX(4px);
 }
 
+/* Top tooltip */
+[data-tooltip].tooltip-top::after {
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%) translateY(-6px);
+}
+
 /**
  * SETTINGS BUTTON
  * 
