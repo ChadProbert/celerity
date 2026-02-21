@@ -14,6 +14,28 @@
  * - Settings reset functionality
  * - Shortcut management (add, edit, delete)
  */
+const applyThemePreference = (preference) => {
+  if (window.CelerityTheme?.applyThemePreference) {
+    window.CelerityTheme.applyThemePreference(preference);
+    return;
+  }
+
+  const normalized = preference === "dark-abyss" ? "void" : preference;
+  const resolved =
+    normalized === "system"
+      ? window.matchMedia("(prefers-color-scheme: light)").matches
+        ? "light"
+        : "dark"
+      : normalized;
+
+  localStorage.setItem("selectedTheme", normalized);
+  document.documentElement.removeAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme", resolved);
+
+  const themeSelect = document.getElementById("themeSelect");
+  if (themeSelect) themeSelect.value = normalized;
+};
+
 class ModalManager {
   /**
    * Initializes the ModalManager with all required DOM elements and event bindings.
@@ -771,19 +793,6 @@ class ModalManager {
     });
 
     if (confirmed) {
-      const applyThemePreference = (preference) => {
-        const normalized = preference === "dark-abyss" ? "void" : preference;
-        const resolved =
-          normalized === "system"
-            ? window.matchMedia("(prefers-color-scheme: light)").matches
-              ? "light"
-              : "dark"
-            : normalized;
-        localStorage.setItem("selectedTheme", normalized);
-        document.documentElement.setAttribute("data-theme", resolved);
-        document.getElementById("themeSelect").value = normalized;
-      };
-
       // Reset theme
       applyThemePreference(this.DEFAULT_SETTINGS.theme);
 
@@ -928,18 +937,6 @@ class ModalManager {
       reader.onload = (e) => {
         try {
           const settings = JSON.parse(e.target.result);
-          const applyThemePreference = (preference) => {
-            const normalized = preference === "dark-abyss" ? "void" : preference;
-            const resolved =
-              normalized === "system"
-                ? window.matchMedia("(prefers-color-scheme: light)").matches
-                  ? "light"
-                  : "dark"
-                : normalized;
-            localStorage.setItem("selectedTheme", normalized);
-            document.documentElement.setAttribute("data-theme", resolved);
-            document.getElementById("themeSelect").value = normalized;
-          };
 
           // Validate the imported data has required elements
           if (!settings || typeof settings !== "object") {
@@ -948,9 +945,16 @@ class ModalManager {
 
           // Apply theme
           if (settings.theme) {
-            const validThemes = ["system", "dark", "light", "void", "dark-abyss"];
-            const safeTheme = validThemes.includes(settings.theme)
-              ? settings.theme
+            const validThemes = window.CelerityTheme?.VALID_THEMES || [
+              "system",
+              "dark",
+              "light",
+              "void",
+            ];
+            const normalizedTheme =
+              settings.theme === "dark-abyss" ? "void" : settings.theme;
+            const safeTheme = validThemes.includes(normalizedTheme)
+              ? normalizedTheme
               : "system";
             applyThemePreference(safeTheme);
           }

@@ -12,16 +12,8 @@
  * - Search engine selection
  * - Real-time application of settings changes
  */
-document.addEventListener("DOMContentLoaded", () => {
-  // Element selectors
-  const themeSelect = document.getElementById("themeSelect");
-  const tabBehaviorNew = document.getElementById("tabBehaviorNew");
-  const tabBehaviorCurrent = document.getElementById("tabBehaviorCurrent");
-  const searchEngineGoogle = document.getElementById("searchEngineGoogle");
-  const searchEngineDuckDuckGo = document.getElementById(
-    "searchEngineDuckDuckGo"
-  );
-
+const CelerityTheme = (() => {
+  const THEME_ROOT = document.documentElement;
   const VALID_THEMES = ["system", "dark", "light", "void"];
 
   const resolveThemePreference = (preference) => {
@@ -38,13 +30,50 @@ document.addEventListener("DOMContentLoaded", () => {
     return preference;
   };
 
-  const applyThemePreference = (preference) => {
+  const applyThemePreference = (
+    preference,
+    { persist = true, updateSelect = true } = {}
+  ) => {
     const normalized = normalizeThemePreference(preference);
     const resolved = resolveThemePreference(normalized);
-    document.documentElement.setAttribute("data-theme", resolved);
-    themeSelect.value = normalized;
-    localStorage.setItem("selectedTheme", normalized);
+
+    // Clear the previous theme marker before applying the new one.
+    THEME_ROOT.removeAttribute("data-theme");
+    THEME_ROOT.setAttribute("data-theme", resolved);
+
+    if (updateSelect) {
+      const themeSelect = document.getElementById("themeSelect");
+      if (themeSelect) themeSelect.value = normalized;
+    }
+
+    if (persist) {
+      localStorage.setItem("selectedTheme", normalized);
+    }
+
+    return { normalized, resolved };
   };
+
+  return {
+    VALID_THEMES,
+    applyThemePreference,
+    normalizeThemePreference,
+    resolveThemePreference,
+  };
+})();
+
+window.CelerityTheme = CelerityTheme;
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Element selectors
+  const themeSelect = document.getElementById("themeSelect");
+  const tabBehaviorNew = document.getElementById("tabBehaviorNew");
+  const tabBehaviorCurrent = document.getElementById("tabBehaviorCurrent");
+  const searchEngineGoogle = document.getElementById("searchEngineGoogle");
+  const searchEngineDuckDuckGo = document.getElementById(
+    "searchEngineDuckDuckGo"
+  );
+
+  const { applyThemePreference, normalizeThemePreference } = window.CelerityTheme;
 
   /**
    * THEME SETTINGS
@@ -83,12 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     searchEngineDuckDuckGo.checked = true;
   }
-
-  /**
-   * EVENT HANDLERS
-   *
-   * Sets up event listeners for all theme and preference controls.
-   */
 
   /**
    * Theme change handler
@@ -133,8 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
     CONFIG.defaultSearchTemplate = CONFIG.searchEngineTemplates[selectedEngine];
   };
 
-  // Add event listeners
-  themeSelect.addEventListener("change", handleThemeChange);
+  if (themeSelect) {
+    themeSelect.addEventListener("change", handleThemeChange);
+  }
 
   // Add radio button event listeners
   document.querySelectorAll('input[name="tabBehavior"]').forEach((radio) => {
