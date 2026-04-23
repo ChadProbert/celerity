@@ -115,7 +115,7 @@
         .commands.commands-empty .empty-plus {
           align-items: center;
           background: var(--plus-button-color);
-          border: 1px solid var(--confirm-border-color);
+          border: 1px solid var(--border-color);
           border-radius: 6px;
           color: var(--color-text);
           display: flex;
@@ -137,7 +137,7 @@
 
         .commands.commands-empty .empty-plus:hover {
           background-color: var(--hover-color);
-          border-color: var(--color-text-subtle);
+          border-color: var(--border-color);
         }
 
 
@@ -423,35 +423,45 @@
       Celerity New Tab Page
     </header>
     <main id="mainContent" tabindex="-1" role="main">
-      <!-- Settings Button - Opens the settings modal -->
-      <button
-        class="settings-button tooltip-left"
-        id="openModal"
-        data-tooltip="Settings"
-        aria-label="Open settings"
-      >
-        <i class="fa-solid fa-gear" aria-hidden="true"></i>
-      </button>
+      <div class="top-bar">
+        <div class="top-bar-brand">
+          <img
+            class="sidebar-logo"
+            src="./images/logos/logo2.png"
+            alt="Celerity logo"
+          />
+          <p class="top-bar-title">Celerity</p>
+        </div>
 
-      <!-- Help Button - Opens the help documentation -->
-      <button
-        class="help-button tooltip-left"
-        id="openHelp"
-        data-tooltip="Quick Guide"
-        aria-label="Open quick guide"
-      >
-        <i class="fas fa-compass" aria-hidden="true"></i>
-      </button>
+        <div class="top-bar-actions">
+          <!-- Feedback Button - Links to external feedback form -->
+          <button
+            class="feedback-button"
+            id="feedbackButton"
+            aria-label="Provide feedback"
+          >
+            <i class="fas fa-flask" aria-hidden="true"></i>
+          </button>
 
-      <!-- Feedback Button - Links to external feedback form -->
-      <button
-        class="feedback-button tooltip-left"
-        id="feedbackButton"
-        data-tooltip="Provide Feedback"
-        aria-label="Provide feedback"
-      >
-        <i class="fas fa-flask" aria-hidden="true"></i>
-      </button>
+          <!-- Help Button - Opens the help documentation -->
+          <button
+            class="help-button"
+            id="openHelp"
+            aria-label="Open quick guide"
+          >
+            <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+          </button>
+
+          <!-- Settings Button - Opens the settings modal -->
+          <button
+            class="settings-button"
+            id="openModal"
+            aria-label="Open settings"
+          >
+            <i class="fa-solid fa-gear" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
 
       <!-- 
         Custom Web Components 
@@ -464,20 +474,6 @@
       ></commands-component>
       <search-component tabindex="0"></search-component>
 
-      <!-- Footer with branding link -->
-      <footer role="contentinfo">
-        <!-- TODO: Replace with a link to the app in the Chrome Web Store -->
-        <a
-          href="https://chad-probert-portfolio.vercel.app/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Developer portfolio of the creator of Celerity (opens in new tab)"
-        >
-          <div class="footer-container tooltip-top" data-tooltip="Coming soon!">
-            <p class="footer-text">Celerity AI</p>
-          </div>
-        </a>
-      </footer>
     </main>
 
     <!-- 
@@ -508,9 +504,8 @@
     >
       <div class="modal-content">
         <button
-          class="modal-close-button tooltip-left"
+          class="modal-close-button"
           id="closeModal"
-          data-tooltip="Close"
           aria-label="Close settings"
         >
           <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -705,9 +700,8 @@
     >
       <div class="help-modal-content">
         <button
-          class="modal-close-button tooltip-left"
+          class="modal-close-button"
           id="closeHelpModal"
-          data-tooltip="Close"
           aria-label="Close quick guide"
         >
           <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -837,9 +831,8 @@
       tabindex="-1"
     >
       <button
-        class="modal-close-button feedback-page-close tooltip-left"
+        class="modal-close-button feedback-page-close"
         id="closeFeedbackModalPage"
-        data-tooltip="Close"
         aria-label="Close feedback"
       >
         <i class="fa-solid fa-xmark" aria-hidden="true"></i>

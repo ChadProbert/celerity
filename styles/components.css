@@ -100,58 +100,56 @@
   color: var(--color-text);
 }
 
-/**
- * TOOLTIP STYLES
- * 
- * CSS-only tooltips that appear on hover for interactive elements.
- * Tooltips are positioned relative to their parent element and use
- * the data-tooltip attribute for content.
- */
-[data-tooltip] {
-  position: relative;
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: calc(var(--floating-button-size) + (2 * var(--top-bar-padding-y)));
+  padding: var(--top-bar-padding-y) var(--top-bar-padding-x);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--color-background);
+  z-index: 999;
 }
 
-[data-tooltip]::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 14px;
+.top-bar-brand {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 3px;
+  min-width: 0;
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--top-bar-gap);
+}
+
+.sidebar-logo {
+  position: static;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.top-bar-title {
+  color: var(--color-text-subtle);
+  font-size: 16px;
+  line-height: 1;
+  margin: 0;
   white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 100;
-  border: 1px solid var(--color-text-subtle);
+  transition: color 0.4s ease;
 }
 
-[data-tooltip]:hover::after {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Left tooltip (for buttons with tooltips on their left side) */
-[data-tooltip].tooltip-left::after {
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%) translateX(-4px);
-}
-
-/* Right tooltip */
-[data-tooltip].tooltip-right::after {
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%) translateX(4px);
-}
-
-/* Top tooltip */
-[data-tooltip].tooltip-top::after {
-  left: 50%;
-  bottom: 100%;
-  transform: translateX(-50%) translateY(-6px);
+.top-bar-brand:hover .top-bar-title {
+  color: var(--color-text);
 }
 
 /**
@@ -161,11 +159,9 @@
  * It's fixed at the top-right corner of the viewport for easy access.
  */
 .settings-button {
-  position: fixed;
-  top: var(--floating-button-top);
-  right: 10px;
-  width: 50px;
-  height: 50px;
+  position: relative;
+  width: var(--floating-button-size);
+  height: var(--floating-button-size);
   background-color: transparent;
   color: #ffffff;
   border: none;
@@ -175,14 +171,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; /* Make sure it's below modal overlay but above most content */
+}
+
+.settings-button::before {
+  content: "";
+  position: absolute;
+  left: calc((var(--top-bar-gap) / -2) - 1px);
+  top: 13px;
+  bottom: 13px;
+  width: 2px;
+  background: var(--border-color);
 }
 
 /* Icon inside the settings button */
 .settings-button i {
   color: var(--color-text-subtle);
-  transition: color 0.3s ease;
-  font-size: 20px;
+  transition: color 0.4s ease;
+  font-size: 18px;
 }
 
 .settings-button:hover {
@@ -343,7 +348,7 @@ button {
   bottom: auto;
   transform: none;
   padding: 8px 12px;
-  border: 2px solid var(--confirm-border-color);
+  border: 2px solid var(--border-color);
   background-color: var(--plus-button-color);
   border-radius: 4px;
 }
@@ -354,11 +359,9 @@ button {
 
 /* Help Button */
 .help-button {
-  position: fixed;
-  top: calc(var(--floating-button-top) + var(--floating-button-gap));
-  right: 10px; /* Aligned with the settings button */
-  width: 50px;
-  height: 50px;
+  position: relative;
+  width: var(--floating-button-size);
+  height: var(--floating-button-size);
   background-color: transparent;
   color: #ffffff;
   border: none;
@@ -368,13 +371,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; /* Make sure it's below modal overlay but above most content */
 }
 
 .help-button i {
   color: var(--color-text-subtle);
-  transition: color 0.3s ease;
-  font-size: 20px;
+  transition: color 0.4s ease;
+  font-size: 18px;
 }
 
 .help-button:hover {
@@ -387,11 +389,9 @@ button {
 
 /* Feedback Button */
 .feedback-button {
-  position: fixed;
-  top: calc(var(--floating-button-top) + (2 * var(--floating-button-gap)));
-  right: 10px; /* Aligned with the other buttons */
-  width: 50px;
-  height: 50px;
+  position: relative;
+  width: var(--floating-button-size);
+  height: var(--floating-button-size);
   background-color: transparent;
   color: #ffffff;
   border: none;
@@ -403,10 +403,14 @@ button {
   justify-content: center;
 }
 
+.feedback-button + .help-button {
+  margin-left: -8px;
+}
+
 .feedback-button i {
   color: var(--color-text-subtle);
-  transition: color 0.3s ease;
-  font-size: 20px;
+  transition: color 0.4s ease;
+  font-size: 18px;
 }
 
 .feedback-button:hover {
@@ -420,19 +424,15 @@ button {
 /* First-time visitor button animation - works for both help and settings buttons */
 .help-button.pulse-border,
 .settings-button.pulse-border {
-  position: fixed; /* Ensure it's fixed in place */
+  position: relative;
   overflow: visible;
   animation: button-background-pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 .help-button.pulse-border {
-  top: 70px; /* Keep it aligned with its original position */
-  right: 10px;
 }
 
 .settings-button.pulse-border {
-  top: 10px; /* Keep settings button in its original position */
-  right: 10px;
 }
 
 .help-button.pulse-border::before,
