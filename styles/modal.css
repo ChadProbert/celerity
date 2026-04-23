@@ -846,7 +846,7 @@ label {
   border-radius: 8px;
   padding: 18px;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
   width: 100%;
   max-width: 1080px;
   margin-left: auto;
@@ -973,7 +973,7 @@ p.shortcut-description code {
   padding: 15px;
   margin-bottom: 25px;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
