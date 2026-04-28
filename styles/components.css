@@ -106,14 +106,20 @@
   left: 0;
   right: 0;
   min-height: calc(var(--floating-button-size) + (2 * var(--top-bar-padding-y)));
-  padding: var(--top-bar-padding-y) var(--top-bar-padding-x);
+  padding: 0;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 999;
+}
+
+.top-bar-section {
+  position: relative;
+  min-height: var(--floating-button-size);
   border-bottom: 1px solid var(--border-color);
   background: var(--color-background);
-  z-index: 999;
+  box-sizing: border-box;
 }
 
 .top-bar-brand {
@@ -122,12 +128,35 @@
   cursor: pointer;
   gap: 3px;
   min-width: 0;
+  padding-right: 10px;
 }
 
 .top-bar-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--top-bar-gap);
+}
+
+.top-bar-brand::after,
+.top-bar-actions::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  width: 1px;
+  height: calc(var(--floating-button-size) + 10px);
+  background: var(--border-color);
+  transform-origin: bottom center;
+}
+
+.top-bar-brand::after {
+  right: 0;
+  transform: rotate(28deg);
+}
+
+.top-bar-actions::before {
+  left: 0;
+  transform: rotate(-28deg);
 }
 
 .sidebar-logo {
