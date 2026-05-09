@@ -211,15 +211,15 @@
 .reset-button,
 .export-button,
 .import-button {
-  background-color: var(--hover-color);
+  background-color: var(--primary-button-bg);
   color: var(--color-text);
   font-weight: 500;
   border: 1px solid var(--confirm-border-color);
-  padding-top: 14px;
-  padding-bottom: 14px;
-  padding-left: 0px;
-  padding-right: 0px;
-  border-radius: 4px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 15px;
@@ -1393,7 +1393,7 @@ p.shortcut-description code {
 
 
 .feedback-submit {
-  background-color: var(--hover-color);
+  background-color: var(--primary-button-bg);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
   font-weight: 500;

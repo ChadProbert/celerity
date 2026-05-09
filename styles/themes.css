@@ -32,6 +32,7 @@
   --code-text-color: #0a0a0a;
   --code-border-color: var(--border-color);
   --config-button-bg: var(--color-background);
+  --primary-button-bg: var(--hover-color);
   --focus-ring-color: #000000;
 }
 
@@ -89,6 +90,7 @@
   --code-border-color: var(--border-color);
   --border-color: #111111;
   --config-button-bg: var(--accent-color);
+  --primary-button-bg: #2f2f2f;
   --focus-ring-color: var(--color-text);
 }
 
