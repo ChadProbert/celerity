@@ -96,11 +96,17 @@
 }
 
 /* Keep close buttons pinned while settings/help content scrolls */
-.custom-modal .modal-close-button,
+.custom-modal .modal-close-button {
+  position: fixed;
+  top: 12px;
+  right: 20px;
+  z-index: 1002;
+}
+
 .help-modal .modal-close-button {
   position: fixed;
-  top: 18px;
-  right: 28px;
+  top: 12px;
+  right: 12px;
   z-index: 1002;
 }
 
@@ -726,7 +732,7 @@ label {
   font-size: 52px;
   text-align: left;
   width: 100%;
-  max-width: 1080px;
+  max-width: 920px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -979,6 +985,7 @@ p.shortcut-description code {
 
 .callout-icon {
   margin-right: 0;
+  margin-bottom: 16px;
   font-size: inherit;
   color: inherit;
   padding: 0;
@@ -1017,7 +1024,15 @@ p.shortcut-description code {
 }
 
 .callout-title-1 {
-  margin-top: 12px;
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-size: 36px;
+  padding: 0;
+}
+
+.callout-icon h3.callout-title-1 {
+  justify-content: center;
+  text-align: center;
 }
 
 
@@ -1236,7 +1251,7 @@ p.shortcut-description code {
   padding: 30px 25px;
   margin: 20px auto 60px;
   width: 100%;
-  max-width: 66%;
+  max-width: 56%;
 }
 
 /* Feedback Modal */
@@ -1257,8 +1272,8 @@ p.shortcut-description code {
 
 .feedback-modal .feedback-page-close {
   position: fixed;
-  top: 18px;
-  right: 18px;
+  top: 12px;
+  right: 12px;
   z-index: 2002;
 }
 
@@ -1271,7 +1286,6 @@ p.shortcut-description code {
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  scrollbar-width: none;
   position: relative;
 }
 

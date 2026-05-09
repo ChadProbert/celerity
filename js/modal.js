@@ -582,7 +582,7 @@ class ModalManager {
     // Create edit/save button
     const actionButton = document.createElement("button");
     actionButton.classList.add("edit-button");
-    actionButton.innerHTML = '<i class="fa-solid fa-pen"></i>';
+    actionButton.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
     actionButton.title = "Edit shortcut";
     shortcutItem.appendChild(actionButton);
 

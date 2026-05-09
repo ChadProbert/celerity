@@ -244,11 +244,25 @@
   font-size: 22px;
 }
 
+.settings-button .lucide {
+  color: var(--color-text-subtle);
+  transition: color 0.4s ease;
+  width: 22px;
+  height: 22px;
+  display: block;
+  transform: scaleX(1.15);
+  transform-origin: center;
+}
+
 .settings-button:hover {
   background-color: transparent;
 }
 
 .settings-button:hover i {
+  color: var(--color-text);
+}
+
+.settings-button:hover .lucide {
   color: var(--color-text);
 }
 

@@ -133,14 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (!selectedEmotion) {
-      setFeedbackStatus(
-        "Please select an emotion so we can better understand your feedback.",
-        "error"
-      );
-      return;
-    }
-
     try {
       // Disable submit button and show loading state
       const submitButton = document.querySelector(".feedback-submit");
