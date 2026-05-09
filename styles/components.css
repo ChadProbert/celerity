@@ -14,7 +14,7 @@
  * Optimized for desktop use with a minimum width.
  */
 .commands {
-  border-radius: var(--border-radius);
+  border-radius: 16px;
   column-gap: 0;
   columns: 2; /* Start with 2 columns by default */
   list-style: none;
@@ -106,12 +106,14 @@
   left: 0;
   right: 0;
   min-height: calc(var(--floating-button-size) + (2 * var(--top-bar-padding-y)));
+  height: calc(var(--floating-button-size) + (2 * var(--top-bar-padding-y)));
   padding: 0;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   z-index: 999;
+  overflow: visible;
 }
 
 .top-bar-section {
@@ -129,13 +131,20 @@
   gap: 3px;
   min-width: 0;
   padding-right: 10px;
+  border-bottom: none;
+  background: transparent;
 }
 
 .top-bar-actions {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: var(--top-bar-gap);
+  margin-top: 6px;
+  padding-right: 10px;
+  border-bottom: none;
+  background: transparent;
 }
 
 .top-bar-brand::after,
@@ -145,7 +154,7 @@
   bottom: -1px;
   width: 1px;
   height: calc(var(--floating-button-size) + 10px);
-  background: var(--border-color);
+  background: transparent;
   transform-origin: bottom center;
 }
 
@@ -161,8 +170,9 @@
 
 .sidebar-logo {
   position: static;
-  width: 36px;
-  height: 36px;
+  width: 52px;
+  height: 52px;
+  padding-top: 6px;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
@@ -173,11 +183,23 @@
   font-size: 16px;
   line-height: 1;
   margin: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
   white-space: nowrap;
   transition: color 0.4s ease;
+  position: fixed;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 900;
+  pointer-events: auto;
 }
 
-.top-bar-brand:hover .top-bar-title {
+.top-bar-brand:hover .top-bar-title:not(:hover) {
+  color: var(--color-text-subtle);
+}
+
+.top-bar-title:hover {
   color: var(--color-text);
 }
 
@@ -188,6 +210,7 @@
  * It's fixed at the top-right corner of the viewport for easy access.
  */
 .settings-button {
+  order: 1;
   position: relative;
   width: var(--floating-button-size);
   height: var(--floating-button-size);
@@ -209,14 +232,14 @@
   top: 13px;
   bottom: 13px;
   width: 2px;
-  background: var(--border-color);
+  background: transparent;
 }
 
 /* Icon inside the settings button */
 .settings-button i {
   color: var(--color-text-subtle);
   transition: color 0.4s ease;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .settings-button:hover {
@@ -388,6 +411,7 @@ button {
 
 /* Help Button */
 .help-button {
+  order: 2;
   position: relative;
   width: var(--floating-button-size);
   height: var(--floating-button-size);
@@ -405,7 +429,7 @@ button {
 .help-button i {
   color: var(--color-text-subtle);
   transition: color 0.4s ease;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .help-button:hover {
@@ -418,6 +442,7 @@ button {
 
 /* Feedback Button */
 .feedback-button {
+  order: 3;
   position: relative;
   width: var(--floating-button-size);
   height: var(--floating-button-size);
@@ -432,14 +457,10 @@ button {
   justify-content: center;
 }
 
-.feedback-button + .help-button {
-  margin-left: -8px;
-}
-
 .feedback-button i {
   color: var(--color-text-subtle);
   transition: color 0.4s ease;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .feedback-button:hover {
