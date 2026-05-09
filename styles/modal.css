@@ -850,11 +850,11 @@ label {
 .help-card {
   background-color: var(--help-card-bg-color);
   border-radius: 8px;
-  padding: 18px;
+  padding: 32px;
   transition: all 0.3s ease;
   border: 1px solid var(--border-color);
   width: 100%;
-  max-width: 1080px;
+  max-width: 940px;
   margin-left: auto;
   margin-right: auto;
 }
