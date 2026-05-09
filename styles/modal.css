@@ -211,15 +211,12 @@
 .reset-button,
 .export-button,
 .import-button {
-  background-color: var(--primary-button-bg);
+  background-color: var(--hover-color);
   color: var(--color-text);
   font-weight: 500;
   border: 1px solid var(--confirm-border-color);
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 12px;
-  padding-right: 12px;
-  border-radius: 6px;
+  padding: 12px 20px;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 15px;
@@ -264,9 +261,9 @@
   justify-content: center;
   align-items: center;
   margin: 20px auto 20px;
-  gap: 12px;
+  gap: 20px;
   flex-wrap: wrap;
-  max-width: 600px;
+  max-width: 700px;
   padding: 40px;
   background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
@@ -307,7 +304,7 @@ label {
   background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
-  padding: 40px 25px;
+  padding: 50px 25px;
   margin: 20px auto 10px;
   width: 100%;
   max-width: 32%;
@@ -546,7 +543,7 @@ label {
 }
 
 .confirm-buttons button {
-  padding: 10px 15px;
+  padding: 8px 15px;
   border-radius: 4px;
   font-size: 15px;
   cursor: pointer;
@@ -555,17 +552,17 @@ label {
   min-width: 100px;
 }
 
-.confirm-cancel {
-  background-color: var(--input-color);
+.confirm-buttons button.confirm-cancel {
+  background-color: transparent;
   color: var(--color-text-subtle);
   min-width: 100px;
   border: none;
+  transition: color 0.45s ease;
 }
 
-.confirm-cancel:hover {
-  background-color: var(--hover-color);
+.confirm-buttons button.confirm-cancel:hover {
+  background-color: transparent;
   color: var(--color-text);
-  transform: translateY(-2px);
 }
 
 .confirm-ok {
@@ -574,19 +571,11 @@ label {
   border: 1px solid var(--confirm-border-color);
 }
 
-.confirm-ok:hover {
-  transform: translateY(-2px);
-}
-
 /* Warning state for confirm button */
 .confirm-ok.confirm-warning {
-  background-color: #ff3b30;
+  background-color: #ff5a52;
   color: white;
-  border: 1px solid #ff3b30;
-}
-
-.confirm-ok.confirm-warning:hover {
-  transform: translateY(-2px);
+  border: 1px solid #ff5a52;
 }
 
 /* Override state for confirm button */
@@ -1276,6 +1265,9 @@ p.shortcut-description code {
   gap: 0;
   flex-direction: column;
   z-index: 2000;
+  overflow-y: auto;
+  padding: 24px 0;
+  box-sizing: border-box;
 }
 
 .feedback-modal .feedback-page-close {
@@ -1292,8 +1284,6 @@ p.shortcut-description code {
   border: 1px solid var(--confirm-border-color);
   max-width: 600px;
   width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
   position: relative;
 }
 
@@ -1393,7 +1383,7 @@ p.shortcut-description code {
 
 
 .feedback-submit {
-  background-color: var(--primary-button-bg);
+  background-color: var(--hover-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
   font-weight: 500;
