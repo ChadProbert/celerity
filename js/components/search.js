@@ -444,6 +444,7 @@ class Search extends HTMLElement {
   toggleNavigationButtons(show) {
     const settingsButton = document.querySelector(".settings-button");
     const helpButton = document.querySelector(".help-button");
+    const feedbackButton = document.querySelector(".feedback-button");
 
     if (settingsButton) {
       settingsButton.style.display = show ? "flex" : "none";
@@ -451,6 +452,10 @@ class Search extends HTMLElement {
 
     if (helpButton) {
       helpButton.style.display = show ? "flex" : "none";
+    }
+
+    if (feedbackButton) {
+      feedbackButton.style.display = show ? "flex" : "none";
     }
   }
 }
