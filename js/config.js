@@ -24,28 +24,11 @@ const CONFIG = {
   commandSearchDelimiter: " ",
 
   /**
-   * Search engine template URLs.
+   * Default search template URL.
    * The {} placeholder is replaced with the encoded search query.
-   * @type {Object.<string, string>}
-   */
-  searchEngineTemplates: {
-    google: "https://www.google.com/search?q={}",
-    duckduckgo: "https://duckduckgo.com/?q={}",
-  },
-
-  /**
-   * Default search engine key.
-   * Must match a key in searchEngineTemplates.
    * @type {string}
    */
-  defaultSearchEngine: "google",
-
-  /**
-   * Whether links should open in new tabs.
-   * True: open in new tab, False: use current tab.
-   * @type {boolean}
-   */
-  openLinksInNewTab: true,
+  defaultSearchTemplate: "https://www.google.com/search?q={}",
 
   /**
    * Maximum number of search suggestions to display.
@@ -54,29 +37,11 @@ const CONFIG = {
   suggestionLimit: 4,
 
   /**
-   * Initializes configuration by loading saved settings from localStorage./
-   * Restores tab behavior and search engine preferences if available.
+   * Initializes configuration by loading saved settings from localStorage.
    */
   init: function () {
-    // TODO: Remove in future version
-    // Remove deprecated notes storage
-    localStorage.removeItem("celerity-notes");
 
-    // Load tab behavior setting
-    const tabBehavior = localStorage.getItem("tabBehavior");
-    if (tabBehavior !== null) {
-      this.openLinksInNewTab = tabBehavior === "new";
-    }
-
-    // Load search engine setting
-    const searchEngine = localStorage.getItem("searchEngine");
-    if (searchEngine !== null && this.searchEngineTemplates[searchEngine]) {
-      this.defaultSearchEngine = searchEngine;
-    }
-
-    // Set the defaultSearchTemplate based on the engine
-    this.defaultSearchTemplate =
-      this.searchEngineTemplates[this.defaultSearchEngine];
+    // Search engine and tab behavior preferences were removed.
   },
 };
 

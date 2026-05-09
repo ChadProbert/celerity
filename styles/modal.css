@@ -330,7 +330,7 @@ label {
 
 .custom-select {
   width: 100%;
-  padding: 10px 35px 10px 12px;
+  padding: 12px 35px 12px 12px;
   background-color: var(--hover-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
@@ -343,6 +343,11 @@ label {
   cursor: pointer;
   text-align: left;
   font-size: 14px;
+}
+
+#themeSelect {
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
 .custom-select:focus {
@@ -854,7 +859,7 @@ label {
   transition: all 0.3s ease;
   border: 1px solid var(--border-color);
   width: 100%;
-  max-width: 940px;
+  max-width: 1080px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1251,7 +1256,7 @@ p.shortcut-description code {
   padding: 30px 25px;
   margin: 20px auto 60px;
   width: 100%;
-  max-width: 56%;
+  max-width: 66%;
 }
 
 /* Feedback Modal */
@@ -1321,7 +1326,17 @@ p.shortcut-description code {
   font-size: 0.9rem;
 }
 
-.feedback-select,
+.feedback-select {
+  padding: 12px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--confirm-border-color);
+  background-color: var(--input-color);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
 .feedback-field input,
 .feedback-field textarea {
   padding: 10px 12px;

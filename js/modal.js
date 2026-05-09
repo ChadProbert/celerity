@@ -848,19 +848,6 @@ class ModalManager {
       // Reset theme
       applyThemePreference(this.DEFAULT_SETTINGS.theme);
 
-      // Reset tab behavior
-      localStorage.setItem("tabBehavior", "current"); // Default to current tab
-      CONFIG.openLinksInNewTab = false;
-      document.getElementById("tabBehaviorCurrent").checked = true;
-      document.getElementById("tabBehaviorNew").checked = false;
-
-      // Reset search engine
-      localStorage.setItem("searchEngine", "google"); // Default to Google
-      CONFIG.defaultSearchEngine = "google";
-      CONFIG.defaultSearchTemplate = CONFIG.searchEngineTemplates.google;
-      document.getElementById("searchEngineGoogle").checked = true;
-      document.getElementById("searchEngineDuckDuckGo").checked = false;
-
       // Reset commands
       COMMANDS.clear();
       this.DEFAULT_SETTINGS.commands.forEach((value, key) => {
@@ -925,14 +912,12 @@ class ModalManager {
 
   /**
    * Exports user configuration to a JSON file.
-   * This includes the theme, shortcuts, tab behavior and search preferences.
+   * This includes the theme and shortcuts.
    */
   exportConfig() {
     // Collect all settings from localStorage
     const settings = {
       theme: localStorage.getItem("selectedTheme") || "dark",
-      tabBehavior: localStorage.getItem("tabBehavior") || "current",
-      searchEngine: localStorage.getItem("searchEngine") || "google",
       commands: Object.fromEntries(COMMANDS),
     };
 
@@ -1009,28 +994,6 @@ class ModalManager {
               ? normalizedTheme
               : "system";
             applyThemePreference(safeTheme);
-          }
-
-          // Apply tab behavior
-          if (settings.tabBehavior) {
-            localStorage.setItem("tabBehavior", settings.tabBehavior);
-            CONFIG.openLinksInNewTab = settings.tabBehavior === "new";
-            document.getElementById("tabBehaviorNew").checked =
-              settings.tabBehavior === "new";
-            document.getElementById("tabBehaviorCurrent").checked =
-              settings.tabBehavior === "current";
-          }
-
-          // Apply search engine
-          if (settings.searchEngine) {
-            localStorage.setItem("searchEngine", settings.searchEngine);
-            CONFIG.defaultSearchEngine = settings.searchEngine;
-            CONFIG.defaultSearchTemplate =
-              CONFIG.searchEngineTemplates[settings.searchEngine];
-            document.getElementById("searchEngineGoogle").checked =
-              settings.searchEngine === "google";
-            document.getElementById("searchEngineDuckDuckGo").checked =
-              settings.searchEngine === "duckduckgo";
           }
 
           // Apply commands

@@ -90,8 +90,6 @@ class Commands extends HTMLElement {
       const command = commandClone.querySelector(".command");
       command.href = url;
 
-      // Open links in new tab if enabled
-      if (CONFIG.openLinksInNewTab) command.target = "_blank";
       commandClone.querySelector(".key").innerText = key;
 
       // Capitalise the first letter of each word in the name

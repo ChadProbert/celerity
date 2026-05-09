@@ -230,15 +230,14 @@ class Search extends HTMLElement {
    * This method:
    * 1. Parses the search query
    * 2. Determines the target URL
-   * 3. Opens the URL in either a new tab or the current tab based on configuration
+   * 3. Opens the URL in the current tab
    * 4. Closes the search dialog
    *
    * @param {string} query - The search query to execute
    */
   execute(query) {
     const { url } = this.parseQuery(query);
-    const target = CONFIG.openLinksInNewTab ? "_blank" : "_self";
-    window.open(url, target, "noopener noreferrer");
+    window.open(url, "_self", "noopener noreferrer");
     this.close();
     // Re-show navigation buttons when search dialog is closed
     this.toggleNavigationButtons(true);

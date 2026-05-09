@@ -87,7 +87,7 @@ It acts as a lightweight layer that helps you move across sites, searches, and w
   Tailor commands to match personal workflows.
 
 - **Local configuration**  
-  Control tab behaviour and search engine selection.
+  Manage theme and shortcut preferences.
 
 <br/>
 
