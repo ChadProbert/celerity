@@ -113,15 +113,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Get form data
     const feedbackType = document.getElementById("feedbackType").value;
-    const feedbackMessage = document.getElementById("feedbackMessage").value;
+    const feedbackMessage = document
+      .getElementById("feedbackMessage")
+      .value.trim();
     const feedbackContact = document.getElementById("feedbackContact").value;
-    const selectedEmotion = document.querySelector(
+    const selectedEmotionInput = document.querySelector(
       'input[name="emotion"]:checked'
-    ).value;
+    );
+    const selectedEmotion = selectedEmotionInput
+      ? selectedEmotionInput.value
+      : "";
 
     // Validate required fields
     if (!feedbackType || !feedbackMessage) {
-      setFeedbackStatus("Please fill in all required fields.", "error");
+      setFeedbackStatus(
+        "Please select a feedback type and enter your message.",
+        "error"
+      );
+      return;
+    }
+
+    if (!selectedEmotion) {
+      setFeedbackStatus(
+        "Please select an emotion so we can better understand your feedback.",
+        "error"
+      );
       return;
     }
 
