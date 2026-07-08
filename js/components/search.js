@@ -344,7 +344,11 @@ class Search extends HTMLElement {
     const affordance = document.createElement("div");
     affordance.className = "search-forward-affordance";
     affordance.setAttribute("aria-hidden", "true");
-    affordance.innerHTML = '<span class="search-forward-affordance-symbol">→</span>';
+    affordance.innerHTML = `
+      <svg class="search-forward-affordance-symbol" viewBox="0 0 48 48" focusable="false" aria-hidden="true">
+        <path d="M14 24h20M26 16l8 8-8 8" />
+      </svg>
+    `;
     document.body.appendChild(affordance);
     this.forwardAffordance = affordance;
   }

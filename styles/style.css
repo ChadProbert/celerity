@@ -190,10 +190,11 @@ main {
   align-items: center;
   animation: search-forward-affordance 240ms cubic-bezier(0.2, 0, 0.38, 0.9)
     both;
-  border: 1px solid rgba(var(--color-text-rgb), 0.18);
+  --search-forward-affordance-color: rgba(var(--color-text-rgb), 0.18);
+  --search-forward-affordance-arrow-color: #fff;
+  border: 1px solid var(--search-forward-affordance-color);
   border-radius: 999px;
   box-sizing: border-box;
-  color: var(--color-text);
   display: flex;
   height: 72px;
   justify-content: center;
@@ -209,10 +210,17 @@ main {
 
 .search-forward-affordance-symbol {
   display: block;
-  font-size: 42px;
-  font-weight: 400;
-  line-height: 1;
-  transform: translateX(1px);
+  fill: none;
+  height: 42px;
+  stroke: var(--search-forward-affordance-arrow-color);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 5;
+  width: 42px;
+}
+
+[data-theme="light"] .search-forward-affordance {
+  --search-forward-affordance-arrow-color: #000;
 }
 
 @keyframes search-forward-affordance {
