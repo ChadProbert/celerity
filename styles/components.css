@@ -284,11 +284,26 @@
   min-width: 80px; /* Set minimum width for desktop */
   min-height: 0; /* Allow height to be controlled by JS */
   box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.dynamic-button::after {
+  background: var(--color-text-subtle);
+  content: " ";
+  inset: 1px;
+  opacity: 0;
+  position: absolute;
+  transition: opacity var(--transition-speed);
 }
 
 .dynamic-button:hover {
   background-color: var(--hover-color);
   color: var(--color-text);
+}
+
+.dynamic-button:where(:focus, :hover)::after {
+  opacity: 0.1;
 }
 
 /* Search Component */
