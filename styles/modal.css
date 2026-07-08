@@ -419,8 +419,8 @@ label {
 
 /* Plus button styles */
 .add-button {
-  background-color: transparent;
-  color: var(--color-text);
+  background-color: #313131;
+  color: var(--color-plus-icon-color);
   border: none;
   padding: 0;
   border-radius: 4px;
@@ -429,13 +429,13 @@ label {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   margin-left: 5px;
 }
 
 .add-button:hover {
-  background-color: transparent;
+  background-color: #555;
 }
 
 .fa-plus {
