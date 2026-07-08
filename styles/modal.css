@@ -419,8 +419,8 @@ label {
 
 /* Plus button styles */
 .add-button {
-  background-color: #313131;
-  color: var(--color-plus-icon-color);
+  background-color: var(--green-color);
+  color: white;
   border: none;
   padding: 0;
   border-radius: 4px;
@@ -435,18 +435,18 @@ label {
 }
 
 .add-button:hover {
-  background-color: #555;
+  background-color: var(--green-color);
 }
 
 .fa-plus {
   font-size: 14px;
   line-height: 1;
-  color: var(--color-text-subtle);
+  color: inherit;
   transition: color 0.3s ease;
 }
 
 .add-button:hover .fa-plus {
-  color: var(--color-text);
+  color: white;
 }
 
 /* Shortcut List */
