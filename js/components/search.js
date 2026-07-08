@@ -16,9 +16,6 @@
  * - Keyboard navigation for suggestions (arrows, tab)
  * - Direct URL detection and navigation
  */
-const SEARCH_EXIT_TRANSITION_MS = 240;
-const SEARCH_EXIT_FALLBACK_MS = SEARCH_EXIT_TRANSITION_MS + 80;
-
 class Search extends HTMLElement {
   /**
    * Initializes the Search component with Shadow DOM and event listeners.
@@ -44,8 +41,6 @@ class Search extends HTMLElement {
     this.input = clone.querySelector(".input");
     this.suggestions = clone.querySelector(".suggestions");
     this.isExecutingSearch = false;
-    this.exitNavigationTimeoutId = null;
-    this.forwardAffordance = null;
 
     // Bind methods to maintain 'this' context
     this.onSubmit = this.onSubmit.bind(this);
@@ -250,117 +245,7 @@ class Search extends HTMLElement {
     if (!url || this.isExecutingSearch) return;
 
     this.isExecutingSearch = true;
-    this.runSearchExitTransition(() => this.navigateToUrl(url));
-  }
-
-  /**
-   * Starts the search exit transition and runs the supplied callback afterward.
-   * @param {Function} afterTransition - Called when the swipe completes
-   */
-  runSearchExitTransition(afterTransition) {
-    const duration = this.startSearchExitTransition();
-    if (duration === 0) {
-      afterTransition();
-      return;
-    }
-
-    const transitionSurface = document.getElementById("mainContent") || this.dialog;
-    let hasCompleted = false;
-
-    const completeTransition = () => {
-      if (hasCompleted) return;
-      hasCompleted = true;
-      transitionSurface.removeEventListener("animationend", completeTransition);
-      window.clearTimeout(this.exitNavigationTimeoutId);
-      this.exitNavigationTimeoutId = null;
-      afterTransition();
-    };
-
-    transitionSurface.addEventListener("animationend", completeTransition, {
-      once: true,
-    });
-    this.exitNavigationTimeoutId = window.setTimeout(
-      completeTransition,
-      SEARCH_EXIT_FALLBACK_MS
-    );
-  }
-
-  /**
-   * Applies the search exit transition classes to the active UI surfaces.
-   * @returns {number} Transition duration in milliseconds
-   */
-  startSearchExitTransition() {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    document.documentElement.classList.add("search-transition-active");
-
-    if (!prefersReducedMotion) {
-      this.showForwardAffordance();
-    }
-
-    for (const element of this.getSearchExitElements()) {
-      element.classList.add("search-exit-swipe");
-    }
-
-    return prefersReducedMotion ? 0 : SEARCH_EXIT_TRANSITION_MS;
-  }
-
-  /**
-   * Restores the UI after browser history navigation returns to this page.
-   */
-  resetSearchExitTransition() {
-    if (this.exitNavigationTimeoutId) {
-      window.clearTimeout(this.exitNavigationTimeoutId);
-      this.exitNavigationTimeoutId = null;
-    }
-
-    this.isExecutingSearch = false;
-    document.documentElement.classList.remove("search-transition-active");
-    this.removeForwardAffordance();
-
-    for (const element of this.getSearchExitElements()) {
-      element.classList.remove("search-exit-swipe");
-    }
-
-    this.close();
-  }
-
-  /**
-   * Finds the UI surfaces that should swipe away for search navigation.
-   * @returns {HTMLElement[]} Elements that participate in the exit transition
-   */
-  getSearchExitElements() {
-    return [document.getElementById("mainContent"), this.dialog].filter(Boolean);
-  }
-
-  /**
-   * Shows the forward progress affordance during the search exit transition.
-   */
-  showForwardAffordance() {
-    this.removeForwardAffordance();
-
-    const affordance = document.createElement("div");
-    affordance.className = "search-forward-affordance";
-    affordance.setAttribute("aria-hidden", "true");
-    affordance.innerHTML = `
-      <svg class="search-forward-affordance-symbol" viewBox="0 0 48 48" focusable="false" aria-hidden="true">
-        <path d="M14 24h20M26 16l8 8-8 8" />
-      </svg>
-    `;
-    document.body.appendChild(affordance);
-    this.forwardAffordance = affordance;
-  }
-
-  /**
-   * Removes the forward progress affordance.
-   */
-  removeForwardAffordance() {
-    if (!this.forwardAffordance) return;
-
-    this.forwardAffordance.remove();
-    this.forwardAffordance = null;
+    this.navigateToUrl(url);
   }
 
   /**
@@ -377,7 +262,8 @@ class Search extends HTMLElement {
    */
   onPageShow(event) {
     if (event.persisted) {
-      this.resetSearchExitTransition();
+      this.isExecutingSearch = false;
+      this.close();
     }
   }
 
