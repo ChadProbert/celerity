@@ -772,10 +772,10 @@ class ModalManager {
         }
 
         // If the shortcut key already exists, show the custom confirmation modal.
-        if (COMMANDS.has(newKeyInput.value)) {
-          const existingShortcut = COMMANDS.get(newKeyInput.value);
+        if (COMMANDS.has(newKey)) {
+          const existingShortcut = COMMANDS.get(newKey);
           const shouldOverride = await customConfirm({
-            message: `The shortcut key "${newKeyInput.value}" already exists (${existingShortcut.name}). Are you sure you want to override it?`,
+            message: `The shortcut key "${newKey}" already exists (${existingShortcut.name}). Are you sure you want to override it?`,
             confirmText: "Override",
             cancelText: "Cancel",
             confirmClass: "confirm-override",
@@ -784,8 +784,8 @@ class ModalManager {
             return false; // Do not override if the user cancels.
           }
         }
-        COMMANDS.set(newKeyInput.value, {
-          name: newNameInput.value,
+        COMMANDS.set(newKey, {
+          name: newName,
           url: newValue,
         });
         saveCommands();
@@ -1122,7 +1122,11 @@ function addEnterKeyListenerToConfirmDialog() {
 
   // Listen for keydown events on the document
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" && modal.style.display === "flex") {
+    if (
+      event.key === "Enter" &&
+      modal.style.display === "flex" &&
+      modal.contains(event.target)
+    ) {
       event.preventDefault(); // Prevent default Enter behavior
       okButton.click(); // Trigger the OK button click
     }

@@ -580,18 +580,14 @@ label {
 
 /* Override state for confirm button */
 .confirm-ok.confirm-override {
-  background-color: #ff9800; /* Sunset yellow/orange */
-  color: #333;
+  background-color: #ff9800;
+  color: white;
   border: 1px solid #e68900;
-}
-
-.confirm-ok.confirm-override:hover {
-  transform: translateY(-2px);
 }
 
 /* URL validation error state for confirm button */
 .confirm-ok.confirm-url-validation {
-  background-color: #2196f3; /* Material blue */
+  background-color: #2196f3;
   color: white;
   border: 1px solid #0c87e8;
 }
