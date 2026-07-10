@@ -9,6 +9,33 @@ const CelerityTheme = (() => {
   const THEME_ROOT = document.documentElement;
   const VALID_THEMES = ["system", "dark", "light", "void"];
 
+  /*
+   * While a theme swaps, transitions are disabled globally for one rendered
+   * frame, so the whole theme snaps as a unit. Besides looking coherent,
+   * this closes a real bug: color transitions running exactly at swap time
+   * (especially on the large scrolled modal surface) can stall in Chromium's
+   * compositor and leave the OLD theme's color frozen on screen until the
+   * layer is rebuilt. No transition at swap time — nothing to stall.
+   * In hidden tabs rAF is throttled, so the guard simply stays until the
+   * tab's next visible frame, which is exactly when it is needed.
+   */
+  const freezeStyle = document.createElement("style");
+  freezeStyle.textContent =
+    "*, *::before, *::after { transition: none !important; }";
+  let unfreezeToken = 0;
+
+  const freezeTransitionsForSwap = () => {
+    if (!freezeStyle.isConnected) {
+      document.head.appendChild(freezeStyle);
+    }
+    const token = ++unfreezeToken;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (token === unfreezeToken) freezeStyle.remove();
+      });
+    });
+  };
+
   /* "system" resolves to light/dark from the OS preference. */
   const resolveThemePreference = (preference) => {
     if (preference === "system") {
@@ -34,6 +61,8 @@ const CelerityTheme = (() => {
   ) => {
     const normalized = normalizeThemePreference(preference);
     const resolved = resolveThemePreference(normalized);
+
+    freezeTransitionsForSwap();
 
     // Clear the previous theme marker before applying the new one.
     THEME_ROOT.removeAttribute("data-theme");

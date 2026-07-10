@@ -50,7 +50,11 @@
   padding: 56px 56px 72px;
   margin-bottom: 0;
   box-sizing: border-box;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  /* Deliberately NOT transitioning background: animating this large scrolled
+     surface rides Chromium's compositor background-animation path, which can
+     stall mid-fade and leave the old theme's color frozen on screen
+     (observed on Windows/AMD). Theme changes must snap. */
+  transition: border-color 0.3s ease;
   height: 100%;
   overflow-y: auto;
 }
@@ -417,7 +421,11 @@ label {
   max-width: 380px;
   min-width: 300px;
   width: 90%;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  /* Deliberately NOT transitioning background: animating this large scrolled
+     surface rides Chromium's compositor background-animation path, which can
+     stall mid-fade and leave the old theme's color frozen on screen
+     (observed on Windows/AMD). Theme changes must snap. */
+  transition: border-color 0.3s ease;
 }
 
 .confirm-message {
@@ -546,7 +554,11 @@ label {
   min-height: 0;
   overflow-y: auto;
   margin-bottom: 0;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  /* Deliberately NOT transitioning background: animating this large scrolled
+     surface rides Chromium's compositor background-animation path, which can
+     stall mid-fade and leave the old theme's color frozen on screen
+     (observed on Windows/AMD). Theme changes must snap. */
+  transition: border-color 0.3s ease;
   box-sizing: border-box;
   position: relative;
   height: 100%;
