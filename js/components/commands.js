@@ -1,195 +1,132 @@
-/**
- * Commands Component (Web Component)
+/*
+ * <commands-component>: the shortcut grid.
  *
- * A custom element that displays and manages keyboard shortcuts in a responsive grid layout.
- * This component renders command shortcuts as clickable links and includes a dynamic
- * "add new shortcut" button that integrates with the settings modal.
- *
- * Usage:
- * <commands-component></commands-component>
- *
- * Features:
- * - Responsive grid layout (2-4 columns based on screen width)
- * - Dynamic shortcut rendering from the COMMANDS map
- * - Interactive "+" button for adding new shortcuts
- * - Automatic layout adjustment based on number of commands
+ * Defines:    Commands custom element (registered on DOMContentLoaded)
+ * Depends on: COMMANDS (config.js); #commands-template and
+ *             #command-template in index.html. Its DOMContentLoaded
+ *             listener must register before modal.js's — ModalManager's
+ *             constructor calls this component's render() and relies on the
+ *             element already being upgraded (script order in index.html).
  */
+
+const CELL_HEIGHT = 60; // grid cell height in px; see HEIGHT_TWEAKS_PX
+
+/*
+ * CSS multi-column layout rounds fractional column heights, so for some
+ * command counts the "+" button drifts off the grid edge by a pixel or two.
+ * These empirical corrections (keyed by the rendered <li> count — i.e.
+ * commands.children.length BEFORE the button is appended) square it up in
+ * the 4-column layout. Unlisted counts get no correction. Do not "clean
+ * up" the values.
+ */
+const HEIGHT_TWEAKS_PX = { 6: 2, 9: 2, 11: -1, 13: 2, 15: -1, 17: 1, 19: -1 };
+
+/* Both "+" buttons route to the settings modal to add a shortcut. */
+function openShortcutSettings() {
+  const openModalBtn = document.getElementById("openModal");
+  if (openModalBtn) openModalBtn.click();
+}
+
 class Commands extends HTMLElement {
-  /**
-   * Initializes the Commands component with Shadow DOM and event listeners.
-   *
-   * Creates a shadow DOM for encapsulation and sets up a resize event listener
-   * to ensure the layout remains responsive as the viewport size changes.
-   */
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.render();
-    // Re-render on resize so column count updates
+    // Column count depends on viewport width
     window.addEventListener("resize", () => this.render());
   }
 
-  /**
-   * Renders the commands grid with all shortcuts and the dynamic "+" button.
-   *
-   * This method:
-   * - Creates a column layout based on screen width and command count
-   * - Renders each shortcut as a clickable link with key and name display
-   * - Adds a dynamic "+" button in the appropriate position
-   * - Adjusts styling based on the layout configuration
-   */
   render() {
     this.shadowRoot.innerHTML = "";
     const template = document.getElementById("commands-template");
     const clone = template.content.cloneNode(true);
     const commands = clone.querySelector(".commands");
-    const commandTemplate = document.getElementById("command-template");
 
-    // Count available commands first to determine layout
     let availableCommands = 0;
-    for (const commandData of COMMANDS.values()) {
-      const { name, url } = commandData;
+    for (const { name, url } of COMMANDS.values()) {
       if (name && url) availableCommands++;
     }
 
     if (availableCommands === 0) {
-      commands.classList.add("commands-empty");
-      commands.style.columns = 1;
-      commands.style.maxWidth = "100%";
-
-      const emptyButton = document.createElement("button");
-      emptyButton.classList.add("dynamic-button", "empty-plus");
-      emptyButton.type = "button";
-      emptyButton.innerHTML = '<span class="empty-plus-icon" aria-hidden="true">+</span>';
-      emptyButton.title = "Add a shortcut";
-      emptyButton.setAttribute("aria-label", "Add a shortcut");
-      emptyButton.addEventListener("click", () => {
-        const openModalBtn = document.getElementById("openModal");
-        if (openModalBtn) openModalBtn.click();
-      });
-
-      commands.append(emptyButton);
-      this.shadowRoot.append(clone);
-      return;
-    }
-
-    // Apply the column count directly to the commands element
-    const columns = this.getColumns(availableCommands);
-    commands.style.columns = columns;
-    // Adjust max-width based on column count
-    commands.style.maxWidth = "45rem";
-
-    let count = 0;
-    // Render each shortcut
-    for (const [key, commandData] of COMMANDS.entries()) {
-      let { name, url } = commandData;
-      if (!name || !url) continue;
-      const commandClone = commandTemplate.content.cloneNode(true);
-      const command = commandClone.querySelector(".command");
-      command.href = url;
-
-      commandClone.querySelector(".key").innerText = key;
-
-      // Capitalise the first letter of each word in the name
-      name = this.capitaliseWords(name);
-
-      commandClone.querySelector(".name").innerText = name;
-      commands.append(commandClone);
-      count++;
-    }
-
-    // Add the dynamic button if the last row isn't completely full.
-    if (this.shouldAddButton(count, columns)) {
-      this.addDynamicButton(commands, count, columns);
+      this.renderEmptyState(commands);
+    } else {
+      this.renderGrid(commands, availableCommands);
     }
 
     this.shadowRoot.append(clone);
   }
 
-  /**
-   * Determines the optimal number of columns based on available commands and screen width.
-   *
-   * Uses special handling for certain command counts (1, 2, 5) to ensure
-   * a balanced layout, and falls back to responsive behavior for other counts.
-   *
-   * @param {number} commandCount - The total number of visible commands
-   * @returns {number} The number of columns to display (2 or 4)
+  /* A single large "+" tile inviting the user to add their first shortcut. */
+  renderEmptyState(commands) {
+    commands.classList.add("commands-empty");
+    commands.style.columns = 1;
+    commands.style.maxWidth = "100%";
+
+    const emptyButton = document.createElement("button");
+    emptyButton.classList.add("dynamic-button", "empty-plus");
+    emptyButton.type = "button";
+    emptyButton.innerHTML =
+      '<span class="empty-plus-icon" aria-hidden="true">+</span>';
+    emptyButton.title = "Add a shortcut";
+    emptyButton.setAttribute("aria-label", "Add a shortcut");
+    emptyButton.addEventListener("click", openShortcutSettings);
+
+    commands.append(emptyButton);
+  }
+
+  renderGrid(commands, availableCommands) {
+    const columns = this.getColumns(availableCommands);
+    commands.style.columns = columns;
+    // Inline override of the template's responsive max-width media queries
+    commands.style.maxWidth = "45rem";
+
+    const commandTemplate = document.getElementById("command-template");
+    let count = 0;
+    for (const [key, commandData] of COMMANDS.entries()) {
+      const { name, url } = commandData;
+      if (!name || !url) continue;
+
+      const commandClone = commandTemplate.content.cloneNode(true);
+      commandClone.querySelector(".command").href = url;
+      commandClone.querySelector(".key").innerText = key;
+      commandClone.querySelector(".name").innerText = this.capitaliseWords(name);
+      commands.append(commandClone);
+      count++;
+    }
+
+    // A "+" button fills the leftover space when the last row isn't full
+    if (count % columns !== 0) {
+      this.addDynamicButton(commands, count, columns);
+    }
+  }
+
+  /*
+   * 4 columns on wide screens, 2 otherwise — except counts of 1, 2 or 5,
+   * which always get 2 columns for a balanced layout.
    */
   getColumns(commandCount) {
-    // Uses 2 columns for when there are 5, 2, or 1 commands (2x3 grid)
     if (commandCount === 5 || commandCount === 2 || commandCount === 1) {
       return 2;
     }
-
-    // Use default responsive behavior for other cases
     if (window.innerWidth >= 900) return 4;
-    return 2; // Default to 2 columns for all desktop widths below 900px
+    return 2;
   }
 
-  /**
-   * Determines if the dynamic "+" button should be added to the layout.
-   *
-   * Only adds the button if the last row has empty space to maintain a balanced grid.
-   *
-   * @param {number} count - The number of commands
-   * @param {number} columns - The number of columns
-   * @returns {boolean} True if the button should be added
-   */
-  shouldAddButton(count, columns) {
-    const lastRowItems = count % columns;
-    return lastRowItems !== 0; // Only add button if there's space in the last row.
-  }
-
-  /**
-   * Adds the dynamic "+" button to the commands grid.
-   *
-   * This method:
-   * - Creates a button sized appropriately for the current layout
-   * - Positions it in the last row
-   * - Adds a click handler to open the settings modal
-   * - Applies height adjustments for different grid configurations
-   *
-   * @param {HTMLElement} commands - The commands container element
-   * @param {number} count - The number of commands
-   * @param {number} columns - The number of columns
-   */
   addDynamicButton(commands, count, columns) {
-    const CELL_HEIGHT = 60; // Base height per cell
     const lastRowItems = count % columns;
     const remainingCells = columns - lastRowItems;
 
     const button = document.createElement("button");
     button.classList.add("dynamic-button");
     button.innerHTML = "+";
-    button.addEventListener("click", () => {
-      // Open the modal to add a new shortcut
-      const openModalBtn = document.getElementById("openModal");
-      openModalBtn.click();
-    });
+    button.addEventListener("click", openShortcutSettings);
 
-    // Adjust height based on column layout
-    // For 4-column layout, allow the button to fill remaining cells
-    // For 2-column layout, keep the height fixed to match command items
     if (columns === 4) {
-      // Default height for 4-column layout
-      button.style.height = `${remainingCells * CELL_HEIGHT}px`;
-
-      let cmdLength = commands.children.length;
-
-      if (cmdLength === 13) {
-        button.style.height = `${remainingCells * CELL_HEIGHT + 2}px`;
-      }
-      if (cmdLength === 15 || cmdLength === 19 || cmdLength === 11) {
-        button.style.height = `${remainingCells * CELL_HEIGHT - 1}px`;
-      }
-      if (cmdLength === 17) {
-        button.style.height = `${remainingCells * CELL_HEIGHT + 1}px`;
-      }
-      if (cmdLength === 9 || cmdLength === 6) {
-        button.style.height = `${remainingCells * CELL_HEIGHT + 2}px`;
-      }
+      // Span the remaining cells of the last column
+      const tweak = HEIGHT_TWEAKS_PX[commands.children.length] ?? 0;
+      button.style.height = `${remainingCells * CELL_HEIGHT + tweak}px`;
     } else {
-      // In 2-column layout, keep height fixed to match command items
+      // 2-column layout: fixed height matching a single command item
       button.style.height = `${CELL_HEIGHT - 1}px`;
     }
 
@@ -198,9 +135,11 @@ class Commands extends HTMLElement {
     commands.append(button);
   }
 
-  // Capitalise the first letter of each word in the command name
-  // Avoids allowing the user to use full-caps in the command name
-  // Using full caps would break the grid layout
+  /*
+   * Capitalises each word and lowercases the rest ("GitHub" → "Github").
+   * Deliberate: full-caps names break the grid layout, so display casing is
+   * normalised. Do not "fix".
+   */
   capitaliseWords(str) {
     return str.replace(
       /\b\w+/g,
@@ -209,7 +148,6 @@ class Commands extends HTMLElement {
   }
 }
 
-// Register the custom element when the document is loaded
 document.addEventListener("DOMContentLoaded", () => {
   customElements.define("commands-component", Commands);
 });
