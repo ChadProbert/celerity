@@ -1,17 +1,11 @@
-/**
- * Modal CSS
- * 
- * This file contains all styles related to modals and dialogs in the application.
- * It defines the overlay, containers, content areas, buttons, and interactive
- * elements used in the settings modal, help modal, and confirmation dialogs.
+/*
+ * Settings modal, confirmation dialog, and help modal.
+ * (Feedback modal styles live in feedback.css, which must be linked AFTER
+ * this file — several of its rules win same-specificity ties by order.)
  */
 
-/**
- * MODAL OVERLAY
- * 
- * The semi-transparent background that appears behind modals.
- * Covers the entire viewport and helps focus attention on the modal content.
- */
+/* ===== Overlay ===== */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -23,22 +17,12 @@
   display: none;
 }
 
-/**
- * ACTIVE MODAL OVERLAY
- * 
- * When a modal is open, the overlay becomes visible with a subtle
- * transparency to slightly dim the content underneath.
- */
 .modal-overlay.active {
   display: block;
 }
 
-/**
- * MODAL DIALOG CONTAINER
- * 
- * Fixed-position container that centers the modal content in the viewport.
- * Uses flexbox for perfect centering with a column layout for content and buttons.
- */
+/* ===== Settings modal container ===== */
+
 .custom-modal {
   display: none; /* Hidden by default */
   position: fixed;
@@ -48,17 +32,11 @@
   width: 100%;
   height: 100%;
   background-color: var(--modal-background-color);
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
-/**
- * MODAL CONTENT
- * 
- * The visible container that holds the modal's content.
- * Has a distinctive background, border, and padding to separate it from the overlay.
- */
 .modal-content {
   background: var(--color-background);
   color: var(--color-text);
@@ -67,7 +45,7 @@
   width: 100%;
   min-width: 0;
   position: relative;
-  text-align: center; /* Keep as center for settings modal */
+  text-align: center;
   border: none;
   padding: 56px 56px 72px;
   margin-bottom: 0;
@@ -77,7 +55,8 @@
   overflow-y: auto;
 }
 
-/* Close button for full-screen modals */
+/* ===== Close buttons ===== */
+
 .modal-close-button {
   position: absolute;
   top: 18px;
@@ -125,6 +104,8 @@
   color: var(--color-text);
 }
 
+/* ===== Settings section headings ===== */
+
 .shortcut-section,
 .theme-label {
   margin-top: 30px;
@@ -141,7 +122,6 @@
   margin-bottom: 10px;
 }
 
-/* Font size for headings inside settings modal */
 .shortcut-section,
 .theme-label {
   font-size: 36px;
@@ -153,12 +133,13 @@
   color: var(--color-text);
 }
 
-/**
- * RESET BUTTON
- * 
- * Button to reset settings to default.
- * Features a warning hover state to indicate destructive action.
- */
+.keyboard-shortcuts-heading {
+  margin-top: 20px;
+  margin-bottom: 44px;
+}
+
+/* ===== Config section (export / import / reset) ===== */
+
 .reset-button,
 .export-button,
 .import-button {
@@ -179,14 +160,12 @@
   gap: 8px;
 }
 
-/* Icon inside buttons */
 .reset-button i,
 .export-button i,
 .import-button i {
   font-size: 15px;
 }
 
-/* Config section styling */
 .config-section {
   margin-top: 100px;
   text-align: center;
@@ -201,7 +180,6 @@
   color: var(--color-text);
 }
 
-/* Styling for the reset section between theme and shortcuts */
 .reset-section {
   display: flex;
   justify-content: center;
@@ -216,12 +194,7 @@
   border-radius: 8px;
 }
 
-/**
- * FORM LABELS
- * 
- * Labels for form elements within modals.
- * Uses bold text for better visual hierarchy.
- */
+/* Global label styling — also applies to the feedback form's labels. */
 label {
   display: block;
   margin-bottom: 5px;
@@ -229,14 +202,8 @@ label {
   color: var(--color-text);
 }
 
-/**
- * CUSTOM SELECT DROPDOWN
- * 
- * Styled select dropdown for theme selection and other options.
- * Includes custom styling for the dropdown arrow and hover/focus states.
- */
+/* ===== Theme section & custom select ===== */
 
-/* Theme section styling */
 .theme-section {
   display: flex;
   flex-direction: column;
@@ -245,7 +212,6 @@ label {
   text-align: center;
 }
 
-/* Container for theme selection with accent color background */
 .theme-container {
   background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
@@ -256,7 +222,7 @@ label {
   max-width: 32%;
 }
 
-/* Container for the custom select to position the arrow */
+/* Positions the custom dropdown arrow */
 .custom-select-wrapper {
   position: relative;
   display: block;
@@ -264,12 +230,7 @@ label {
   margin: 0 auto;
 }
 
-.feedback-type-container {
-  position: relative;
-  display: block;
-  width: 100%; /* Controls the width of the theme dropdown */
-}
-
+/* Shared with the feedback modal's type dropdown (feedback.css) */
 .custom-select {
   width: 100%;
   padding: 12px 35px 12px 12px;
@@ -318,7 +279,8 @@ label {
   color: var(--color-text);
 }
 
-/* Form Elements */
+/* ===== Shortcut list (rows are created at runtime by modal.js) ===== */
+
 .key-input,
 .name-input,
 .value-input {
@@ -330,7 +292,6 @@ label {
   transition: all 0.2s ease;
 }
 
-/* Focus styles for input fields */
 .key-input:focus,
 .name-input:focus,
 .value-input:focus {
@@ -339,7 +300,7 @@ label {
   outline: none;
 }
 
-/* Special focus styles for the new shortcut input fields */
+/* The :last-child row is the "add new shortcut" form */
 .shortcut-item:last-child .key-input:focus,
 .shortcut-item:last-child .name-input:focus,
 .shortcut-item:last-child .value-input:focus {
@@ -359,7 +320,6 @@ label {
   flex: 1;
 }
 
-/* Plus button styles */
 .add-button {
   background-color: var(--green-color);
   color: white;
@@ -391,7 +351,6 @@ label {
   color: white;
 }
 
-/* Shortcut List */
 .shortcut-list {
   background-color: transparent;
   border: none;
@@ -419,21 +378,14 @@ label {
   min-width: 0;
 }
 
-/**
- * SCROLLABLE MODAL
- * 
- * When a modal has a lot of content, it becomes scrollable while
- * maintaining a reasonable maximum height. This ensures the modal
- * doesn't exceed the viewport height when resizing the window.
- */
+/* Applied by modal.js when a modal opens */
 .modal-content.scrollable {
   max-height: none;
   min-height: 0;
   overflow-y: auto;
-  scroll-behavior: smooth; /* Smooth scrolling */
+  scroll-behavior: smooth;
 }
 
-/* Apply the same styles to help modal content when scrollable */
 .help-modal-content.scrollable {
   max-height: none;
   min-height: 0;
@@ -441,12 +393,8 @@ label {
   scroll-behavior: smooth;
 }
 
-/**
- * CONFIRMATION MODAL
- * 
- * A smaller, focused modal for confirming user actions like deletion or reset.
- * Features a simple layout with a message and two buttons (cancel/confirm).
- */
+/* ===== Confirmation dialog (driven by customConfirm in confirm.js) ===== */
+
 .confirm-modal {
   display: none; /* Hidden by default */
   position: fixed;
@@ -467,7 +415,7 @@ label {
   border: 1px solid var(--confirm-border-color);
   text-align: center;
   max-width: 380px;
-  min-width: 300px; /* Set minimum width for desktop */
+  min-width: 300px;
   width: 90%;
   transition: border-color 0.3s ease, background 0.3s ease;
 }
@@ -513,21 +461,21 @@ label {
   border: 1px solid var(--confirm-border-color);
 }
 
-/* Warning state for confirm button */
+/* Destructive action (delete, reset) */
 .confirm-ok.confirm-warning {
   background-color: #ff5a52;
   color: white;
   border: 1px solid #ff5a52;
 }
 
-/* Override state for confirm button */
+/* Override action (replacing an existing shortcut / config) */
 .confirm-ok.confirm-override {
   background-color: #ff9800;
   color: white;
   border: 1px solid #e68900;
 }
 
-/* Action buttons for shortcuts */
+/* Edit / save / delete buttons on shortcut rows (created by modal.js) */
 .edit-button,
 .delete-button,
 .save-button {
@@ -556,7 +504,7 @@ label {
   color: white;
 }
 
-/* Input style toggle for editing */
+/* Rows look inert while readonly; edit mode restores the input look */
 .shortcut-item input[readonly] {
   background-color: transparent;
   border-color: transparent;
@@ -568,11 +516,8 @@ label {
   border-color: var(--confirm-border-color);
 }
 
-/**
- * HELP MODAL
- * 
- * The container for the help documentation and navigation.
- */
+/* ===== Help modal ===== */
+
 .help-modal {
   display: none;
   position: fixed;
@@ -587,11 +532,6 @@ label {
   flex-direction: column;
 }
 
-/**
- * HELP MODAL CONTENT
- * 
- * Special styling for the help documentation inside the modal.
- */
 .help-modal-content {
   display: flex;
   background: var(--color-background);
@@ -612,7 +552,6 @@ label {
   height: 100%;
 }
 
-/* Increase height to ensure content is spaced out */
 .help-section {
   display: flex;
   flex-direction: column;
@@ -757,18 +696,18 @@ p.shortcut-description code {
   text-align: center;
 }
 
-/* Styles for half-window usage */
+/* ===== Responsive adjustments ===== */
+
+/* Half-window usage */
 @media (max-width: 1024px) {
   .theme-container {
     max-width: 70%;
   }
 
-  /* Adjust the headings for better proportions */
   .theme-label {
     font-size: 32px;
   }
 
-  /* Ensure modal content is properly sized */
   .modal-content {
     max-width: none;
     width: 100%;
@@ -807,7 +746,7 @@ p.shortcut-description code {
   }
 }
 
-/* Container for keyboard shortcuts with accent color background */
+/* Accent background container around the shortcut list */
 .shortcuts-container {
   background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
@@ -817,284 +756,3 @@ p.shortcut-description code {
   width: 100%;
   max-width: 66%;
 }
-
-/* Feedback Modal */
-.feedback-modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100dvh;
-  background: var(--color-background);
-  justify-content: center;
-  align-items: center;
-  gap: 44px;
-  flex-direction: column;
-  z-index: 2000;
-  overflow: hidden;
-  padding: 24px;
-  box-sizing: border-box;
-}
-
-.feedback-modal .feedback-page-close {
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  z-index: 2002;
-}
-
-.feedback-modal-content {
-  background: var(--plus-button-color);
-  padding: 40px;
-  border-radius: 10px;
-  border: 1px solid var(--confirm-border-color);
-  max-width: 680px;
-  width: 90%;
-  height: min(560px, calc(100dvh - 186px));
-  overflow-y: auto;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.feedback-title {
-  flex: 0 0 auto;
-  margin: 0;
-  color: var(--color-text);
-  font-size: 54px;
-  line-height: 1;
-  font-weight: var(--font-weight-bold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.feedback-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.feedback-field textarea {
-  resize: none;
-  height: 120px;
-}
-
-.feedback-field label {
-  color: var(--color-text);
-  font-weight: var(--font-weight-normal);
-  font-size: 0.9rem;
-}
-
-.feedback-select {
-  padding: 12px 12px;
-  border-radius: 4px;
-  border: 1px solid var(--confirm-border-color);
-  background-color: var(--input-color);
-  color: var(--color-text);
-  font-family: var(--font-family);
-  font-size: 0.95rem;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.feedback-field input,
-.feedback-field textarea {
-  padding: 10px 12px;
-  border-radius: 4px;
-  border: 1px solid var(--confirm-border-color);
-  background-color: var(--input-color);
-  color: var(--color-text);
-  font-family: var(--font-family);
-  font-size: 0.95rem;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.feedback-select:focus,
-.feedback-field input:focus,
-.feedback-field textarea:focus {
-  border-color: var(--color-text);
-  outline: none;
-  box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
-}
-
-
-.feedback-cancel,
-.feedback-submit {
-  padding: 10px 15px;
-  border-radius: 4px;
-  border: none;
-  font-family: var(--font-family);
-  font-size: 15px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.feedback-cancel {
-  background-color: transparent;
-  color: var(--color-text-subtle);
-  min-width: 100px;
-  border: none;
-  transition: color 0.4s ease;
-}
-
-.feedback-cancel:hover {
-  color: var(--color-text);
-}
-
-
-.feedback-submit {
-  background-color: var(--hover-color);
-  color: var(--color-text);
-  border: 1px solid var(--confirm-border-color);
-  font-weight: 500;
-  padding: 12px 20px;
-  border-radius: 4px;
-  min-width: 180px;
-  transition: all 0.2s ease;
-}
-
-
-.feedback-status {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 4px;
-  text-align: center;
-  font-size: 0.9rem;
-  display: none;
-}
-
-.feedback-status.success {
-  background-color: rgba(52, 199, 89, 0.1);
-  color: var(--green-color);
-  border: 1px solid rgba(52, 199, 89, 0.3);
-  display: block;
-}
-
-.feedback-status.error {
-  background-color: rgba(255, 59, 48, 0.1);
-  color: #ff3b30;
-  border: 1px solid rgba(255, 59, 48, 0.3);
-  display: block;
-}
-
-/* Feedback Actions Container */
-.feedback-actions-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 30px;
-}
-
-/* Feedback Emotions */
-.feedback-emotions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  flex: 1;
-  margin-right: 20px;
-}
-
-.emotion-input {
-  /* Hide radio buttons */
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  visibility: hidden;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.emotion-label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  margin: 0;
-  font-size: 1.5rem;
-  opacity: 0.5;
-  filter: grayscale(70%);
-  transition: all 0.3s ease;
-}
-
-/* Hover effects */
-.emotion-label:hover {
-  transform: translateY(-2px);
-  opacity: 1;
-  filter: grayscale(0%);
-}
-
-/* Selected state */
-.emotion-input:checked + .emotion-label {
-  animation: emotion-select 0.3s ease;
-  opacity: 1;
-  filter: grayscale(0%);
-  transform: scale(1.1);
-}
-
-/* Animation for selection */
-@keyframes emotion-select {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1.1);
-  }
-}
-
-/* Feedback Buttons */
-.feedback-buttons {
-  display: flex;
-  gap: 12px;
-}
-
-@media (max-width: 640px) {
-  .feedback-modal {
-    gap: 28px;
-    padding: 20px 16px;
-  }
-
-  .feedback-title {
-    font-size: 40px;
-  }
-
-  .feedback-modal-content {
-    width: 100%;
-    height: min(600px, calc(100dvh - 126px));
-    padding: 28px 22px;
-  }
-
-  .feedback-actions-container {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .feedback-emotions {
-    justify-content: center;
-    margin-right: 0;
-  }
-
-  .feedback-buttons {
-    justify-content: flex-end;
-  }
-}
-
-.keyboard-shortcuts-heading {
-  margin-top: 20px;
-  margin-bottom: 44px;
-}
-
-

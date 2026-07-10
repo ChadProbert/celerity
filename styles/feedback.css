@@ -1,0 +1,281 @@
+/*
+ * Feedback modal: form, emotion picker, status messages.
+ * Must be linked AFTER modal.css — .feedback-select relies on source order
+ * to win same-specificity ties against the shared .custom-select rules
+ * there (the type dropdown carries both classes).
+ */
+
+/* Positions the custom dropdown arrow for the feedback type select */
+.feedback-type-container {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.feedback-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  background: var(--color-background);
+  justify-content: center;
+  align-items: center;
+  gap: 44px;
+  flex-direction: column;
+  z-index: 2000;
+  overflow: hidden;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.feedback-modal .feedback-page-close {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 2002;
+}
+
+.feedback-modal-content {
+  background: var(--plus-button-color);
+  padding: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--confirm-border-color);
+  max-width: 680px;
+  width: 90%;
+  height: min(560px, calc(100dvh - 186px));
+  overflow-y: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.feedback-title {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--color-text);
+  font-size: 54px;
+  line-height: 1;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.feedback-field textarea {
+  resize: none;
+  height: 120px;
+}
+
+.feedback-field label {
+  color: var(--color-text);
+  font-weight: var(--font-weight-normal);
+  font-size: 0.9rem;
+}
+
+.feedback-select {
+  padding: 12px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--confirm-border-color);
+  background-color: var(--input-color);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.feedback-field input,
+.feedback-field textarea {
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--confirm-border-color);
+  background-color: var(--input-color);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.feedback-select:focus,
+.feedback-field input:focus,
+.feedback-field textarea:focus {
+  border-color: var(--color-text);
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
+}
+
+.feedback-cancel,
+.feedback-submit {
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  font-family: var(--font-family);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.feedback-cancel {
+  background-color: transparent;
+  color: var(--color-text-subtle);
+  min-width: 100px;
+  border: none;
+  transition: color 0.4s ease;
+}
+
+.feedback-cancel:hover {
+  color: var(--color-text);
+}
+
+.feedback-submit {
+  background-color: var(--hover-color);
+  color: var(--color-text);
+  border: 1px solid var(--confirm-border-color);
+  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: 4px;
+  min-width: 180px;
+  transition: all 0.2s ease;
+}
+
+/* Status classes are set by feedback.js on submit outcomes */
+.feedback-status {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.feedback-status.success {
+  background-color: rgba(52, 199, 89, 0.1);
+  color: var(--green-color);
+  border: 1px solid rgba(52, 199, 89, 0.3);
+  display: block;
+}
+
+.feedback-status.error {
+  background-color: rgba(255, 59, 48, 0.1);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  display: block;
+}
+
+.feedback-actions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+/* ===== Emotion picker ===== */
+
+.feedback-emotions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex: 1;
+  margin-right: 20px;
+}
+
+/* The radio inputs are hidden; the emoji labels are the visible controls */
+.emotion-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  visibility: hidden;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.emotion-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: 0;
+  font-size: 1.5rem;
+  opacity: 0.5;
+  filter: grayscale(70%);
+  transition: all 0.3s ease;
+}
+
+.emotion-label:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+.emotion-input:checked + .emotion-label {
+  animation: emotion-select 0.3s ease;
+  opacity: 1;
+  filter: grayscale(0%);
+  transform: scale(1.1);
+}
+
+/* Also replayed by feedback.js via a style.animation reset on re-select */
+@keyframes emotion-select {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.feedback-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .feedback-modal {
+    gap: 28px;
+    padding: 20px 16px;
+  }
+
+  .feedback-title {
+    font-size: 40px;
+  }
+
+  .feedback-modal-content {
+    width: 100%;
+    height: min(600px, calc(100dvh - 126px));
+    padding: 28px 22px;
+  }
+
+  .feedback-actions-container {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .feedback-emotions {
+    justify-content: center;
+    margin-right: 0;
+  }
+
+  .feedback-buttons {
+    justify-content: flex-end;
+  }
+}
