@@ -1,19 +1,10 @@
-/**
- * Theme Definitions 
- * 
- * This file defines all available themes for the application using CSS variables.
- * Each theme is implemented using the [data-theme="theme-name"] attribute selector
- * which gets applied to the document root element when the theme is selected.
- * 
- * The themes override the default variables defined in style.css.
+/*
+ * Theme definitions. theme.js sets data-theme on the root element; each
+ * block overrides the default (dark) variables from style.css. This file
+ * loads last so its rules win cascade ties.
  */
 
-/**
- * Light Theme
- * 
- * A clean, bright theme with high contrast and subtle shadows.
- * Features a light gray background with black text and light gray accents.
- */
+/* Light theme */
 [data-theme="light"] {
   --color-background: #e9e9e9;
   --color-text: #000000;
@@ -33,12 +24,7 @@
 }
 
 
-/* 
- * Light Theme Form Element Styles
- * 
- * Special focus styles for the light theme to ensure good contrast
- * and visual feedback when interacting with form elements.
- */
+/* Light-theme focus styles for form elements (contrast) */
 [data-theme="light"] input:focus,
 [data-theme="light"] select:focus,
 [data-theme="light"] .custom-select:focus {
@@ -62,12 +48,7 @@
   color: var(--color-text);
 }
 
-/**
- * Celerity Void Theme
- * 
- * An extremely dark variant of the standard dark theme.
- * Features true black backgrounds and deeper accents.
- */
+/* Void theme: true-black variant of the dark theme */
 [data-theme="void"] {
   --color-background: #000000;
   --color-text: #ffffff;
@@ -86,7 +67,8 @@
   --focus-ring-color: var(--color-text);
 }
 
-/* Custom border pulse for Celerity Void theme */
+/* Void-theme variant of the first-visit pulse. pulse-border is added
+   dynamically by modal.js — looks orphaned, is not. */
 [data-theme="void"] .help-button.pulse-border::before,
 [data-theme="void"] .settings-button.pulse-border::before {
   border-color: rgb(255, 255, 255);

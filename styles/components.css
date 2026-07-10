@@ -1,9 +1,6 @@
-/**
- * Components CSS
- * 
- * This file contains styling for all reusable UI components in the application.
- * It defines the visual appearance, layout, and interactive states for elements
- * such as commands, buttons, inputs, and other interface components.
+/*
+ * Light-DOM components: top bar, action buttons, first-visit pulse,
+ * and the global input/button reset.
  */
 
 /*

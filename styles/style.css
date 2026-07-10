@@ -1,11 +1,8 @@
-/**
- * MAIN STYLESHEET FOR CELERITY
- *
- * This file contains the base styles, CSS custom properties (variables)
- * and core layout structure for the application.
+/*
+ * Base styles: fonts, design-token variables, and core layout.
  */
 
-/* Bundled the Poppins font family locally to avoid Content Security Policy (CSP) issues. */
+/* Poppins is bundled locally to satisfy the extension's CSP. */
 @font-face {
   font-family: "Poppins";
   src: url("../fonts/poppins/poppins-regular.woff2") format("woff2");
@@ -54,13 +51,11 @@
   font-display: swap;
 }
 
-/**
- * GLOBAL CSS VARIABLES
- * 
- * These variables define the theme colors, spacing, typography, and other
- * design tokens used throughout the application. They are referenced by 
- * all other CSS files and allow for an easier implementation of dynamic 
- * theming.
+/*
+ * Design tokens (dark theme defaults; themes.css overrides per theme).
+ * Custom properties inherit across shadow boundaries, so some are consumed
+ * only by the <template> <style> blocks in index.html — check there before
+ * declaring one unused.
  */
 :root {
   /* Layout & Appearance */
@@ -106,13 +101,7 @@
   --floating-button-size: 42px;
 }
 
-/**
- * BASE ELEMENT STYLES
- * 
- * These are the foundational styles for HTML elements.
- * They establish the base appearance for the entire application.
- */
-/* Base font styles with !important to override Chrome's defaults */
+/* !important guards against Chrome's injected new-tab font defaults - do not remove */
 html, body {
   font-family: var(--font-family) !important;
   font-size: 100% !important; /* Overrides injected 75% */
@@ -141,21 +130,16 @@ body {
   overflow: hidden; /* Prevent scrolling */
 }
 
-/**
- * LAYOUT STRUCTURE
- * 
- * The main container is set up as a centered flex layout
- * that takes up the full viewport height.
- */
+/* Centered full-viewport flex layout; padding clears the fixed top bar */
 main {
   align-items: center;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  max-height: 100vh; /* Prevent vertical scrolling */
-  max-width: 100vw; /* Prevent horizontal scrolling */
-  overflow: hidden; /* Hide any overflow */
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
   padding: calc(var(--floating-button-size) + (2 * var(--top-bar-padding-y)) + var(--space)) var(--space) calc(var(--space) * 4);
   position: relative;
   width: 100%;

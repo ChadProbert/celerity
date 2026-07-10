@@ -1,15 +1,7 @@
 <!DOCTYPE html>
-<!-- 
-  Celerity - New Tab Page
-  
-  This document creates a customisable new tab page with keyboard shortcuts,
-  search functionality, and theme customisation. The interface features:
-  
-  1. A grid of keyboard shortcuts for quick navigation to websites
-  2. Search functionality that works with custom shortcuts or direct URLs
-  3. Theme customisation with multiple design options
-  4. Settings management through a modal interface
-  5. Help documentation for new users
+<!--
+  Celerity — a keyboard-first new tab page.
+  Shortcut grid, search-as-you-type, themes, and settings/help/feedback modals.
 -->
 <html lang="en">
   <head>
@@ -39,28 +31,21 @@
     />
     <title>New tab</title>
 
-    <!-- 
-      Local Font Resources
-      The Poppins font is now embedded locally via @font-face rules in
-      styles/style.css, eliminating any external font requests.
-    -->
+    <!-- Poppins is embedded locally via @font-face in styles/style.css -->
 
-    <!-- 
-      Font Awesome Icons
-      Provides the icon set used throughout the UI for buttons and visual elements.
-    -->
+    <!-- Font Awesome icon set (buttons and visual elements) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <link rel="icon" href="images/tab-icons/tab-icon.svg" type="image/x-icon" />
 
-    <!-- 
-      CSS Stylesheets
-      - style.css: Core styles, variables, and layout
-      - components.css: UI component styles
-      - modal.css: Modal dialogs and forms
-      - themes.css: Theme definitions and customisations
+    <!--
+      Stylesheet order is a cascade contract:
+      style.css (variables/base) -> components.css (top bar, buttons)
+      -> modal.css (settings/confirm/help) -> feedback.css (must follow
+      modal.css: order breaks same-specificity ties) -> themes.css (last,
+      theme overrides win)
     -->
     <link rel="stylesheet" href="./styles/style.css" />
     <link rel="stylesheet" href="./styles/components.css" />
@@ -68,26 +53,17 @@
     <link rel="stylesheet" href="./styles/feedback.css" />
     <link rel="stylesheet" href="./styles/themes.css" />
 
-    <!-- 
-      Core Configuration Script
-      Loaded early to define global configuration and command settings
-      before the DOM is fully loaded.
-    -->
+    <!-- config.js defines the CONFIG/COMMANDS globals every other script reads -->
     <script src="./js/config.js"></script>
 
-    <!-- EmailJS library for sending emails directly from the UI -->
-    <!-- EmailJS library included locally for Chrome Extension compliance -->
+    <!-- EmailJS, vendored locally for Chrome extension CSP compliance -->
     <script src="./js/vendor/email.min.js"></script>
   </head>
   <body>
-    <!-- 
-      Template: Commands Grid
-      
-      This template defines the layout and styling for the grid of keyboard shortcuts.
-      The grid is responsive and adapts from 1 column on small screens to 4 columns
-      on large screens. Each command item features a key and name with hover effects.
-      
-      The template also includes styles for the settings and help buttons.
+    <!--
+      Template: commands grid (cloned into <commands-component>'s shadow DOM).
+      The <style> below is the grid's ONLY styling — external stylesheets
+      cannot pierce the shadow boundary.
     -->
     <template id="commands-template">
       <style>
@@ -140,8 +116,6 @@
           background-color: var(--hover-color);
           border-color: var(--border-color);
         }
-
-
 
         .commands .empty-plus:focus-visible {
           outline: 2px solid var(--color-text);
@@ -257,13 +231,7 @@
       </nav>
     </template>
 
-    <!-- 
-      Template: Command Item
-      
-      This template defines the structure of each individual command shortcut item.
-      Each item contains a key (the keyboard shortcut) and a name (the destination).
-      These items are generated dynamically from the user's saved shortcuts.
-    -->
+    <!-- Template: one shortcut item (key + name), cloned per command -->
     <template id="command-template">
       <li>
         <a class="command" rel="noopener noreferrer">
@@ -273,13 +241,9 @@
       </li>
     </template>
 
-    <!-- 
-      Template: Search Interface
-      
-      This template defines the search dialog that appears when users start typing.
-      It includes an input field for queries and a suggestions list that displays
-      matching shortcuts or search suggestions. The search interface supports
-      keyboard navigation and provides visual feedback for selected items.
+    <!--
+      Template: search dialog (cloned into <search-component>'s shadow DOM).
+      As above, the <style> below is its only styling.
     -->
     <template id="search-template">
       <style>
@@ -399,14 +363,7 @@
       </dialog>
     </template>
 
-    <!-- 
-      Templates: Search Suggestion and Match Highlighting
-      
-      These templates define the structure of search suggestions and how
-      matching text is highlighted within suggestions. The suggestion-template
-      creates a button for each suggestion, while the match-template defines
-      how matched text is styled differently.
-    -->
+    <!-- Templates: one search suggestion, and the matched-text span within it -->
     <template id="suggestion-template">
       <li>
         <button class="suggestion" type="button"></button>
@@ -417,17 +374,7 @@
       <span class="match"></span>
     </template>
 
-    <!-- 
-      Main Content Area
-      
-      This section contains the primary UI components:
-      1. Settings button - Opens the settings modal
-      2. Help button - Opens the help documentation
-      3. Feedback button - Links to external feedback form
-      4. Commands component - Displays the grid of shortcuts
-      5. Search component - Handles search functionality
-      6. Footer with branding link
-    -->
+    <!-- Visually hidden site header for screen readers -->
     <header
       role="banner"
       aria-label="Site header"
@@ -492,18 +439,7 @@
 
     </main>
 
-    <!-- 
-      Settings Modal System
-      
-      This section defines the settings modal that allows users to:
-      1. Change the visual theme
-      2. Reset settings to defaults
-      3. Manage keyboard shortcuts
-      
-      The modal appears when the settings button is clicked and
-      disappears when the close button is clicked or when clicking
-      outside the modal.
-    -->
+    <!-- Settings modal: shortcut manager, theme picker, config export/import/reset -->
     <div
       class="modal-overlay"
       id="modalOverlay"
@@ -526,35 +462,21 @@
         >
           <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
-        <!-- 
-          Shortcut Manager Section
-          Displays a dynamic list of keyboard shortcuts that users can
-          edit, delete, or add to. Each shortcut has a key (the keyboard
-          shortcut) and a value (the URL to navigate to).
-        -->
         <div class="shortcut-section" id="settingsShortcutsSection">
           <h2 class="keyboard-shortcuts-heading" id="settingsModalTitle">
             Keyboard Shortcuts
           </h2>
 
-          <!-- Container with accent color background -->
           <div class="shortcuts-container">
-            <div class="shortcut-list" id="shortcutList">
-              <!-- Dynamic shortcut items will go here -->
-            </div>
+            <!-- Rows are rendered by modal.js -->
+            <div class="shortcut-list" id="shortcutList"></div>
           </div>
         </div>
 
-        <!-- 
-          Theme Selection Section
-          Allows users to choose from various visual themes
-          using a custom styled select dropdown.
-        -->
         <div class="theme-section" id="settingsThemeSection">
           <h2 class="theme-label" id="settingsThemeHeading">
             Theme
           </h2>
-          <!-- Container with accent color background -->
           <div class="theme-container">
             <div class="custom-select-wrapper">
               <select id="themeSelect" class="custom-select">
@@ -568,7 +490,6 @@
           </div>
         </div>
 
-        <!-- Configuration Section  -->
         <div class="config-section">
           <h2 class="config-label">Config</h2>
           <div class="reset-section">
@@ -595,14 +516,7 @@
       </div>
     </div>
 
-    <!-- 
-      Confirmation Modal
-      
-      This modal appears when a user action requires confirmation,
-      such as resetting settings or deleting a shortcut. It displays
-      a message and offers Cancel and OK buttons. The appearance of
-      the OK button changes based on the action type.
-    -->
+    <!-- Confirmation dialog, driven by customConfirm() in js/confirm.js -->
     <div
       id="confirmModal"
       class="confirm-modal"
@@ -622,14 +536,7 @@
       </div>
     </div>
 
-    <!-- 
-      Help Modal
-      
-      This modal provides documentation and instructions for using
-      the application. It includes sections on keyboard shortcuts,
-      managing settings, adding new shortcuts, searching, and themes.
-      The modal appears when the help button is clicked.
-    -->
+    <!-- Help modal: quick usage guide -->
     <div
       id="helpModal"
       class="help-modal"
@@ -700,13 +607,7 @@
       </div>
     </div>
 
-    <!-- 
-      Feedback Modal
-      
-      This modal contains a feedback form that allows users to provide direct feedback.
-      The form includes fields for feedback type, message, and optional contact information.
-      Submissions are emailed directly to the developer.
-    -->
+    <!-- Feedback modal: form submissions are emailed to the developer (js/feedback.js) -->
     <div
       id="feedbackModal"
       class="feedback-modal"
@@ -839,15 +740,14 @@
       </div>
     </div>
 
-    <!-- 
-      JavaScript Components and Core Functionality
-      
-      These scripts implement the application's behavior:
-      - commands.js: Handles the keyboard shortcut grid
-      - search.js: Implements the search functionality
-      - modal.js: Manages modal dialogs and settings
-      - theme.js: Handles theme switching and persistence
-      - feedback.js: Handles the feedback button
+    <!--
+      Script order is a load-order contract (config.js already loaded in
+      <head>): commands.js registers its DOMContentLoaded listener before
+      modal.js's, so <commands-component> is upgraded when ModalManager's
+      constructor calls its render(); confirm.js installs its parse-time
+      Enter listener before any DOMContentLoaded keydown listeners and must
+      precede modal.js (which calls customConfirm); theme.js assigns
+      window.CelerityTheme at parse time for modal.js's runtime calls.
     -->
     <script src="./js/components/commands.js"></script>
     <script src="./js/components/search.js"></script>
