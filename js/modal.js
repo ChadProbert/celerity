@@ -1,39 +1,53 @@
-/**
- * Modal Manager
+/*
+ * Settings and help modals: open/close routing, first-visit guidance,
+ * shortcut CRUD, and theme/config management.
  *
- * Responsible for handling all modal-related interactions throughout the application.
- * This class manages the settings modal, help guide modal, confirmation dialogs,
- * and all related event listeners and interactions.
- *
- * Features:
- * - Opening and closing settings modal
- * - Opening and closing help documentation modal
- * - Handling keyboard shortcuts for modal interaction (Escape to close)
- * - Managing modal scroll functionality
- * - First-time visitor detection and guidance
- * - Settings reset functionality
- * - Shortcut management (add, edit, delete)
+ * Defines:    ModalManager (constructed on DOMContentLoaded)
+ * Depends on: COMMANDS, saveCommands, loadCommands, defaultCommands
+ *             (config.js); customConfirm (confirm.js);
+ *             window.CelerityTheme at call time — theme.js parses AFTER
+ *             this file, so it must only be dereferenced inside methods,
+ *             never at the top level. <commands-component> is already
+ *             upgraded when the DOMContentLoaded handler below runs because
+ *             components/commands.js registers its listener first (script
+ *             order in index.html).
  */
+
+/*
+ * Adds https:// to a URL typed without a protocol. The shortcut editor
+ * recognises only http/https — unlike search.js's hasProtocol, which
+ * deliberately accepts any scheme for typed URLs. Keep them separate.
+ */
+function ensureHttps(url) {
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `https://${url}`;
+}
+
+function buildShortcutInput(className, { value, placeholder, readOnly = false } = {}) {
+  const input = document.createElement("input");
+  input.type = "text";
+  input.classList.add(className);
+  if (value !== undefined) input.value = value;
+  if (placeholder !== undefined) input.placeholder = placeholder;
+  input.readOnly = readOnly;
+  return input;
+}
+
+function buildIconButton(className, iconHtml, title) {
+  const button = document.createElement("button");
+  button.classList.add(className);
+  button.innerHTML = iconHtml;
+  button.title = title;
+  return button;
+}
+
 class ModalManager {
-  /**
-   * Initializes the ModalManager with all required DOM elements and event bindings.
-   *
-   * The constructor:
-   * 1. Detects if this is a first-time visitor
-   * 2. Fetches all required DOM elements
-   * 3. Binds all methods to maintain 'this' context
-   * 4. Sets up default settings
-   * 5. Initializes event listeners and settings
-   *
-   * @throws {Error} If critical DOM elements cannot be found
-   */
   constructor() {
-    // Check if this is a first-time visitor - do this first before other initialization
+    // First-visit state drives the guided pulse animations; read it before
+    // anything else can touch localStorage.
     this.isFirstTimeVisitor = localStorage.getItem("hasVisitedBefore") === null;
-    // Check if user has seen help but not settings yet
     this.hasSeenHelpOnly = localStorage.getItem("hasSeenHelpOnly") === "true";
 
-    // DOM elements
     this.openModalBtn = document.getElementById("openModal");
     this.openHelpBtn = document.getElementById("openHelp");
     this.closeModalBtn = document.getElementById("closeModal");
@@ -48,266 +62,146 @@ class ModalManager {
     this.importFileInput = document.getElementById("importConfigFile");
     this.commandsComponent = document.querySelector("commands-component");
 
-    // Bind all methods to this instance
+    // Bind the methods that are registered as event listeners
     this.openSettingsModal = this.openSettingsModal.bind(this);
     this.openHelpModalHandler = this.openHelpModalHandler.bind(this);
     this.closeSettingsModal = this.closeSettingsModal.bind(this);
     this.closeHelpModal = this.closeHelpModal.bind(this);
     this.handleWindowClick = this.handleWindowClick.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
-    this.renderShortcuts = this.renderShortcuts.bind(this);
     this.resetSettings = this.resetSettings.bind(this);
     this.exportConfig = this.exportConfig.bind(this);
     this.importConfig = this.importConfig.bind(this);
     this.handleImportFile = this.handleImportFile.bind(this);
-    this.addNewShortcutField = this.addNewShortcutField.bind(this);
-
-    // Default settings
-    this.DEFAULT_SETTINGS = {
-      theme: "system",
-      commands: new Map([
-        [
-          "g",
-          { name: "Gmail", url: "https://mail.google.com/mail/u/0/#inbox" },
-        ],
-        [
-          "y",
-          {
-            name: "YouTube",
-            searchTemplate: "/results?search_query={}",
-            url: "https://youtube.com/",
-          },
-        ],
-        [
-          "m",
-          {
-            name: "Metabase",
-            url: "https://metabase.hyperiondev.com/dashboard/157-my-dashboard",
-          },
-        ],
-        [
-          "d",
-          {
-            name: "Dropbox",
-            url: "https://www.dropbox.com/work",
-            searchTemplate: "/search/work?path=%2F&query={}",
-          },
-        ],
-        [
-          "a",
-          {
-            name: "Chat",
-            searchTemplate: "/?q={}",
-            url: "https://chat.openai.com/chat",
-          },
-        ],
-        ["n", { name: "Netflix", url: "https://www.netflix.com/browse" }],
-        [
-          "c",
-          {
-            name: "Cogrammer",
-            url: "https://hyperiondev.cogrammar.com/",
-          },
-        ],
-        ["l", { name: "Localhost", url: "http://localhost:3000" }],
-        [
-          "gh",
-          {
-            name: "GitHub",
-            url: "https://github.com/",
-            searchTemplate: "/search?q={}",
-          },
-        ],
-        [
-          "k",
-          {
-            name: "Knowledge",
-            url: "https://sites.google.com/hyperiondev.com/hyperiondev-kb/home?authuser=0",
-          },
-        ],
-        [
-          "r",
-          {
-            name: "Reddit",
-            url: "https://reddit.com",
-          },
-        ],
-        [
-          "s",
-          {
-            name: "Spotify",
-            searchTemplate: "/search/{}",
-            url: "https://open.spotify.com",
-          },
-        ],
-      ]),
-    };
 
     this.initializeEventListeners();
     this.initializeSettings();
   }
 
-  /**
-   * Sets up all event listeners for the modal functionality.
-   * Includes opening/closing modals, resetting settings, and keyboard shortcuts.
-   */
   initializeEventListeners() {
-    // Open Settings Modal
     if (this.openModalBtn) {
       this.openModalBtn.addEventListener("click", this.openSettingsModal);
     } else {
       console.error("Settings button element not found!");
     }
 
-    // Open Help Modal
     if (this.openHelpBtn) {
       this.openHelpBtn.addEventListener("click", this.openHelpModalHandler);
     } else {
       console.error("Help button element not found!");
     }
 
-    // Close Settings Modal
     if (this.closeModalBtn) {
       this.closeModalBtn.addEventListener("click", this.closeSettingsModal);
     }
 
-    // Close Help Modal
     if (this.closeHelpModalBtn) {
       this.closeHelpModalBtn.addEventListener("click", this.closeHelpModal);
     }
 
-    // Close Modal (clicking outside the modal content)
+    // Dismissal paths shared by both modals: outside click and Escape
     window.addEventListener("click", this.handleWindowClick);
-
-    // Close Modal with escape key
     document.addEventListener("keydown", this.handleKeydown);
 
-    // Reset settings button
     this.resetButton.addEventListener("click", this.resetSettings);
-
-    // Export/Import config buttons
     this.exportButton.addEventListener("click", this.exportConfig);
     this.importButton.addEventListener("click", this.importConfig);
     this.importFileInput.addEventListener("change", this.handleImportFile);
   }
 
-  /**
-   * Initializes the application settings by loading saved commands
-   * and rendering shortcuts and the commands component.
-   */
   initializeSettings() {
-    // Initialize by loading commands
     loadCommands();
     this.renderShortcuts();
     this.commandsComponent.render();
 
-    // If this is a first-time visitor, add animation to help button
+    // Guide new users: pulse the help button first; once help has been
+    // seen (but settings hasn't), pulse the settings button instead.
     if (this.isFirstTimeVisitor && this.openHelpBtn) {
-      // Apply animation with a slight delay
       setTimeout(() => {
         this.openHelpBtn.classList.add("pulse-border");
       }, 200);
-    }
-    // Add animation for users who have seen help but not settings
-    else if (this.hasSeenHelpOnly && this.openModalBtn) {
-      // Apply animation with a slight delay
+    } else if (this.hasSeenHelpOnly && this.openModalBtn) {
       setTimeout(() => {
         this.openModalBtn.classList.add("pulse-border");
       }, 200);
     }
   }
 
-  /**
-   * Opens the settings modal and initializes its content.
-   *
-   * This method:
-   * - Updates first-time visitor state if needed
-   * - Closes the search dialog if open
-   * - Displays the settings modal and overlay
-   * - Refreshes the shortcuts list
-   * - Sets up scrolling functionality
-   * - Positions the modal at the top
-   * - Adds scroll event listeners
+  /*
+   * Marks the help content as seen (first-visit bookkeeping). The two
+   * localStorage writes happen in this order everywhere.
    */
+  markHelpSeen() {
+    localStorage.setItem("hasVisitedBefore", "true");
+    localStorage.setItem("hasSeenHelpOnly", "true");
+    this.isFirstTimeVisitor = false;
+    this.hasSeenHelpOnly = true;
+  }
+
+  pulseSettingsButton(delay) {
+    setTimeout(() => {
+      if (this.openModalBtn) {
+        this.openModalBtn.classList.add("pulse-border");
+      }
+    }, delay);
+  }
+
+  /*
+   * The search dialog gives way whenever a modal opens. Raw dialog.close()
+   * on purpose: the component's own close() would also clear the input and
+   * re-show the top-bar buttons, which is not the behavior here.
+   */
+  closeSearchDialogIfOpen() {
+    const searchComponent = document.querySelector("search-component");
+    if (!searchComponent) return;
+    const dialog = searchComponent.shadowRoot.querySelector(".dialog");
+    if (dialog && dialog.open) {
+      dialog.close();
+    }
+  }
+
   openSettingsModal() {
-    // If user has seen help only, mark as having seen settings too
+    // Opening settings completes the first-visit guidance
     if (this.hasSeenHelpOnly) {
       localStorage.removeItem("hasSeenHelpOnly");
       this.hasSeenHelpOnly = false;
-
-      // Remove animation from settings button
       if (this.openModalBtn) {
         this.openModalBtn.classList.remove("pulse-border");
       }
     }
 
-    // Close search dialog if it's open
-    const searchComponent = document.querySelector("search-component");
-    if (searchComponent) {
-      const dialog = searchComponent.shadowRoot.querySelector(".dialog");
-      if (dialog && dialog.open) {
-        dialog.close();
-      }
-    }
+    this.closeSearchDialogIfOpen();
 
     this.settingsModal.style.display = "flex";
     this.modalOverlay.classList.add("active");
-    this.renderShortcuts(); // Refresh shortcuts when opening modal
+    this.renderShortcuts(); // commands may have changed since last open
 
-    // Add scroll buttons to settings modal
     const modalContent = this.settingsModal.querySelector(".modal-content");
     if (modalContent) {
       modalContent.classList.add("scrollable");
-
-      // Reset scroll position to top when opening the modal
       modalContent.scrollTop = 0;
-
     }
   }
 
-  /**
-   * Opens the help modal and initializes its content.
-   *
-   * This method:
-   * - Updates UI for first-time visitors
-   * - Closes the search dialog if open
-   * - Displays the help modal and overlay
-   * - Resets the scroll position to the top
-   * - Sets up scroll button indicators
-   * - Adds scroll event listeners
-   * - Sets focus on the close button for accessibility
-   */
   openHelpModalHandler() {
-    // Just remove the animation class from help button for first-time visitors
     if (this.isFirstTimeVisitor && this.openHelpBtn) {
       this.openHelpBtn.classList.remove("pulse-border");
     }
 
-    // Close search dialog if it's open
-    const searchComponent = document.querySelector("search-component");
-    if (searchComponent) {
-      const dialog = searchComponent.shadowRoot.querySelector(".dialog");
-      if (dialog && dialog.open) {
-        dialog.close();
-      }
-    }
+    this.closeSearchDialogIfOpen();
 
     this.helpModal.style.display = "flex";
     this.modalOverlay.classList.add("active");
 
-    // Reset scroll position in help modal
     const helpModalContent = this.helpModal.querySelector(
       ".help-modal-content"
     );
     if (helpModalContent) {
       helpModalContent.scrollTop = 0;
-
-      // Always add scrollable class to get consistent styling
       helpModalContent.classList.add("scrollable");
-
     }
 
-    // Focus on close button for accessibility
+    // Move focus to the close button for keyboard users
     if (this.closeHelpModalBtn) {
       setTimeout(() => {
         this.closeHelpModalBtn.focus();
@@ -315,82 +209,43 @@ class ModalManager {
     }
   }
 
-  /**
-   * Closes the settings modal and removes the overlay.
-   *
-   * This method:
-   * - Removes scroll event listeners to prevent memory leaks
-   * - Hides the settings modal
-   * - Removes the modal overlay
-   */
   closeSettingsModal() {
     this.settingsModal.style.display = "none";
     this.modalOverlay.classList.remove("active");
   }
 
-  /**
-   * Closes the help modal and removes the overlay.
-   *
-   * This method:
-   * - Updates the visit history for first-time visitors
-   * - Removes scroll event listeners to prevent memory leaks
-   * - Hides the help modal
-   * - Removes the modal overlay
-   */
+  /* Also registered directly as the close button's click listener. */
   closeHelpModal() {
-    // If this is a first-time visitor, update the localStorage flags AFTER
-    // they've seen the help content
+    // First-visit flags update only after the visitor has seen the help
     if (this.isFirstTimeVisitor) {
-      localStorage.setItem("hasVisitedBefore", "true");
-      localStorage.setItem("hasSeenHelpOnly", "true");
-      this.isFirstTimeVisitor = false;
-      this.hasSeenHelpOnly = true;
+      this.markHelpSeen();
     }
 
     this.helpModal.style.display = "none";
     this.modalOverlay.classList.remove("active");
 
-    // If user has seen help but hasn't seen settings yet, add animation
-    // to settings button
-    if (this.hasSeenHelpOnly && this.openModalBtn) {
-      setTimeout(() => {
-        this.openModalBtn.classList.add("pulse-border");
-      }, 500);
+    // Hand the guidance pulse over to the settings button
+    if (this.hasSeenHelpOnly) {
+      this.pulseSettingsButton(500);
     }
   }
 
-  /**
-   * Handles clicks on the window to close modals when clicking outside of modal content.
-   *
-   * This implements the common UI pattern where clicking outside a modal
-   * dismisses it. The method checks if the click occurred outside the modal content
-   * area but within the modal container or overlay.
-   *
-   * @param {MouseEvent} event - The mouse click event
+  /*
+   * Outside-click dismissal. The modal containers span the full viewport,
+   * so event.target is the container itself only when a click misses the
+   * content box; the overlay is a separate stacked element.
    */
   handleWindowClick(event) {
-    // If clicking on help modal or overlay while help modal is open
     if (
       this.helpModal.style.display === "flex" &&
       (event.target === this.helpModal || event.target === this.modalOverlay)
     ) {
-      // Update first-time visitor state for help modal exit
       if (this.isFirstTimeVisitor) {
-        localStorage.setItem("hasVisitedBefore", "true");
-        localStorage.setItem("hasSeenHelpOnly", "true");
-        this.isFirstTimeVisitor = false;
-        this.hasSeenHelpOnly = true;
-
-        // Add animation to settings button
-        setTimeout(() => {
-          if (this.openModalBtn) {
-            this.openModalBtn.classList.add("pulse-border");
-          }
-        }, 500);
+        this.markHelpSeen();
+        this.pulseSettingsButton(500);
       }
     }
 
-    // Handle settings modal clicks
     if (
       event.target === this.settingsModal ||
       event.target === this.modalOverlay
@@ -400,120 +255,83 @@ class ModalManager {
       this.modalOverlay.classList.remove("active");
     }
 
-    // Handle help modal clicks
     if (event.target === this.helpModal) {
       this.helpModal.style.display = "none";
       this.modalOverlay.classList.remove("active");
     }
   }
 
-  /**
-   * Handles keyboard events for modal navigation and accessibility.
-   *
-   * Currently handles:
-   * - Escape key to close open modals
-   *
-   * @param {KeyboardEvent} e - The keyboard event
+  /*
+   * Escape unconditionally hides the settings and help modals and never
+   * touches the confirm or feedback dialogs — each modal family owns its
+   * own document-level Escape listener (see confirm.js, feedback.js and
+   * components/search.js) with deliberately different open-state rules.
    */
   handleKeydown(e) {
     if (e.key === "Escape") {
-      // If help modal is open and we're a first-time visitor
       if (this.helpModal.style.display === "flex" && this.isFirstTimeVisitor) {
-        // Update first-time visitor state
-        localStorage.setItem("hasVisitedBefore", "true");
-        localStorage.setItem("hasSeenHelpOnly", "true");
-        this.isFirstTimeVisitor = false;
-        this.hasSeenHelpOnly = true;
-
-        // Add animation to settings button
-        setTimeout(() => {
-          if (this.openModalBtn) {
-            this.openModalBtn.classList.add("pulse-border");
-          }
-        }, 500);
+        this.markHelpSeen();
+        this.pulseSettingsButton(500);
       }
 
-      // Close all modals
       this.settingsModal.style.display = "none";
       this.helpModal.style.display = "none";
       this.modalOverlay.classList.remove("active");
     }
   }
 
-  /**
-   * Renders the list of keyboard shortcuts in the settings modal.
-   *
-   * This method:
-   * - Clears the existing shortcuts list
-   * - Iterates through all defined commands
-   * - Creates editable input fields for each shortcut
-   * - Adds event listeners for editing, saving, and deleting shortcuts
-   */
+  /* Rebuilds the editable shortcut list: one row per command, plus the
+   * always-last "add new" row. */
   renderShortcuts() {
     this.shortcutList.innerHTML = "";
 
-    // Add each existing shortcut to the list
     for (const [key, value] of COMMANDS.entries()) {
       this.shortcutList.appendChild(this.createShortcutItem(key, value));
     }
 
-    // Add new shortcut field
     this.addNewShortcutField();
   }
 
-  /**
-   * Creates a DOM element for a shortcut item with edit/delete functionality.
-   * @param {string} key - The shortcut key
-   * @param {Object} value - The shortcut value object containing name and URL
-   * @returns {HTMLElement} The created shortcut item DOM element
+  /* Persist COMMANDS and re-render both the settings list and the grid. */
+  persistAndRefresh() {
+    saveCommands();
+    this.renderShortcuts();
+    this.commandsComponent.render();
+  }
+
+  confirmShortcutOverride(key) {
+    const existing = COMMANDS.get(key);
+    return customConfirm({
+      message: `The shortcut key "${key}" already exists (${existing.name}). Are you sure you want to override it?`,
+      confirmText: "Override",
+      cancelText: "Cancel",
+      confirmClass: "confirm-override",
+    });
+  }
+
+  /*
+   * Builds one editable row of the shortcut list: key/name/URL inputs plus
+   * an edit-or-save toggle button and a delete button.
    */
   createShortcutItem(key, value) {
     const shortcutItem = document.createElement("div");
     shortcutItem.classList.add("shortcut-item");
 
-    // Create input for key
-    const keyInput = document.createElement("input");
-    keyInput.type = "text";
-    keyInput.classList.add("key-input");
-    keyInput.value = key;
-    keyInput.readOnly = true;
-    shortcutItem.appendChild(keyInput);
+    const keyInput = buildShortcutInput("key-input", { value: key, readOnly: true });
+    const nameInput = buildShortcutInput("name-input", { value: value.name || "", readOnly: true });
+    const valueInput = buildShortcutInput("value-input", { value: value.url || "", readOnly: true });
+    const actionButton = buildIconButton(
+      "edit-button",
+      '<i class="fa-solid fa-pen-to-square"></i>',
+      "Edit shortcut"
+    );
+    const deleteButton = buildIconButton(
+      "delete-button",
+      '<i class="fa-solid fa-trash"></i>',
+      "Delete shortcut"
+    );
+    shortcutItem.append(keyInput, nameInput, valueInput, actionButton, deleteButton);
 
-    // Create input for name
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.classList.add("name-input");
-    nameInput.value = value.name || "";
-    nameInput.readOnly = true;
-    shortcutItem.appendChild(nameInput);
-
-    // Create input for URL
-    const valueInput = document.createElement("input");
-    valueInput.type = "text";
-    valueInput.classList.add("value-input");
-    valueInput.value = value.url || "";
-    valueInput.readOnly = true;
-    shortcutItem.appendChild(valueInput);
-
-    // Create edit/save button
-    const actionButton = document.createElement("button");
-    actionButton.classList.add("edit-button");
-    actionButton.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-    actionButton.title = "Edit shortcut";
-    shortcutItem.appendChild(actionButton);
-
-    // Create delete button
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-button");
-    deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
-    deleteButton.title = "Delete shortcut";
-    shortcutItem.appendChild(deleteButton);
-
-    /**
-     * Enables edit mode for this shortcut item.
-     * Makes inputs editable, changes the action button to a save button,
-     * and focuses the key input.
-     */
     const enableEditMode = () => {
       keyInput.readOnly = false;
       nameInput.readOnly = false;
@@ -525,65 +343,44 @@ class ModalManager {
       actionButton.title = "Save changes";
     };
 
-    /**
-     * Saves the edited shortcut after validation.
-     * Handles key conflicts with confirmation and updates the COMMANDS map.
-     * @returns {Promise<boolean>} True if save was successful, false otherwise
-     */
+    /* Saves after validation; a changed key that collides with an existing
+     * one needs override confirmation. Resolves true on success. */
     const saveEditedShortcut = async () => {
       const newKey = keyInput.value.trim();
       const newName = nameInput.value.trim();
       let newValue = valueInput.value.trim();
 
-      // Validation
       if (!newKey || !newName || !newValue) {
         return false;
       }
 
-      // Automatically add https:// prefix to URLs without a protocol
-      if (!newValue.startsWith("http://") && !newValue.startsWith("https://")) {
-        newValue = `https://${newValue}`;
+      const prefixed = ensureHttps(newValue);
+      if (prefixed !== newValue) {
+        newValue = prefixed;
         valueInput.value = newValue;
       }
 
-      // Check if key changed and if new key already exists
       if (newKey !== key && COMMANDS.has(newKey)) {
-        const existingShortcut = COMMANDS.get(newKey);
-        const shouldOverride = await customConfirm({
-          message: `The shortcut key "${newKey}" already exists (${existingShortcut.name}). Are you sure you want to override it?`,
-          confirmText: "Override",
-          cancelText: "Cancel",
-          confirmClass: "confirm-override",
-        });
-
+        const shouldOverride = await this.confirmShortcutOverride(newKey);
         if (!shouldOverride) {
           return false;
         }
       }
 
-      // Delete old key if changed
       if (newKey !== key) {
         COMMANDS.delete(key);
       }
 
-      // Update command
       COMMANDS.set(newKey, {
         ...value,
         name: newName,
         url: newValue,
       });
 
-      // Save and refresh
-      saveCommands();
-      this.renderShortcuts();
-      this.commandsComponent.render();
+      this.persistAndRefresh();
       return true;
     };
 
-    /**
-     * Deletes a shortcut after confirmation.
-     * Shows a warning dialog and removes the shortcut if confirmed.
-     */
     const deleteShortcut = async () => {
       const confirmed = await customConfirm({
         message: `Are you sure you want to delete the "${value.name}" shortcut?`,
@@ -594,14 +391,11 @@ class ModalManager {
 
       if (confirmed) {
         COMMANDS.delete(key);
-        saveCommands();
-        this.renderShortcuts();
-        this.commandsComponent.render();
+        this.persistAndRefresh();
       }
     };
 
-    // Add event listeners
-    actionButton.addEventListener("click", function () {
+    actionButton.addEventListener("click", () => {
       if (actionButton.classList.contains("edit-button")) {
         enableEditMode();
       } else {
@@ -611,14 +405,15 @@ class ModalManager {
 
     deleteButton.addEventListener("click", deleteShortcut);
 
-    // Add Enter key support for saving edits
+    // Enter saves while editing. On failure the offending input is
+    // focused — but unlike the add row, nothing is focused when every
+    // field is filled (e.g. after a cancelled override).
     [keyInput, nameInput, valueInput].forEach((input) => {
       input.addEventListener("keydown", async (e) => {
         if (e.key === "Enter" && !input.readOnly) {
           e.preventDefault();
           const success = await saveEditedShortcut();
           if (!success) {
-            // Focus the first empty input
             if (!keyInput.value.trim()) keyInput.focus();
             else if (!nameInput.value.trim()) nameInput.focus();
             else if (!valueInput.value.trim()) valueInput.focus();
@@ -630,117 +425,78 @@ class ModalManager {
     return shortcutItem;
   }
 
-  /**
-   * Adds a new shortcut field to the shortcut list.
-   * Creates a form for adding new shortcuts with key, name, and URL inputs.
+  /*
+   * Appends the "add new shortcut" row. Note the validation asymmetry with
+   * the edit row, preserved on purpose: this path checks raw input values,
+   * so whitespace-only fields count as filled here but not when editing.
    */
   addNewShortcutField() {
     const newShortcutItem = document.createElement("div");
     newShortcutItem.classList.add("shortcut-item");
 
-    // Create input for key
-    const newKeyInput = document.createElement("input");
-    newKeyInput.type = "text";
-    newKeyInput.classList.add("key-input");
-    newKeyInput.placeholder = "Key";
-    newShortcutItem.appendChild(newKeyInput);
+    const newKeyInput = buildShortcutInput("key-input", { placeholder: "Key" });
+    const newNameInput = buildShortcutInput("name-input", { placeholder: "Name" });
+    const newValueInput = buildShortcutInput("value-input", { placeholder: "URL" });
+    const addButton = buildIconButton(
+      "add-button",
+      '<i class="fa-solid fa-plus"></i>',
+      "Add shortcut"
+    );
+    newShortcutItem.append(newKeyInput, newNameInput, newValueInput, addButton);
 
-    // Create input for name
-    const newNameInput = document.createElement("input");
-    newNameInput.type = "text";
-    newNameInput.classList.add("name-input");
-    newNameInput.placeholder = "Name";
-    newShortcutItem.appendChild(newNameInput);
-
-    // Create input for URL
-    const newValueInput = document.createElement("input");
-    newValueInput.type = "text";
-    newValueInput.classList.add("value-input");
-    newValueInput.placeholder = "URL";
-    newShortcutItem.appendChild(newValueInput);
-
-    // Create add button
-    const addButton = document.createElement("button");
-    addButton.classList.add("add-button");
-    addButton.innerHTML = '<i class="fa-solid fa-plus"></i>';
-    addButton.title = "Add shortcut";
-    newShortcutItem.appendChild(addButton);
-
-    /**
-     * Creates a new shortcut from the input values.
-     * Validates inputs and handles key conflicts with confirmation.
-     * @returns {Promise<boolean>} True if creation was successful, false otherwise
-     */
+    /* Creates the shortcut after validation and optional override
+     * confirmation. Resolves true on success. */
     const createNewShortcut = async () => {
       const newKey = newKeyInput.value.trim();
       const newName = newNameInput.value.trim();
       let newValue = newValueInput.value.trim();
 
-      // Check all fields
       if (newKeyInput.value && newNameInput.value && newValueInput.value) {
-        // Automatically add https:// prefix to URLs without a protocol
-        if (
-          !newValue.startsWith("http://") &&
-          !newValue.startsWith("https://")
-        ) {
-          newValue = `https://${newValue}`;
+        const prefixed = ensureHttps(newValue);
+        if (prefixed !== newValue) {
+          newValue = prefixed;
           newValueInput.value = newValue;
         }
 
-        // If the shortcut key already exists, show the custom confirmation modal.
         if (COMMANDS.has(newKey)) {
-          const existingShortcut = COMMANDS.get(newKey);
-          const shouldOverride = await customConfirm({
-            message: `The shortcut key "${newKey}" already exists (${existingShortcut.name}). Are you sure you want to override it?`,
-            confirmText: "Override",
-            cancelText: "Cancel",
-            confirmClass: "confirm-override",
-          });
+          const shouldOverride = await this.confirmShortcutOverride(newKey);
           if (!shouldOverride) {
-            return false; // Do not override if the user cancels.
+            return false;
           }
         }
         COMMANDS.set(newKey, {
           name: newName,
           url: newValue,
         });
-        saveCommands();
-        this.renderShortcuts();
-        this.commandsComponent.render();
+        this.persistAndRefresh();
         return true;
       }
       return false;
     };
 
-    // Add button click handler
+    // On failure, focus the first empty input — or the URL input when all
+    // are filled (e.g. after a cancelled override).
+    const focusFirstEmpty = () => {
+      if (!newKeyInput.value) {
+        newKeyInput.focus();
+      } else if (!newNameInput.value) {
+        newNameInput.focus();
+      } else {
+        newValueInput.focus();
+      }
+    };
+
     addButton.addEventListener("click", async () => {
       const success = await createNewShortcut();
-      if (!success) {
-        if (!newKeyInput.value) {
-          newKeyInput.focus();
-        } else if (!newNameInput.value) {
-          newNameInput.focus();
-        } else {
-          newValueInput.focus();
-        }
-      }
+      if (!success) focusFirstEmpty();
     });
 
-    // Add Enter key support for adding shortcuts
     [newKeyInput, newNameInput, newValueInput].forEach((input) => {
       input.addEventListener("keydown", async (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
           const success = await createNewShortcut();
-          if (!success) {
-            if (!newKeyInput.value) {
-              newKeyInput.focus();
-            } else if (!newNameInput.value) {
-              newNameInput.focus();
-            } else {
-              newValueInput.focus();
-            }
-          }
+          if (!success) focusFirstEmpty();
         }
       });
     });
@@ -748,10 +504,7 @@ class ModalManager {
     this.shortcutList.appendChild(newShortcutItem);
   }
 
-  /**
-   * Resets all settings to default values after confirmation.
-   * Resets the theme and all commands to their default values.
-   */
+  /* Restores the default theme and shortcuts after confirmation. */
   async resetSettings() {
     const confirmed = await customConfirm({
       message: `Are you sure you want to reset all settings to default? This will remove all custom shortcuts.`,
@@ -761,38 +514,33 @@ class ModalManager {
     });
 
     if (confirmed) {
-      // Reset theme. Safe to dereference here: modal.js parses before theme.js,
-      // but this runs on user action, long after window.CelerityTheme is set.
-      window.CelerityTheme.applyThemePreference(this.DEFAULT_SETTINGS.theme);
+      // Safe dereference: modal.js parses before theme.js, but this runs on
+      // user action, long after window.CelerityTheme is assigned.
+      window.CelerityTheme.applyThemePreference("system");
 
-      // Reset commands
       COMMANDS.clear();
-      this.DEFAULT_SETTINGS.commands.forEach((value, key) => {
+      defaultCommands().forEach((value, key) => {
         COMMANDS.set(key, value);
       });
-      saveCommands();
-      this.renderShortcuts();
-      this.commandsComponent.render();
+      this.persistAndRefresh();
     }
   }
 
-  /**
-   * Exports user configuration to a JSON file.
-   * This includes the theme and shortcuts.
+  /*
+   * Downloads the current theme + shortcuts as JSON. The "dark" fallback
+   * for a never-set theme is legacy behavior (every other path defaults to
+   * "system") — preserved for byte-compatible exports.
    */
   exportConfig() {
-    // Collect all settings from localStorage
     const settings = {
       theme: localStorage.getItem("selectedTheme") || "dark",
       commands: Object.fromEntries(COMMANDS),
     };
 
-    // Convert to JSON and prepare for download
     const dataStr = JSON.stringify(settings, null, 2);
     const dataUri =
       "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
 
-    // Create download link
     const exportName = `celerity-config-${new Date()
       .toISOString()
       .slice(0, 10)}.json`;
@@ -800,28 +548,21 @@ class ModalManager {
     linkElement.setAttribute("href", dataUri);
     linkElement.setAttribute("download", exportName);
 
-    // Trigger download
     document.body.appendChild(linkElement);
     linkElement.click();
     document.body.removeChild(linkElement);
   }
 
-  /**
-   * Triggers the file input to import configuration.
-   */
   importConfig() {
     this.importFileInput.click();
   }
 
-  /**
-   * Handles the file import process after a file is selected.
-   * Parses the JSON, validates it, and applies the settings.
-   */
+  /* Parses the selected JSON file, applies theme and commands, and reports
+   * the outcome through notification dialogs. */
   async handleImportFile(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    // Confirm with the user
     const confirmImport = await customConfirm({
       message: "This will replace your current configuration. Continue?",
       confirmText: "Import",
@@ -830,7 +571,7 @@ class ModalManager {
     });
 
     if (!confirmImport) {
-      this.importFileInput.value = ""; // Clear the file input
+      this.importFileInput.value = "";
       return;
     }
 
@@ -841,12 +582,11 @@ class ModalManager {
         try {
           const settings = JSON.parse(e.target.result);
 
-          // Validate the imported data has required elements
           if (!settings || typeof settings !== "object") {
             throw new Error("Invalid configuration format");
           }
 
-          // Apply theme ("dark-abyss" is the legacy name of the void theme)
+          // "dark-abyss" is the legacy name of the void theme
           if (settings.theme) {
             const validThemes = window.CelerityTheme.VALID_THEMES;
             const normalizedTheme =
@@ -857,7 +597,6 @@ class ModalManager {
             window.CelerityTheme.applyThemePreference(safeTheme);
           }
 
-          // Apply commands
           if (settings.commands && typeof settings.commands === "object") {
             COMMANDS.clear();
             for (const [key, value] of Object.entries(settings.commands)) {
@@ -866,11 +605,10 @@ class ModalManager {
             saveCommands();
           }
 
-          // Refresh UI
+          // Refresh even when the file contained no commands
           this.renderShortcuts();
           this.commandsComponent.render();
 
-          // Show success message
           customConfirm({
             message: "Configuration imported successfully! 🚀",
             confirmText: "OK",
@@ -898,106 +636,11 @@ class ModalManager {
         confirmClass: "confirm-warning",
       });
     } finally {
-      this.importFileInput.value = ""; // Clear the file input
+      this.importFileInput.value = "";
     }
   }
 }
 
-/**
- * Displays a customizable confirmation dialog with custom text and styling.
- * @param {Object} options - Configuration options for the confirmation dialog
- * @param {string} options.message - The message to display in the dialog
- * @param {string} [options.confirmText="Yes"] - The text for the confirm button
- * @param {string} [options.cancelText="Cancel"] - The text for the cancel button
- * @param {string} [options.confirmClass=""] - CSS class to apply to the confirm button
- * @returns {Promise<boolean>} A promise that resolves to true if confirmed, false otherwise
- */
-function customConfirm({
-  message,
-  confirmText = "Yes",
-  cancelText = "Cancel",
-  confirmClass = "",
-}) {
-  return new Promise((resolve) => {
-    const modal = document.getElementById("confirmModal");
-    const confirmMessage = modal.querySelector(".confirm-message");
-    const okButton = modal.querySelector(".confirm-ok");
-    const cancelButton = modal.querySelector(".confirm-cancel");
-
-    confirmMessage.innerText = message;
-    okButton.innerText = confirmText;
-
-    // Only show and set up the cancel button if cancelText is provided
-    if (cancelText) {
-      cancelButton.style.display = "block";
-      cancelButton.innerText = cancelText;
-      cancelButton.addEventListener("click", onCancel);
-    } else {
-      cancelButton.style.display = "none";
-    }
-
-    if (confirmClass) {
-      okButton.classList.add(confirmClass);
-    }
-
-    modal.style.display = "flex";
-
-    /**
-     * Cleanup function to hide modal and remove listeners
-     */
-    function cleanUp() {
-      okButton.removeEventListener("click", onOk);
-      if (cancelText) {
-        cancelButton.removeEventListener("click", onCancel);
-      }
-      modal.style.display = "none";
-      if (confirmClass) {
-        okButton.classList.remove(confirmClass);
-      }
-    }
-
-    /**
-     * Handler for the OK button click
-     */
-    function onOk() {
-      cleanUp();
-      resolve(true);
-    }
-
-    /**
-     * Handler for the Cancel button click
-     */
-    function onCancel() {
-      cleanUp();
-      resolve(false);
-    }
-
-    okButton.addEventListener("click", onOk);
-  });
-}
-
-// Add event listener for Enter key to confirm dialog
-function addEnterKeyListenerToConfirmDialog() {
-  const modal = document.getElementById("confirmModal");
-  const okButton = modal.querySelector(".confirm-ok");
-
-  // Listen for keydown events on the document
-  document.addEventListener("keydown", function (event) {
-    if (
-      event.key === "Enter" &&
-      modal.style.display === "flex" &&
-      modal.contains(event.target)
-    ) {
-      event.preventDefault(); // Prevent default Enter behavior
-      okButton.click(); // Trigger the OK button click
-    }
-  });
-}
-
-// Call this function when initializing the modal manager
-addEnterKeyListenerToConfirmDialog();
-
-// Initialize on document load
 document.addEventListener("DOMContentLoaded", () => {
   new ModalManager();
 });
