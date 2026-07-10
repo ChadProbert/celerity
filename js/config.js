@@ -1,57 +1,29 @@
-/**
- * Celerity Configuration System
+/*
+ * Celerity configuration and command storage.
  *
- * This file defines the core configuration settings and keyboard shortcuts
- * for the new tab page. It handles loading saved settings from localStorage
- * and provides the default configuration when no saved settings exist.
+ * Defines:    CONFIG, DEFAULT_COMMANDS, defaultCommands(), COMMANDS,
+ *             saveCommands(), loadCommands()
+ * Depends on: nothing (must be the first script to load — every other file
+ *             reads these globals)
  */
 
-/**
- * Global Configuration Object
- *
- * Contains all user-configurable settings for the application including
- * command delimiters, search templates, and display preferences.
- * Settings are persisted in localStorage and loaded on initialization.
- *
- * @namespace
- */
 const CONFIG = {
-  /**
-   * Search command delimiter character.
-   * Used for search queries, e.g., "g search term" for Google search.
-   * @type {string}
-   */
+  /* Separates a command key from its query, e.g. "y lofi" searches YouTube. */
   commandSearchDelimiter: " ",
 
-  /**
-   * Default search template URL.
-   * The {} placeholder is replaced with the encoded search query.
-   * @type {string}
-   */
+  /* Fallback search when input matches no command. {} is the encoded query. */
   defaultSearchTemplate: "https://www.google.com/search?q={}",
 
-  /**
-   * Maximum number of search suggestions to display.
-   * @type {number}
-   */
   suggestionLimit: 4,
 };
 
-/**
- * Command Definitions
- *
- * A Map containing all keyboard shortcuts and their associated actions.
- * Each entry consists of a key (shortcut) and an object with properties:
- *
- * - name: Display name for the shortcut
- * - url: Target URL for navigation
- * - searchTemplate (optional): Search path template with {} placeholder
- * - suggestions (optional): Array of related shortcut suggestions
- *
- * @type {Map<string, Object>}
+/*
+ * Factory-default shortcuts. Entry order is grid display order.
+ * Optional per-command properties honoured by search.js for imported
+ * configs: searchTemplate (site search path, {} placeholder), suggestions
+ * (static suggestion list), command (alias redirecting to another query).
  */
-const COMMANDS = new Map([
-  // Column 1
+const DEFAULT_COMMANDS = [
   ["g", { name: "Gmail", url: "https://mail.google.com/mail/u/0/#inbox" }],
   [
     "y",
@@ -68,7 +40,6 @@ const COMMANDS = new Map([
       url: "https://metabase.hyperiondev.com/dashboard/157-my-dashboard",
     },
   ],
-  // Column 2
   [
     "d",
     {
@@ -86,14 +57,7 @@ const COMMANDS = new Map([
     },
   ],
   ["n", { name: "Netflix", url: "https://www.netflix.com/browse" }],
-  // Column 3
-  [
-    "c",
-    {
-      name: "Cogrammer",
-      url: "https://hyperiondev.cogrammar.com/",
-    },
-  ],
+  ["c", { name: "Cogrammer", url: "https://hyperiondev.cogrammar.com/" }],
   ["l", { name: "Localhost", url: "http://localhost:3000" }],
   [
     "gh",
@@ -103,7 +67,6 @@ const COMMANDS = new Map([
       searchTemplate: "/search?q={}",
     },
   ],
-  // Column 4
   [
     "k",
     {
@@ -111,35 +74,30 @@ const COMMANDS = new Map([
       url: "https://sites.google.com/hyperiondev.com/hyperiondev-kb/home?authuser=0",
     },
   ],
-  [
-    "r",
-    {
-      name: "Reddit",
-      url: "https://reddit.com",
-    },
-  ],
-  [
-    "s",
-    {
-      name: "Spotify",
-      searchTemplate: "/search/{}",
-      url: "https://open.spotify.com",
-    },
-  ],
-]);
+  ["r", { name: "Reddit", url: "https://reddit.com" }],
+  ["s", { name: "Spotify", searchTemplate: "/search/{}", url: "https://open.spotify.com" }],
+];
 
-/**
- * Saves the current commands to localStorage.
- * Converts the Map to a JSON-serializable object for storage.
+/*
+ * Returns a fresh Map of the default commands with cloned value objects,
+ * so callers (initial load, settings reset) can never share or mutate the
+ * canonical definitions.
  */
-function saveCommands() {
-  const commandsObj = Object.fromEntries(COMMANDS);
-  localStorage.setItem("commands", JSON.stringify(commandsObj));
+function defaultCommands() {
+  return new Map(DEFAULT_COMMANDS.map(([key, value]) => [key, { ...value }]));
 }
 
-/**
- * Loads saved commands from localStorage.
- * Restores the commands Map from the saved JSON if available.
+/* Live command map. Saved commands replace this wholesale in loadCommands(). */
+const COMMANDS = defaultCommands();
+
+function saveCommands() {
+  localStorage.setItem("commands", JSON.stringify(Object.fromEntries(COMMANDS)));
+}
+
+/*
+ * Restores commands from localStorage. Saved commands are the total source
+ * of truth: an empty saved object legitimately yields zero shortcuts (the
+ * grid then shows its empty-state "+" tile).
  */
 function loadCommands() {
   const commandsStr = localStorage.getItem("commands");
@@ -147,25 +105,21 @@ function loadCommands() {
 
   try {
     const commandsObj = JSON.parse(commandsStr);
+    const defaults = new Map(DEFAULT_COMMANDS);
     let updated = false;
 
-    // Use saved commands as the source of truth, even if empty.
     COMMANDS.clear();
 
     for (const [key, value] of Object.entries(commandsObj)) {
-      // Check and add searchTemplate values for user's running on older localStorage config.
-      if (key === "d" && !value.searchTemplate) {
-        value.searchTemplate = "/search/work?path=%2F&query={}";
-        updated = true;
-      }
-      if (key === "gh" && !value.searchTemplate) {
-        value.searchTemplate = "/search?q={}";
+      // Configs saved before "d"/"gh" gained site search lack a
+      // searchTemplate; backfill it from the defaults once.
+      if ((key === "d" || key === "gh") && !value.searchTemplate) {
+        value.searchTemplate = defaults.get(key).searchTemplate;
         updated = true;
       }
       COMMANDS.set(key, value);
     }
 
-    // Save back to localStorage if updated
     if (updated) {
       localStorage.setItem("commands", JSON.stringify(commandsObj));
     }
