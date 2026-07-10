@@ -6,99 +6,11 @@
  * such as commands, buttons, inputs, and other interface components.
  */
 
-/**
- * COMMANDS COMPONENT STYLES
- * 
- * The commands component displays shortcut keys in a responsive grid layout
- * that adapts from 2 to 4 columns based on the viewport width.
- * Optimized for desktop use with a minimum width.
+/*
+ * The commands grid and search dialog live inside shadow DOM and are styled
+ * exclusively by the <template> <style> blocks in index.html — rules for
+ * them do not belong in this file (they cannot pierce the shadow boundary).
  */
-.commands {
-  border-radius: 16px;
-  column-gap: 0;
-  columns: 2; /* Start with 2 columns by default */
-  list-style: none;
-  margin: 0 auto;
-  max-width: 25rem;
-  min-width: 20rem;
-  overflow: hidden;
-  padding: 0;
-  width: 100%;
-  max-height: 80vh; /* Ensure it doesn't exceed viewport height */
-}
-
-/* Large screens: 4 columns of commands */
-@media (min-width: 900px) {
-  .commands {
-    columns: 4;
-    max-width: 45rem;
-  }
-}
-
-/**
- * COMMAND ITEM STYLES
- * 
- * Individual command items display a keyboard shortcut and its associated name.
- * They feature interactive hover and focus states for better user feedback.
- */
-.command {
-  display: flex;
-  gap: var(--space);
-  outline: 0;
-  padding: var(--space);
-  position: relative;
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-
-/* Hover state for command items */
-.command:hover {
-  background: var(--hover-color);
-}
-
-/* 
- * Subtle visual effect for command items
- * Adds a faint background layer that becomes more visible on hover/focus
- */
-.command::after {
-  background: var(--color-text-subtle);
-  content: " ";
-  inset: 1px;
-  opacity: 0.05;
-  position: absolute;
-  transition: opacity var(--transition-speed);
-}
-
-/* Increase opacity of the effect on hover/focus */
-.command:where(:focus, :hover)::after {
-  opacity: 0.1;
-}
-
-/**
- * COMMAND COMPONENTS
- * 
- * Each command has two parts: a key (shortcut) and a name (description).
- * These are styled differently to distinguish between them.
- */
-
-/* The keyboard shortcut key */
-.key {
-  color: var(--color-text);
-  display: inline-block;
-  text-align: center;
-  width: 3ch; /* Fixed width for alignment */
-}
-
-/* The command name/description */
-.name {
-  color: var(--color-text-subtle);
-  transition: color var(--transition-speed);
-}
-
-/* Highlight the name on hover/focus for better readability */
-.command:where(:focus, :hover) .name {
-  color: var(--color-text);
-}
 
 .top-bar {
   position: fixed;
@@ -148,6 +60,12 @@
   background: transparent;
 }
 
+/*
+ * Invisible (transparent) diagonal divider slivers. Kept deliberately:
+ * they still hit-test as part of their originating elements, extending the
+ * brand/actions hover and click areas by a fraction — deleting them is an
+ * observable behavior change.
+ */
 .top-bar-brand::after,
 .top-bar-actions::before {
   content: "";
@@ -169,17 +87,6 @@
   transform: rotate(-28deg);
 }
 
-.top-bar-core-logo {
-  width: 60px;
-  height: 60px;
-  margin: 0;
-  padding-left: 0px;
-  padding-top: 4px;
-  object-fit: contain;
-  user-select: none;
-  pointer-events: none;
-}
-
 .top-bar-title {
   color: var(--color-text-subtle);
   font-size: 16px;
@@ -195,10 +102,6 @@
   transform: translateX(-50%);
   z-index: 900;
   pointer-events: auto;
-}
-
-.top-bar-brand:hover .top-bar-title:not(:hover) {
-  color: var(--color-text-subtle);
 }
 
 .top-bar-title:hover {
@@ -227,6 +130,12 @@
   justify-content: center;
 }
 
+/*
+ * Invisible, but load-bearing twice over: (1) its width: 2px leaks into
+ * .settings-button.pulse-border::before (which declares no width), keeping
+ * the first-visit settings pulse a 2px sliver instead of a full outline;
+ * (2) it hit-tests as part of the button, widening the hover/click target.
+ */
 .settings-button::before {
   content: "";
   position: absolute;
@@ -244,16 +153,6 @@
   font-size: 22px;
 }
 
-.settings-button .lucide {
-  color: var(--color-text-subtle);
-  transition: color 0.4s ease;
-  width: 22px;
-  height: 22px;
-  display: block;
-  transform: scaleX(1.15);
-  transform-origin: center;
-}
-
 .settings-button:hover {
   background-color: transparent;
 }
@@ -262,182 +161,18 @@
   color: var(--color-text);
 }
 
-.settings-button:hover .lucide {
-  color: var(--color-text);
-}
-
-.dynamic-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  border: none;
-  background-color: var(--plus-button-color);
-  color: var(--plus-icon-color);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 1px;
-  padding: var(--space);
-  border-radius: 0; /* Remove border radius */
-  width: 100%;
-  height: auto;
-  min-width: 80px; /* Set minimum width for desktop */
-  min-height: 0; /* Allow height to be controlled by JS */
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
-}
-
-.dynamic-button::after {
-  background: var(--color-text-subtle);
-  content: " ";
-  inset: 1px;
-  opacity: 0;
-  position: absolute;
-  transition: opacity var(--transition-speed);
-}
-
-.dynamic-button:hover {
-  background-color: var(--hover-color);
-  color: var(--color-text);
-}
-
-.dynamic-button:where(:focus, :hover)::after {
-  opacity: 0.1;
-}
-
-/* Search Component */
+/*
+ * Global reset for every light-DOM input and button (top-bar buttons, all
+ * modal buttons, shortcut-list inputs, feedback form fields). LOAD-BEARING:
+ * deleting it restores UA-default borders/backgrounds everywhere. The search
+ * template carries its own copy for shadow-DOM content.
+ */
 input,
 button {
   background: transparent;
   border: 0;
   display: block;
   outline: 0;
-}
-
-.dialog {
-  align-items: center;
-  background: var(--color-background);
-  border: none;
-  display: none;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  padding: 0;
-  top: 0;
-  width: 100%;
-}
-
-.dialog[open] {
-  display: flex;
-}
-
-.form {
-  width: 100%;
-}
-
-.input {
-  color: var(--color-text);
-  font-size: 3rem;
-  font-weight: var(--font-weight-bold);
-  padding: 0;
-  text-align: center;
-  width: 100%;
-}
-
-.suggestions {
-  align-items: center;
-  display: flex;
-  flex-direction: row; /* Default to row layout for desktop */
-  flex-wrap: wrap;
-  justify-content: center;
-  list-style: none;
-  margin: var(--space) 0 0;
-  overflow: hidden;
-  padding: 0;
-}
-
-.suggestion {
-  color: var(--color-text);
-  cursor: pointer;
-  font-size: 1rem;
-  padding: var(--space);
-  position: relative;
-  transition: color var(--transition-speed);
-  white-space: nowrap;
-  z-index: 1;
-}
-
-.suggestion:where(:focus, :hover) {
-  color: var(--color-background);
-}
-
-.suggestion::before {
-  background-color: var(--color-text);
-  border-radius: calc(var(--border-radius) / 5);
-  content: " ";
-  inset: calc(var(--space) / 1.5) calc(var(--space) / 3);
-  opacity: 0;
-  position: absolute;
-  transform: translateY(0.5em);
-  transition: all var(--transition-speed);
-  z-index: -1;
-}
-
-.suggestion:where(:focus, :hover)::before {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.match {
-  color: var(--color-text-subtle);
-  transition: color var(--transition-speed);
-}
-
-.suggestion:where(:focus, :hover) .match {
-  color: var(--color-background);
-}
-
-/* Footer */
-.footer-container {
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: var(--color-text-subtle);
-  padding: 8px 16px;
-  border-radius: 4px;
-  min-width: 80px
-}
-
-.footer-text {
-  margin: 0;
-  padding: 0;
-}
-
-.footer-container:hover {
-  color: var(--color-text);
-  transition: color 0.4s ease;
-}
-
-.core-label {
-  top: 16px;
-  left: 16px;
-  bottom: auto;
-  transform: none;
-  padding: 8px 12px;
-  border: 2px solid var(--border-color);
-  background-color: var(--plus-button-color);
-  border-radius: 4px;
-}
-
-.core-label .footer-text {
-  font-size: 18px;
 }
 
 /* Help Button */
@@ -502,18 +237,15 @@ button {
   color: var(--color-text);
 }
 
-/* First-time visitor button animation - works for both help and settings buttons */
+/*
+ * First-time visitor pulse. The pulse-border class has no static markup —
+ * modal.js adds it dynamically (fresh-localStorage visitors only). Looks
+ * orphaned; is not.
+ */
 .help-button.pulse-border,
 .settings-button.pulse-border {
   position: relative;
   overflow: visible;
-  animation: button-background-pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.help-button.pulse-border {
-}
-
-.settings-button.pulse-border {
 }
 
 .help-button.pulse-border::before,
@@ -556,18 +288,6 @@ button {
   }
 }
 
-@keyframes button-background-pulse {
-  0% {
-    background-color: transparent;
-  }
-  50% {
-    background-color: transparent;
-  }
-  100% {
-    background-color: transparent;
-  }
-}
-
 @keyframes icon-pulse {
   0% {
     color: var(--color-text-subtle);
@@ -578,13 +298,4 @@ button {
   100% {
     color: var(--color-text-subtle);
   }
-}
-/* Icon styling */
-.fa-sliders {
-  font-size: 20px;
-}
-
-/* Dialog open state */
-.dialog[open] {
-  display: flex;
 }

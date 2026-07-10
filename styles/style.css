@@ -54,14 +54,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Stack Sans Notch";
-  src: url("../fonts/stack-sans-notch/stack-sans-notch-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 /**
  * GLOBAL CSS VARIABLES
  * 
@@ -74,7 +66,6 @@
   /* Layout & Appearance */
   --border-radius: 0px;
   --color-background: #222;
-  --background-color: var(--color-background);
   --color-text-subtle: #5e5e5e;
   --color-text: #fff;
   --color-text-rgb: 255, 255, 255; /* RGB values for rgba functions */
@@ -91,18 +82,13 @@
   --transition-speed: 200ms;
 
   /* Interactive Element Colors */
-  --accent-color: #090909;
   --hover-color: #222222;
-  --primary-button-bg: #303030;
-  --button-color: #dadada;
-  --config-button-bg: #1f1f1f;
   --input-color: #1f1f1f;
   --border-color: #434343;
   --green-color: #34c759;
 
   /* Modal & Overlay */
   --modal-background-color: rgba(0, 0, 0, 0.9);
-  --plus-icon-color: #dadada;
   --plus-button-color: #252525;
   --confirm-border-color: var(--border-color);
 
@@ -115,7 +101,6 @@
   --code-border-color: var(--border-color);
 
   /* Top bar layout */
-  --top-bar-padding-x: 4px;
   --top-bar-padding-y: 3px;
   --top-bar-gap: 8px;
   --floating-button-size: 42px;
@@ -176,42 +161,3 @@ main {
   width: 100%;
 }
 
-/**
- * MEDIA QUERIES & SYSTEM PREFERENCES
- * 
- * Support for light mode using the prefers-color-scheme media query.
- * This automatically switches to light theme if the system is using light mode.
- */
-@media (prefers-color-scheme: light) {
-  :root {
-    /** 
-     * Light Theme Variables
-     * 
-     * These values override the default dark theme when the user's
-     * system is set to light mode and the theme is set to "light".
-     */
-    [data-theme="light"] {
-      --color-background: #e9e9e9;
-      --color-text: #000000;
-      --color-text-subtle: #555;
-      --accent-color: #dadada;
-      --hover-color: #cfcfcf;
-      --input-color: #e4e3e3;
-      --modal-background-color: rgba(233, 233, 233, 0.9);
-    }
-
-    /**
-     * Light Theme Focus Styles
-     * 
-     * Special focus styles for form elements in light mode.
-     * This creates a distinct focus effect for better accessibility.
-     */
-    [data-theme="light"] input:focus,
-    [data-theme="light"] select:focus {
-      /* Creates the inner border effect */
-      border: 1px solid var(--border-color);
-      outline: none;
-      box-shadow: inset 0 0 0 2px black;
-    }
-  }
-}

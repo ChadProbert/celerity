@@ -125,35 +125,6 @@
   color: var(--color-text);
 }
 
-/* Update the close button styles to be specific to the feedback modal */
-.close-button {
-  display: none; /* Hide by default */
-}
-
-/* Show and style close button only in feedback modal */
-.feedback-modal .close-button {
-  display: flex;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 35px;
-  height: 35px;
-  background-color: transparent;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.feedback-modal .close-button i {
-  font-size: 17px;
-  color: var(--color-text-subtle);
-  transition: color 0.3s ease;
-}
-
-
 .shortcut-section,
 .theme-label {
   margin-top: 30px;
@@ -170,36 +141,16 @@
   margin-bottom: 10px;
 }
 
-.options-label {
-  /* Center the label and icon */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
-  margin-bottom: 30px;
-}
-
 /* Font size for headings inside settings modal */
 .shortcut-section,
-.theme-label,
-.options-label {
+.theme-label {
   font-size: 36px;
 }
 
 .keyboard-shortcuts-heading,
 .theme-label,
-.options-label,
 .config-label {
   color: var(--color-text);
-}
-
-.fa-keyboard {
-  margin-right: 24px;
-}
-
-.fa-globe-americas,
-.fa-fill-drip {
-  margin-right: 16px;
 }
 
 /**
@@ -248,11 +199,6 @@
   font-size: 36px;
   margin-bottom: 30px;
   color: var(--color-text);
-}
-
-.config-label i {
-  margin-right: 16px;
-  font-size: 32px;
 }
 
 /* Styling for the reset section between theme and shortcuts */
@@ -308,10 +254,6 @@ label {
   margin: 20px auto 10px;
   width: 100%;
   max-width: 32%;
-}
-
-.theme-section label {
-  align-self: center;
 }
 
 /* Container for the custom select to position the arrow */
@@ -585,17 +527,6 @@ label {
   border: 1px solid #e68900;
 }
 
-/* URL validation error state for confirm button */
-.confirm-ok.confirm-url-validation {
-  background-color: #2196f3;
-  color: white;
-  border: 1px solid #0c87e8;
-}
-
-.confirm-ok.confirm-url-validation:hover {
-  transform: translateY(-2px);
-}
-
 /* Action buttons for shortcuts */
 .edit-button,
 .delete-button,
@@ -695,28 +626,6 @@ label {
   margin: auto;
 }
 
-.help-modal-content h2 {
-  font-size: 28px;
-  margin-top: 14px;
-  margin-bottom: 56px;
-  color: var(--color-text);
-  font-weight: var(--font-weight-bold);
-  position: relative;
-  padding-bottom: 12px;
-  text-align: center;
-}
-
-.help-modal-content h2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 3px;
-  width: 60px;
-  background-color: var(--color-text-subtle);
-}
-
 .help-section h3 {
   display: flex;
   align-items: center;
@@ -734,71 +643,9 @@ label {
   margin-right: auto;
 }
 
-.help-footer-note {
-  text-align: center;
-  margin-top: auto;
-  padding-top: 24px;
-  padding-bottom: 12px;
-}
-
-.help-section h4 {
-  margin-top: 22px;
-  margin-bottom: 12px;
-  color: var(--color-text);
-  font-weight: var(--font-weight-normal);
-  font-size: 1.15em;
-  position: relative;
-  padding-left: 16px;
-}
-
-.help-section h4::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 12px;
-  width: 3px;
-  background-color: var(--color-text-subtle);
-  border-radius: 3px;
-}
-
 .help-section p {
   line-height: 1.6;
   color: var(--color-text-subtle);
-}
-
-.help-section ul,
-.help-section ol {
-  margin-bottom: 20px;
-  line-height: 1.6;
-  padding-left: 20px;
-  color: var(--color-text-subtle);
-}
-
-.help-section li {
-  margin-bottom: 10px;
-  position: relative;
-}
-
-.help-section li strong {
-  color: var(--color-text);
-}
-
-.help-section a {
-  color: var(--color-text);
-  text-decoration: none;
-  position: relative;
-  transition: all 0.2s ease;
-  border-bottom: 1px dotted var(--color-text-subtle);
-}
-
-.help-section a:hover {
-  border-bottom: 1px solid var(--color-text);
-}
-
-.help-footer-note a:hover {
-  border-bottom: 1px dotted var(--color-text-subtle);
 }
 
 .help-section code {
@@ -818,32 +665,6 @@ label {
   font-weight: var(--font-weight-bold);
 }
 
-.help-section .feature-box {
-  background-color: rgba(255, 0, 0, 0.03);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-left: 3px solid var(--color-text-subtle);
-  box-shadow: none;
-  width: 100%;
-  max-width: 1080px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.feature-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  margin-right: 12px;
-  color: var(--color-text);
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  font-size: 0.8em;
-}
-
 .help-card {
   background-color: var(--help-card-bg-color);
   border-radius: 8px;
@@ -854,12 +675,8 @@ label {
   max-width: 1080px;
   margin-left: auto;
   margin-right: auto;
-  box-sizing: border-box;
-}
-
-/* Add extra margin to the keyboard shortcuts section card */
-.help-card {
   margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .help-card:hover {
@@ -868,34 +685,8 @@ label {
   box-shadow: none;
 }
 
-.help-card h4 {
-  margin-top: 0;
-  padding-left: 0;
-}
-
-.help-card h4::before {
-  display: none;
-}
-
 .help-card p:last-child {
   margin-bottom: 0;
-}
-
-.shortcut-key {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--code-bg-color);
-  color: var(--code-text-color);
-  border-radius: 4px;
-  padding: 8px;
-  margin-right: 10px;
-  min-width: 20px;
-  min-height: 20px;
-  font-weight: var(--font-weight-bold);
-  font-size: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--code-border-color);
 }
 
 .shortcut-description {
@@ -916,38 +707,6 @@ label {
 .utility-card p.shortcut-description {
   margin-top: 0;
   line-height: 1.55;
-}
-
-.customization-card h4 {
-  margin-bottom: 6px;
-}
-
-.customization-card p {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 1.55;
-}
-
-.quick-nav-card {
-  cursor: pointer;
-  padding-right: 48px;
-  position: relative;
-}
-
-.quick-nav-arrow {
-  color: var(--color-text);
-  font-size: 1rem;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 30px;
-  top: 50%;
-  transform: translate(0, -50%);
-  transition: opacity 0.2s ease;
-}
-
-.quick-nav-card:where(:hover, :focus-visible) .quick-nav-arrow {
-  opacity: 1;
 }
 
 .shortcut-description code,
@@ -972,18 +731,6 @@ p.shortcut-description code {
   margin: 30px 0;
 }
 
-/* New feature callout */
-.feature-callout {
-  display: flex;
-  background-color: var(--help-card-bg-color);
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 25px;
-  align-items: center;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
 .callout-icon {
   margin-right: 0;
   margin-bottom: 0;
@@ -998,32 +745,6 @@ p.shortcut-description code {
   justify-content: flex-start;
 }
 
-.callout-icon h3 i {
-  margin-right: 20px;
-}
-
-.callout-content {
-  flex: 1;
-}
-
-.callout-content h4 {
-  margin-top: 0;
-  margin-bottom: 8px;
-  padding-left: 0;
-}
-
-.callout-content h4::before {
-  display: none;
-}
-
-.callout-content p {
-  margin-bottom: 0;
-}
-
-.callout-title-2 {
-  margin-top: 50px; /* Add more space before the second section */
-}
-
 .callout-title-1 {
   margin-top: 0;
   margin-bottom: 0;
@@ -1036,140 +757,13 @@ p.shortcut-description code {
   text-align: center;
 }
 
-
-.radio-option {
-  display: flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-}
-
-.radio-option input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.radio-label {
-  padding-left: 28px;
-  font-size: 13px;
-  color: var(--color-text);
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.radio-checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 16px;
-  width: 16px;
-  background-color: var(--input-color);
-  border: 1px solid var(--border-color);
-  border-radius: 50%;
-}
-
-.radio-checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  background: var(--green-color);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.radio-option input:checked ~ .radio-checkmark:after {
-  display: block;
-  transform: translate(-50%, -50%) scale(1);
-  animation: radioPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Radio button styling for all themes */
-.radio-option input:checked ~ .radio-checkmark {
-  background-color: transparent;
-  border-color: var(--green-color);
-}
-
-/* Light theme specific version */
-[data-theme="light"] .radio-option input:checked ~ .radio-checkmark {
-  border-color: var(--green-color);
-}
-
-/* Dark theme hover state */
-.radio-option:hover .radio-checkmark {
-  border-color: var(--green-color);
-}
-
-.option-group:last-child {
-  margin-bottom: 0;
-}
-
-.option-group label {
-  font-weight: 700;
-  font-size: 15px;
-  margin-bottom: 8px;
-  display: block;
-  color: var(--color-text);
-}
-
-.search-preferences-title {
-  margin-top: 60px;
-}
-
-@keyframes radioPopIn {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-}
-
-.options-section h4 {
-  font-size: 16px;
-  color: var(--color-text);
-  text-align: center;
-}
-
-.options-section {
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 40px;
-}
-
-/* Container for options with accent color background */
-.options-container {
-  background: var(--plus-button-color);
-  border: 1px solid var(--confirm-border-color);
-  border-radius: 8px;
-  padding: 30px 25px;
-  margin: 20px auto 30px;
-  width: 100%;
-  max-width: 45%;
-}
-
 /* Styles for half-window usage */
 @media (max-width: 1024px) {
-  .options-container,
   .theme-container {
     max-width: 70%;
   }
 
   /* Adjust the headings for better proportions */
-  .options-label,
   .theme-label {
     font-size: 32px;
   }
@@ -1211,64 +805,6 @@ p.shortcut-description code {
     justify-content: flex-start;
     margin: 0 auto;
   }
-}
-
-/* Add styles for vertical layout of option groups */
-.options-row {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 100%;
-  align-items: center;
-}
-
-/* Radio option container styling */
-.radio-option-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.radio-option-container label {
-  margin-bottom: 5;
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--color-text);
-  letter-spacing: 0.3px;
-}
-
-.radio-option-container .radio-group {
-  margin-top: 0;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-}
-
-/* Column layout for the option groups */
-.options-grid {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.option-group {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 45%;
-}
-
-/* Radio button styling */
-.radio-label {
-  padding-left: 28px;
-  font-size: 14px;
-  color: var(--color-text);
-  cursor: pointer;
-  font-weight: 500;
 }
 
 /* Container for keyboard shortcuts with accent color background */
@@ -1332,10 +868,6 @@ p.shortcut-description code {
   justify-content: center;
 }
 
-.feedback-title i {
-  margin-right: 24px;
-}
-
 .feedback-field {
   display: flex;
   flex-direction: column;
@@ -1385,13 +917,6 @@ p.shortcut-description code {
   box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
 }
 
-
-.feedback-actions {
-  display: flex;
-  justify-content: right;
-  gap: 12px;
-  margin-top: 30px;
-}
 
 .feedback-cancel,
 .feedback-submit {

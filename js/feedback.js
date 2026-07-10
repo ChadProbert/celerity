@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // DOM Elements
   const feedbackButton = document.getElementById("feedbackButton");
   const feedbackModal = document.getElementById("feedbackModal");
-  const closeModalBtn = document.getElementById("closeFeedbackModal");
   const closeModalBtnPage = document.getElementById("closeFeedbackModalPage");
   const cancelFeedback = document.getElementById("cancelFeedback");
   const feedbackForm = document.getElementById("feedbackForm");
@@ -83,20 +82,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const input = document.getElementById(inputId);
 
       input.addEventListener("change", () => {
-        // No need to do anything - CSS will handle the selected state
-        // Just trigger the animation for a nice effect
+        // Clear and restore the animation so re-selecting replays it
         label.style.animation = "none";
         setTimeout(() => {
           label.style.animation = "";
         }, 10);
       });
     });
-
-    // Initialize the selected state for any pre-checked emotion
-    const checkedInput = document.querySelector(".emotion-input:checked");
-    if (checkedInput) {
-      // CSS will handle the selected state appearance
-    }
   }
 
   /**
@@ -211,9 +203,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Send the email using EmailJS
     return emailjs
       .send("service_2t29umi", "template_feedback", templateParams)
-      .then(function (response) {
-        return response;
-      })
       .catch(function (error) {
         console.error("Email sending failed:", error);
         throw error;
@@ -223,10 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Event Listeners
   if (feedbackButton) {
     feedbackButton.addEventListener("click", openFeedbackModal);
-  }
-
-  if (closeModalBtn) {
-    closeModalBtn.addEventListener("click", closeFeedbackModal);
   }
 
   if (closeModalBtnPage) {

@@ -47,13 +47,10 @@ class Commands extends HTMLElement {
 
     // Count available commands first to determine layout
     let availableCommands = 0;
-    for (const [key, commandData] of COMMANDS.entries()) {
-      let { name, url } = commandData;
+    for (const commandData of COMMANDS.values()) {
+      const { name, url } = commandData;
       if (name && url) availableCommands++;
     }
-
-    // Get column count based on available commands and screen width
-    const columns = this.getColumns(availableCommands);
 
     if (availableCommands === 0) {
       commands.classList.add("commands-empty");
@@ -77,6 +74,7 @@ class Commands extends HTMLElement {
     }
 
     // Apply the column count directly to the commands element
+    const columns = this.getColumns(availableCommands);
     commands.style.columns = columns;
     // Adjust max-width based on column count
     commands.style.maxWidth = "45rem";

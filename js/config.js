@@ -35,18 +35,7 @@ const CONFIG = {
    * @type {number}
    */
   suggestionLimit: 4,
-
-  /**
-   * Initializes configuration by loading saved settings from localStorage.
-   */
-  init: function () {
-
-    // Search engine and tab behavior preferences were removed.
-  },
 };
-
-// Initialize settings when the script loads
-CONFIG.init();
 
 /**
  * Command Definitions

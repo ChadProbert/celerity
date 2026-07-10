@@ -14,28 +14,6 @@
  * - Settings reset functionality
  * - Shortcut management (add, edit, delete)
  */
-const applyThemePreference = (preference) => {
-  if (window.CelerityTheme?.applyThemePreference) {
-    window.CelerityTheme.applyThemePreference(preference);
-    return;
-  }
-
-  const normalized = preference === "dark-abyss" ? "void" : preference;
-  const resolved =
-    normalized === "system"
-      ? window.matchMedia("(prefers-color-scheme: light)").matches
-        ? "light"
-        : "dark"
-      : normalized;
-
-  localStorage.setItem("selectedTheme", normalized);
-  document.documentElement.removeAttribute("data-theme");
-  document.documentElement.setAttribute("data-theme", resolved);
-
-  const themeSelect = document.getElementById("themeSelect");
-  if (themeSelect) themeSelect.value = normalized;
-};
-
 class ModalManager {
   /**
    * Initializes the ModalManager with all required DOM elements and event bindings.
@@ -64,15 +42,11 @@ class ModalManager {
     this.helpModal = document.getElementById("helpModal");
     this.modalOverlay = document.getElementById("modalOverlay");
     this.shortcutList = document.getElementById("shortcutList");
-    this.themeSelect = document.getElementById("themeSelect");
     this.resetButton = document.getElementById("resetSettings");
     this.exportButton = document.getElementById("exportConfig");
     this.importButton = document.getElementById("importConfigBtn");
     this.importFileInput = document.getElementById("importConfigFile");
-    this.addButton = document.getElementById("addShortcut");
-    this.modalContent = document.querySelector(".modal-content");
     this.commandsComponent = document.querySelector("commands-component");
-    this.quickNavCards = Array.from(document.querySelectorAll(".quick-nav-card"));
 
     // Bind all methods to this instance
     this.openSettingsModal = this.openSettingsModal.bind(this);
@@ -87,11 +61,6 @@ class ModalManager {
     this.importConfig = this.importConfig.bind(this);
     this.handleImportFile = this.handleImportFile.bind(this);
     this.addNewShortcutField = this.addNewShortcutField.bind(this);
-    this.checkModalScrollability = this.checkModalScrollability.bind(this);
-    this.forceModalScrollToTop = this.forceModalScrollToTop.bind(this);
-    this.handleQuickNavCardClick = this.handleQuickNavCardClick.bind(this);
-    this.handleQuickNavCardKeydown = this.handleQuickNavCardKeydown.bind(this);
-    this.openSettingsFromQuickView = this.openSettingsFromQuickView.bind(this);
 
     // Default settings
     this.DEFAULT_SETTINGS = {
@@ -220,13 +189,6 @@ class ModalManager {
     this.exportButton.addEventListener("click", this.exportConfig);
     this.importButton.addEventListener("click", this.importConfig);
     this.importFileInput.addEventListener("change", this.handleImportFile);
-
-    // Quick View navigation cards
-    this.quickNavCards.forEach((card) => {
-      card.addEventListener("click", this.handleQuickNavCardClick);
-      card.addEventListener("keydown", this.handleQuickNavCardKeydown);
-    });
-
   }
 
   /**
@@ -375,11 +337,7 @@ class ModalManager {
    * - Hides the help modal
    * - Removes the modal overlay
    */
-  closeHelpModal(options = null) {
-    const suppressSettingsPulse = Boolean(
-      options && options.suppressSettingsPulse
-    );
-
+  closeHelpModal() {
     // If this is a first-time visitor, update the localStorage flags AFTER
     // they've seen the help content
     if (this.isFirstTimeVisitor) {
@@ -387,10 +345,6 @@ class ModalManager {
       localStorage.setItem("hasSeenHelpOnly", "true");
       this.isFirstTimeVisitor = false;
       this.hasSeenHelpOnly = true;
-
-      console.log(
-        "First-time visitor has seen help, now showing settings pulse"
-      );
     }
 
     this.helpModal.style.display = "none";
@@ -398,48 +352,10 @@ class ModalManager {
 
     // If user has seen help but hasn't seen settings yet, add animation
     // to settings button
-    if (this.hasSeenHelpOnly && this.openModalBtn && !suppressSettingsPulse) {
+    if (this.hasSeenHelpOnly && this.openModalBtn) {
       setTimeout(() => {
         this.openModalBtn.classList.add("pulse-border");
       }, 500);
-    }
-  }
-
-  handleQuickNavCardClick(event) {
-    const target = event.currentTarget?.dataset?.settingsTarget;
-    this.openSettingsFromQuickView(target);
-  }
-
-  handleQuickNavCardKeydown(event) {
-    if (event.key !== "Enter" && event.key !== " ") {
-      return;
-    }
-
-    event.preventDefault();
-    const target = event.currentTarget?.dataset?.settingsTarget;
-    this.openSettingsFromQuickView(target);
-  }
-
-  openSettingsFromQuickView(target) {
-    this.closeHelpModal({ suppressSettingsPulse: true });
-    this.openSettingsModal();
-
-    if (target !== "themes") {
-      return;
-    }
-
-    const modalContent = this.settingsModal.querySelector(".modal-content");
-    const targetSection = this.settingsModal.querySelector("#settingsThemeSection");
-    const targetHeading = this.settingsModal.querySelector("#settingsThemeHeading");
-
-    if (modalContent && targetSection) {
-      const scrollTarget = Math.max(targetSection.offsetTop - 12, 0);
-      modalContent.scrollTo({ top: scrollTarget, behavior: "smooth" });
-    }
-
-    if (targetHeading) {
-      targetHeading.setAttribute("tabindex", "-1");
-      targetHeading.focus({ preventScroll: true });
     }
   }
 
@@ -845,8 +761,9 @@ class ModalManager {
     });
 
     if (confirmed) {
-      // Reset theme
-      applyThemePreference(this.DEFAULT_SETTINGS.theme);
+      // Reset theme. Safe to dereference here: modal.js parses before theme.js,
+      // but this runs on user action, long after window.CelerityTheme is set.
+      window.CelerityTheme.applyThemePreference(this.DEFAULT_SETTINGS.theme);
 
       // Reset commands
       COMMANDS.clear();
@@ -858,57 +775,6 @@ class ModalManager {
       this.commandsComponent.render();
     }
   }
-
-  /**
-   * Checks if the modal content is scrollable and updates UI accordingly.
-   *
-   * This determines whether scroll buttons should be displayed based on
-   * the content height compared to the viewport height.
-   */
-  checkModalScrollability() {
-    // Ensure we have the modal content reference
-    const modalContent = this.settingsModal.querySelector(".modal-content");
-    if (modalContent) {
-      // Add scrollable class for tall content or many commands
-      if (
-        modalContent.scrollHeight > window.innerHeight * 0.8 ||
-        COMMANDS.size >= 8
-      ) {
-        modalContent.classList.add("scrollable");
-      } else {
-        modalContent.classList.remove("scrollable");
-      }
-    }
-  }
-
-  /**
-   * Forces the modal content to scroll to the top.
-   *
-   * Uses a small delay to ensure the scroll reset occurs after
-   * the modal is fully visible for better user experience.
-   *
-   * @param {number} [delay=100] - Optional delay in milliseconds before scrolling
-   */
-  forceModalScrollToTop(delay = 100) {
-    // Get a direct reference to the modal content for the settings modal
-    const modalContent = this.settingsModal.querySelector(".modal-content");
-    if (!modalContent) return;
-
-    // Apply the scroll reset multiple times with increasing delays
-    // This ensures it overrides any automatic scrolling due to focus or rendering
-    const applyScrollReset = (delay) => {
-      setTimeout(() => {
-        modalContent.scrollTop = 0;
-      }, delay);
-    };
-
-    // Apply multiple times with different delays to ensure it works
-    applyScrollReset(10);
-    applyScrollReset(50);
-    applyScrollReset(100);
-    applyScrollReset(200);
-  }
-
 
   /**
    * Exports user configuration to a JSON file.
@@ -980,20 +846,15 @@ class ModalManager {
             throw new Error("Invalid configuration format");
           }
 
-          // Apply theme
+          // Apply theme ("dark-abyss" is the legacy name of the void theme)
           if (settings.theme) {
-            const validThemes = window.CelerityTheme?.VALID_THEMES || [
-              "system",
-              "dark",
-              "light",
-              "void",
-            ];
+            const validThemes = window.CelerityTheme.VALID_THEMES;
             const normalizedTheme =
               settings.theme === "dark-abyss" ? "void" : settings.theme;
             const safeTheme = validThemes.includes(normalizedTheme)
               ? normalizedTheme
               : "system";
-            applyThemePreference(safeTheme);
+            window.CelerityTheme.applyThemePreference(safeTheme);
           }
 
           // Apply commands

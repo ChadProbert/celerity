@@ -116,8 +116,7 @@ class Search extends HTMLElement {
    */
   formatSearchUrl(url, searchPath, search) {
     if (!searchPath) return url;
-    const [baseUrl] = this.splitUrl(url); // https://www.google.com or https://duckduckgo.com
-    console.log("Base URL", baseUrl);
+    const [baseUrl] = this.splitUrl(url);
     const urlQuery = encodeURIComponent(search); // Make the search query URL-safe
     searchPath = searchPath.replace(/{}/g, urlQuery); // Replace the placeholder with the URL-safe search query
     return baseUrl + searchPath;

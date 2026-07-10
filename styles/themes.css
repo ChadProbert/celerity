@@ -19,20 +19,16 @@
   --color-text: #000000;
   --color-text-rgb: 0, 0, 0;
   --color-text-subtle: #555;
-  --accent-color: #dadada;
   --hover-color: #e9e9e9;
   --input-color: var(--color-background);
   --modal-background-color: rgba(233, 233, 233, 0.9);
   --border-color: #00000033;
-  --plus-icon-color: var(--color-text);
   --plus-button-color: #e1e1e1;
   --confirm-border-color: var(--border-color);
   --help-card-bg-color: rgba(0, 0, 0, 0.03);
   --code-bg-color: #f0f0f0;
   --code-text-color: #0a0a0a;
   --code-border-color: var(--border-color);
-  --config-button-bg: var(--color-background);
-  --primary-button-bg: var(--hover-color);
   --focus-ring-color: #000000;
 }
 
@@ -77,11 +73,9 @@
   --color-text: #ffffff;
   --color-text-rgb: 255, 255, 255;
   --color-text-subtle: #444444;
-  --accent-color: #050505;
   --hover-color: #222222;
   --input-color: #0a0a0a;
   --modal-background-color: rgba(0, 0, 0, 0.95);
-  --plus-icon-color: #ffffff;
   --plus-button-color: #030303;
   --confirm-border-color: var(--border-color);
   --help-card-bg-color: rgba(255, 255, 255, 0.03);
@@ -89,29 +83,7 @@
   --code-text-color: #f0f0f0;
   --code-border-color: var(--border-color);
   --border-color: #111111;
-  --config-button-bg: var(--accent-color);
-  --primary-button-bg: #2f2f2f;
   --focus-ring-color: var(--color-text);
-}
-
-/* Custom pulse animation for Celerity Void theme */
-[data-theme="void"] .scroll-bottom-button.animate-pulse {
-  animation: pulse-void 2s ease-out 1;
-}
-
-@keyframes pulse-void {
-  0% {
-    box-shadow: 0 0 0 0 rgb(255, 255, 255);
-  }
-  40% {
-    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.95);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
-  }
 }
 
 /* Custom border pulse for Celerity Void theme */
