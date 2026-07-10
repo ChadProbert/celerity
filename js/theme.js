@@ -1,18 +1,15 @@
-/**
- * Theme Management System
+/*
+ * Theme switching and persistence.
  *
- * Handles all aspects of theme switching, persistence, and related settings.
- * This module manages theme selection and stores user preferences in localStorage.
- *
- * Features:
- * - Theme switching with instant visual update
- * - Persistent theme selection using localStorage
- * - Real-time application of settings changes
+ * Defines:    window.CelerityTheme (assigned at parse time, so it exists
+ *             before any DOMContentLoaded handler — modal.js relies on that)
+ * Depends on: #themeSelect (looked up at call time), localStorage
  */
 const CelerityTheme = (() => {
   const THEME_ROOT = document.documentElement;
   const VALID_THEMES = ["system", "dark", "light", "void"];
 
+  /* "system" resolves to light/dark from the OS preference. */
   const resolveThemePreference = (preference) => {
     if (preference === "system") {
       return window.matchMedia("(prefers-color-scheme: light)").matches
@@ -27,6 +24,10 @@ const CelerityTheme = (() => {
     return preference;
   };
 
+  /*
+   * Applies a theme preference: sets data-theme on the root element,
+   * syncs the settings dropdown, and persists the (normalized) preference.
+   */
   const applyThemePreference = (
     preference,
     { persist = true, updateSelect = true } = {}
@@ -61,35 +62,20 @@ const CelerityTheme = (() => {
 window.CelerityTheme = CelerityTheme;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Element selectors
   const themeSelect = document.getElementById("themeSelect");
   const { applyThemePreference, normalizeThemePreference } = window.CelerityTheme;
 
-  /**
-   * THEME SETTINGS
-   *
-   * Loads and applies the saved theme from localStorage.
-   * If no theme is saved, defaults to system preference.
-   */
+  // Apply the saved theme (or the system preference) on load
   const savedTheme = localStorage.getItem("selectedTheme") || "system";
   applyThemePreference(savedTheme);
 
-  /**
-   * Theme change handler
-   *
-   * Updates the theme immediately when selected and saves the preference.
-   *
-   * @param {Event} event - The change event from the theme select dropdown
-   */
-  const handleThemeChange = (event) => {
-    const selectedTheme = event.target.value;
-    applyThemePreference(selectedTheme);
-  };
-
   if (themeSelect) {
-    themeSelect.addEventListener("change", handleThemeChange);
+    themeSelect.addEventListener("change", (event) => {
+      applyThemePreference(event.target.value);
+    });
   }
 
+  // Track OS light/dark changes while the "system" preference is active
   const colorSchemeQuery = window.matchMedia("(prefers-color-scheme: light)");
   colorSchemeQuery.addEventListener("change", () => {
     const preference = localStorage.getItem("selectedTheme") || "system";
