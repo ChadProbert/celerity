@@ -4,10 +4,8 @@
  *
  * Defines:    ModalManager (constructed on DOMContentLoaded)
  * Depends on: COMMANDS, saveCommands, loadCommands, defaultCommands
- *             (config.js); customConfirm (confirm.js);
- *             window.CelerityTheme at call time — theme.js parses AFTER
- *             this file, so it must only be dereferenced inside methods,
- *             never at the top level. <commands-component> is already
+ *             (config.js); customConfirm (confirm.js); window.CelerityTheme
+ *             (theme.js, loaded in <head>). <commands-component> is already
  *             upgraded when the DOMContentLoaded handler below runs because
  *             components/commands.js registers its listener first (script
  *             order in index.html).
@@ -514,8 +512,6 @@ class ModalManager {
     });
 
     if (confirmed) {
-      // Safe dereference: modal.js parses before theme.js, but this runs on
-      // user action, long after window.CelerityTheme is assigned.
       window.CelerityTheme.applyThemePreference("system");
 
       COMMANDS.clear();

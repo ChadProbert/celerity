@@ -56,6 +56,14 @@
     <!-- config.js defines the CONFIG/COMMANDS globals every other script reads -->
     <script src="./js/config.js"></script>
 
+    <!--
+      theme.js loads in <head> ON PURPOSE: it applies the saved theme at
+      parse time so the first paint is already themed (an inline script
+      would be blocked by the extension CSP). It also assigns
+      window.CelerityTheme, which modal.js calls at runtime.
+    -->
+    <script src="./js/theme.js"></script>
+
     <!-- EmailJS, vendored locally for Chrome extension CSP compliance -->
     <script src="./js/vendor/email.min.js"></script>
   </head>
@@ -741,19 +749,17 @@
     </div>
 
     <!--
-      Script order is a load-order contract (config.js already loaded in
-      <head>): commands.js registers its DOMContentLoaded listener before
-      modal.js's, so <commands-component> is upgraded when ModalManager's
-      constructor calls its render(); confirm.js installs its parse-time
-      Enter listener before any DOMContentLoaded keydown listeners and must
-      precede modal.js (which calls customConfirm); theme.js assigns
-      window.CelerityTheme at parse time for modal.js's runtime calls.
+      Script order is a load-order contract (config.js and theme.js already
+      loaded in <head>): commands.js registers its DOMContentLoaded listener
+      before modal.js's, so <commands-component> is upgraded when
+      ModalManager's constructor calls its render(); confirm.js installs its
+      parse-time Enter listener before any DOMContentLoaded keydown
+      listeners and must precede modal.js (which calls customConfirm).
     -->
     <script src="./js/components/commands.js"></script>
     <script src="./js/components/search.js"></script>
     <script src="./js/confirm.js"></script>
     <script src="./js/modal.js"></script>
-    <script src="./js/theme.js"></script>
     <script src="./js/feedback.js"></script>
   </body>
 </html>

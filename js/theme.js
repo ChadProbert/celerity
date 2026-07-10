@@ -1,8 +1,11 @@
 /*
  * Theme switching and persistence.
  *
- * Defines:    window.CelerityTheme (assigned at parse time, so it exists
- *             before any DOMContentLoaded handler — modal.js relies on that)
+ * Defines:    window.CelerityTheme (assigned at parse time — modal.js relies
+ *             on that). Loaded in <head>: the saved theme is applied at
+ *             parse time, BEFORE the body exists, so the first paint is
+ *             already themed (applying at DOMContentLoaded flashes the dark
+ *             defaults, then visibly cross-fades to the saved theme).
  * Depends on: #themeSelect (looked up at call time), localStorage
  */
 const CelerityTheme = (() => {
@@ -90,11 +93,17 @@ const CelerityTheme = (() => {
 
 window.CelerityTheme = CelerityTheme;
 
+// First paint must already be themed — apply now, at <head> parse time.
+CelerityTheme.applyThemePreference(
+  localStorage.getItem("selectedTheme") || "system"
+);
+
 document.addEventListener("DOMContentLoaded", () => {
   const themeSelect = document.getElementById("themeSelect");
   const { applyThemePreference, normalizeThemePreference } = window.CelerityTheme;
 
-  // Apply the saved theme (or the system preference) on load
+  // Re-apply once the DOM exists: the parse-time application above ran
+  // before #themeSelect was available, so this pass syncs the dropdown.
   const savedTheme = localStorage.getItem("selectedTheme") || "system";
   applyThemePreference(savedTheme);
 
