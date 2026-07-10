@@ -83,4 +83,23 @@ document.addEventListener("DOMContentLoaded", () => {
       applyThemePreference("system");
     }
   });
+
+  // Follow theme changes made in OTHER new-tab instances. Without this,
+  // already-open tabs (and their settings modal) keep the old theme until
+  // reloaded. persist:false — this tab is a follower, not the source.
+  window.addEventListener("storage", (event) => {
+    if (event.key === "selectedTheme") {
+      applyThemePreference(event.newValue || "system", { persist: false });
+    }
+  });
+
+  // Same staleness guard for back/forward-cache restores: a frozen page
+  // misses storage events, so re-apply the stored theme on revival.
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      applyThemePreference(localStorage.getItem("selectedTheme") || "system", {
+        persist: false,
+      });
+    }
+  });
 });
