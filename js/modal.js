@@ -561,7 +561,7 @@ class ModalManager {
 
     const confirmImport = await customConfirm({
       message: "This will replace your current configuration. Continue?",
-      confirmText: "Import",
+      confirmText: "Override",
       cancelText: "Cancel",
       confirmClass: "confirm-override",
     });
