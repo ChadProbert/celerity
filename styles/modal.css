@@ -202,8 +202,10 @@
   margin: 20px auto 20px;
   gap: 20px;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
   max-width: 700px;
-  padding: 40px;
+  padding: 50px;
   background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
@@ -336,7 +338,7 @@ label {
 }
 
 .add-button {
-  background-color: var(--green-color);
+  background-color: #32C364;
   color: white;
   border: none;
   padding: 0;
@@ -352,7 +354,7 @@ label {
 }
 
 .add-button:hover {
-  background-color: var(--green-color);
+  background-color: #32C364;
 }
 
 .fa-plus {
@@ -774,7 +776,7 @@ p.shortcut-description code {
   background: var(--plus-button-color);
   border: 1px solid var(--confirm-border-color);
   border-radius: 8px;
-  padding: 30px 25px;
+  padding: 30px 40px;
   margin: 20px auto 60px;
   width: 100%;
   max-width: 66%;
