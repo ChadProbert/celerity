@@ -106,11 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       feedbackForm.reset();
-
-      // Leave the success message visible briefly before closing
-      setTimeout(() => {
-        closeFeedbackModal();
-      }, 3000);
     } catch (error) {
       console.error("Error sending feedback:", error);
       setFeedbackStatus(
