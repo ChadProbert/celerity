@@ -172,6 +172,10 @@
   display: block;
 }
 
+.feedback-status.error a {
+  color: #007bff;
+}
+
 .feedback-actions-container {
   display: flex;
   justify-content: space-between;

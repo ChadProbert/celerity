@@ -114,12 +114,15 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("Error sending feedback:", error);
       setFeedbackStatus(
-        "We couldn't send your feedback right now. This might be due to a temporary \
-        connection issue or our email service has used up its monthly request limit. \
-        However, your thoughts are important to us. You can contact us directly at \
-        chadcprobert@gmail.com",
+        "We couldn't send your feedback right now. Please try again or contact us " +
+          "directly at ",
         "error"
       );
+
+      const emailLink = document.createElement("a");
+      emailLink.href = "mailto:chadcprobert@gmail.com";
+      emailLink.textContent = "chadcprobert@gmail.com";
+      feedbackStatus.append(emailLink, " if this issue persists.");
     } finally {
       // Historical quirk, preserved: the initial markup label is "Submit",
       // so the label permanently changes after the first attempt.
