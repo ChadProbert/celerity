@@ -128,10 +128,8 @@
 }
 
 /*
- * Invisible, but load-bearing twice over: (1) its width: 2px leaks into
- * .settings-button.pulse-border::before (which declares no width), keeping
- * the first-visit settings pulse a 2px sliver instead of a full outline;
- * (2) it hit-tests as part of the button, widening the hover/click target.
+ * Invisible separator and hit target beside the settings control. The
+ * onboarding pulse resets this pseudo-element's width to form a full outline.
  */
 .settings-button::before {
   content: "";
@@ -252,6 +250,7 @@ button {
   top: 0;
   left: 0;
   right: 0;
+  width: auto;
   bottom: 0;
   border: 2px solid var(--color-text);
   border-radius: 4px;
