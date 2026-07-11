@@ -144,14 +144,17 @@ class Commands extends HTMLElement {
   }
 
   /*
-   * Capitalises each word and lowercases the rest ("GitHub" → "Github").
-   * Deliberate: full-caps names break the grid layout, so display casing is
-   * normalised. Do not "fix".
+   * Capitalises words entered entirely in lowercase.
+   * Existing internal capitalization is preserved for brand names such as
+   * ChatGPT, GitHub, and YouTube.
    */
   capitaliseWords(str) {
     return str.replace(
       /\b\w+/g,
-      (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      (word) =>
+        /[A-Z]/.test(word.slice(1))
+          ? word
+          : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     );
   }
 }
