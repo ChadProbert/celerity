@@ -29,7 +29,11 @@
 /* Light-theme focus styles for form elements (contrast) */
 [data-theme="light"] input:focus,
 [data-theme="light"] select:focus,
-[data-theme="light"] .custom-select:focus {
+[data-theme="light"] .custom-select:focus,
+[data-theme="light"] .feedback-submit:focus,
+[data-theme="light"] .reset-button:focus,
+[data-theme="light"] .export-button:focus,
+[data-theme="light"] .import-button:focus {
   border: 1px solid var(--border-color);
   outline: none;
   box-shadow: inset 0 0 0 2px black;
