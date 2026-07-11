@@ -8,7 +8,7 @@
  * Defines:    Search custom element (registered on DOMContentLoaded)
  * Depends on: COMMANDS, CONFIG (config.js); #search-template,
  *             #suggestion-template and #match-template in index.html;
- *             #settingsModal/#helpModal open-state (keydown suppression).
+ *             modal open-state (keydown suppression).
  */
 class Search extends HTMLElement {
   constructor() {
@@ -229,6 +229,11 @@ class Search extends HTMLElement {
 
     const helpModal = document.getElementById("helpModal");
     if (helpModal && helpModal.style.display === "flex") {
+      return;
+    }
+
+    const feedbackModal = document.getElementById("feedbackModal");
+    if (feedbackModal && feedbackModal.style.display === "flex") {
       return;
     }
 
