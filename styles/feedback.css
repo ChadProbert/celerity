@@ -148,12 +148,6 @@
   background-color: var(--modal-action-button-hover-background);
 }
 
-.feedback-submit:focus {
-  border-color: var(--focus-ring-color, var(--color-text));
-  box-shadow: inset 0 0 0 2px var(--focus-ring-color, var(--color-text));
-  outline: none;
-}
-
 /* Status classes are set by feedback.js on submit outcomes */
 .feedback-status {
   margin-top: 15px;
