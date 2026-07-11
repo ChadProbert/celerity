@@ -115,8 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       const emailLink = document.createElement("a");
-      emailLink.href = "mailto:chadcprobert@gmail.com";
-      emailLink.textContent = "chadcprobert@gmail.com";
+      emailLink.href = "mailto:celeritycustomer@gmail.com";
+      emailLink.textContent = "celeritycustomer@gmail.com";
       feedbackStatus.append(emailLink, " if this issue persists.");
     } finally {
       // Historical quirk, preserved: the initial markup label is "Submit",
