@@ -164,6 +164,10 @@
   gap: 8px;
 }
 
+.import-button {
+  color: #fff;
+}
+
 .reset-button i,
 .export-button i,
 .import-button i {
