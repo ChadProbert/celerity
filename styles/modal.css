@@ -455,7 +455,7 @@ label {
 }
 
 .confirm-buttons button.confirm-cancel {
-  background-color: transparent;
+  background-color: #333333;
   color: var(--color-text-subtle);
   min-width: 100px;
   border: none;
@@ -463,7 +463,7 @@ label {
 }
 
 .confirm-buttons button.confirm-cancel:hover {
-  background-color: transparent;
+  background-color: #333333;
   color: var(--color-text);
 }
 
