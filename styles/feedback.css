@@ -134,7 +134,7 @@
 }
 
 .feedback-submit {
-  background-color: var(--hover-color);
+  background-color: var(--modal-action-button-background);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
   font-weight: 500;
@@ -142,6 +142,10 @@
   border-radius: 4px;
   min-width: 180px;
   transition: all 0.2s ease;
+}
+
+.feedback-submit:hover {
+  background-color: var(--modal-action-button-hover-background);
 }
 
 /* Status classes are set by feedback.js on submit outcomes */

@@ -147,7 +147,6 @@
 .reset-button,
 .export-button,
 .import-button {
-  background-color: var(--hover-color);
   color: var(--color-text);
   font-weight: 500;
   border: 1px solid var(--confirm-border-color);
@@ -164,8 +163,16 @@
   gap: 8px;
 }
 
+.reset-button,
+.export-button,
 .import-button {
-  color: #fff;
+  background-color: var(--modal-action-button-background);
+}
+
+.reset-button:hover,
+.export-button:hover,
+.import-button:hover {
+  background-color: var(--modal-action-button-hover-background);
 }
 
 .reset-button i,
