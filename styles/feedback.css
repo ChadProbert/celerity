@@ -43,7 +43,8 @@
   border: 1px solid var(--confirm-border-color);
   max-width: 680px;
   width: 90%;
-  height: min(560px, calc(100dvh - 186px));
+  height: auto;
+  max-height: calc(100dvh - 186px);
   overflow-y: auto;
   box-sizing: border-box;
   position: relative;
@@ -268,7 +269,7 @@
 
   .feedback-modal-content {
     width: 100%;
-    height: min(600px, calc(100dvh - 126px));
+    max-height: calc(100dvh - 126px);
     padding: 28px 22px;
   }
 
