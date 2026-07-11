@@ -338,8 +338,8 @@ label {
 }
 
 .add-button {
-  background-color: #3CC96A;
-  color: #1E1E1E;
+  background-color: var(--green-color);
+  color: white;
   border: none;
   padding: 0;
   border-radius: 4px;
@@ -354,7 +354,7 @@ label {
 }
 
 .add-button:hover {
-  background-color: #35B85F;
+  background-color: var(--green-color);
 }
 
 .fa-plus {
@@ -365,7 +365,7 @@ label {
 }
 
 .add-button:hover .fa-plus {
-  color: #1E1E1E;
+  color: white;
 }
 
 .shortcut-list {
