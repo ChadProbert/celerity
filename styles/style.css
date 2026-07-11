@@ -83,6 +83,7 @@
   --green-color: #34c759;
   --modal-action-button-background: #333;
   --modal-action-button-hover-background: #303030;
+  --confirm-cancel-button-background: #333;
 
   /* Modal & Overlay */
   --modal-background-color: rgba(0, 0, 0, 0.9);
