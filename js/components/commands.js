@@ -21,10 +21,18 @@ const CELL_HEIGHT = 60; // grid cell height in px; see HEIGHT_TWEAKS_PX
  */
 const HEIGHT_TWEAKS_PX = { 6: 2, 9: 2, 11: -1, 13: 2, 15: -1, 17: 1, 19: -1 };
 
-/* Both "+" buttons route to the settings modal to add a shortcut. */
+/* Both "+" buttons open Settings and focus the new shortcut's key field. */
 function openShortcutSettings() {
   const openModalBtn = document.getElementById("openModal");
-  if (openModalBtn) openModalBtn.click();
+  if (!openModalBtn) return;
+
+  openModalBtn.click();
+  requestAnimationFrame(() => {
+    const keyInput = document.querySelector(
+      "#shortcutList .shortcut-item:last-child .key-input"
+    );
+    keyInput?.focus();
+  });
 }
 
 class Commands extends HTMLElement {
