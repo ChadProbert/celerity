@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
       await sendFeedbackEmail(formData);
 
       setFeedbackStatus(
-        "Thank you for your feedback! We've received your message.",
+        "Thank you for your feedback!",
         "success"
       );
 
