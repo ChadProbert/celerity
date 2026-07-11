@@ -609,7 +609,7 @@ class ModalManager {
             message: "Config imported successfully! ✅",
             confirmText: "OK",
             cancelText: "",
-            confirmClass: "",
+            confirmClass: "confirm-success",
           });
         } catch (error) {
           console.error("Import error:", error);
