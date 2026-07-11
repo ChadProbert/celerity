@@ -468,7 +468,7 @@ label {
 }
 
 .confirm-ok {
-  background-color: var(--plus-button-color);
+  background-color: var(--hover-color);
   color: var(--color-text);
   border: 1px solid var(--confirm-border-color);
 }

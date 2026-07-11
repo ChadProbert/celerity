@@ -606,7 +606,7 @@ class ModalManager {
           this.commandsComponent.render();
 
           customConfirm({
-            message: "Configuration imported successfully! 🚀",
+            message: "Config imported successfully! ✅",
             confirmText: "OK",
             cancelText: "",
             confirmClass: "",
