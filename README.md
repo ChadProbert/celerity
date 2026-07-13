@@ -1,23 +1,22 @@
 <a name="readme-top"></a>
 
 <!-- PROJECT LOGO -->
-<div align="center">
+<div align="">
 
-<img src="images/readme_long_dark.svg" alt="Logo" width="1000">
+<img src="images/readme_long_small_light.svg" alt="Logo" width="1000">
 
-<br>
 
-<img src="images/celerity-showcase.png" alt="Celerity Logo" width="1000">
 
 </div>
 
-<br/>
 
 ## About
 
 Celerity is a keyboard-first new tab experience designed for utility instead of aesthetics. It is intentionally restrained prioritizing your clarity over visual noise or feature overload.
 
 <br/>
+
+<img src="images/celerity-showcase.png" alt="Celerity Logo" width="1000">
 
 ## Features
 
