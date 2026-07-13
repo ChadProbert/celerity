@@ -3,7 +3,9 @@
 <!-- PROJECT LOGO -->
 <div align="center">
 
-<!--<img src="images/logos/logo-stencil/dark-removebg-preview.png" alt="Logo" width="200" height="200" style="border-radius: 5px; box-shadow: 0 0 120px 0 rgba(239, 138, 255, 0.5); padding: 15px;"> -->
+<img src="images/readme_long_dark.svg" alt="Logo" width="1000">
+
+<br>
 
 <img src="images/celerity-showcase.png" alt="Celerity Logo" width="1000">
 
