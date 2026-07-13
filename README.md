@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <div align="">
 
-<img src="images/readme_long_small_light.svg" alt="Logo" width="1000">
+<img src="images/readme_long_light.svg" alt="Logo" width="1000">
 
 
 
