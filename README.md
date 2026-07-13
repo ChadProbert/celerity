@@ -10,13 +10,14 @@
 </div>
 
 
+
+
+
+<img src="images/celerity-showcase.png" alt="Celerity Logo" width="1000">
+
 ## About
 
 Celerity is a keyboard-first new tab experience designed for utility instead of aesthetics. It is intentionally restrained prioritizing your clarity over visual noise or feature overload.
-
-<br/>
-
-<img src="images/celerity-showcase.png" alt="Celerity Logo" width="1000">
 
 ## Features
 
