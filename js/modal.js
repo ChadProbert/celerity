@@ -12,13 +12,17 @@
  */
 
 /*
- * Adds https:// to a URL typed without a protocol. The shortcut editor
- * recognises only http/https — unlike search.js's hasProtocol, which
- * deliberately accepts any scheme for typed URLs. Keep them separate.
+ * Expands a single-word URL to its .com domain and adds https:// when no
+ * protocol is supplied. The shortcut editor recognises only http/https —
+ * unlike search.js's hasProtocol, which deliberately accepts any scheme for
+ * typed URLs. Keep them separate.
  */
-function ensureHttps(url) {
-  if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  return `https://${url}`;
+function normalizeShortcutUrl(url) {
+  const expandedUrl = /^[a-z0-9-]+$/i.test(url) ? `${url}.com` : url;
+  if (expandedUrl.startsWith("http://") || expandedUrl.startsWith("https://")) {
+    return expandedUrl;
+  }
+  return `https://${expandedUrl}`;
 }
 
 function buildShortcutInput(className, { value, placeholder, readOnly = false } = {}) {
@@ -352,9 +356,9 @@ class ModalManager {
         return false;
       }
 
-      const prefixed = ensureHttps(newValue);
-      if (prefixed !== newValue) {
-        newValue = prefixed;
+      const normalizedUrl = normalizeShortcutUrl(newValue);
+      if (normalizedUrl !== newValue) {
+        newValue = normalizedUrl;
         valueInput.value = newValue;
       }
 
@@ -450,9 +454,9 @@ class ModalManager {
       let newValue = newValueInput.value.trim();
 
       if (newKeyInput.value && newNameInput.value && newValueInput.value) {
-        const prefixed = ensureHttps(newValue);
-        if (prefixed !== newValue) {
-          newValue = prefixed;
+        const normalizedUrl = normalizeShortcutUrl(newValue);
+        if (normalizedUrl !== newValue) {
+          newValue = normalizedUrl;
           newValueInput.value = newValue;
         }
 
