@@ -221,8 +221,8 @@ class Search extends HTMLElement {
   }
 
   onKeydown(e) {
-    // The search dialog stands down while the settings or help modal is
-    // open. (Each modal family owns its own Escape handling — see modal.js.)
+    // The search dialog stands down while a modal is open. (Each modal
+    // family owns its own Escape handling — see modal.js.)
     const settingsModal = document.getElementById("settingsModal");
     if (settingsModal && settingsModal.style.display === "flex") {
       return;
@@ -235,6 +235,11 @@ class Search extends HTMLElement {
 
     const feedbackModal = document.getElementById("feedbackModal");
     if (feedbackModal && feedbackModal.style.display === "flex") {
+      return;
+    }
+
+    const confirmModal = document.getElementById("confirmModal");
+    if (confirmModal && confirmModal.style.display === "flex") {
       return;
     }
 
