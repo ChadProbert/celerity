@@ -6,7 +6,8 @@
  * live DuckDuckGo suggestions.
  *
  * Defines:    Search custom element (registered on DOMContentLoaded)
- * Depends on: COMMANDS, CONFIG (config.js); #search-template,
+ * Depends on: COMMANDS, CONFIG (config.js); openShortcutSettings()
+ *             (commands.js, loaded first); #search-template,
  *             #suggestion-template and #match-template in index.html;
  *             modal open-state (keydown suppression).
  */
@@ -243,6 +244,20 @@ class Search extends HTMLElement {
       e.target.tagName === "TEXTAREA" ||
       e.target.isContentEditable
     ) {
+      return;
+    }
+
+    // Reserve "+" for adding a shortcut only while the main page is idle.
+    // Shift remains allowed for the standard keyboard's Shift + = input.
+    if (
+      e.key === "+" &&
+      !e.altKey &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !this.dialog.open
+    ) {
+      e.preventDefault();
+      openShortcutSettings();
       return;
     }
 
