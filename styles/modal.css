@@ -468,7 +468,7 @@ label {
   color: var(--color-text-subtle);
   min-width: 100px;
   border: none;
-  transition: color 0.45s ease;
+  transition: color 0.3s ease;
 }
 
 .confirm-buttons button.confirm-cancel:hover {

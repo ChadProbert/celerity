@@ -92,7 +92,7 @@
   padding-top: 12px;
   padding-bottom: 12px;
   white-space: nowrap;
-  transition: color 0.4s ease;
+  transition: color 0.3s ease;
   position: fixed;
   left: 50%;
   bottom: 10px;
@@ -144,7 +144,7 @@
 /* Icon inside the settings button */
 .settings-button i {
   color: var(--color-text-subtle);
-  transition: color 0.4s ease;
+  transition: color 0.3s ease;
   font-size: 22px;
 }
 
@@ -189,7 +189,7 @@ button {
 
 .help-button i {
   color: var(--color-text-subtle);
-  transition: color 0.4s ease;
+  transition: color 0.3s ease;
   font-size: 22px;
 }
 
@@ -220,7 +220,7 @@ button {
 
 .feedback-button i {
   color: var(--color-text-subtle);
-  transition: color 0.4s ease;
+  transition: color 0.3s ease;
   font-size: 22px;
 }
 
