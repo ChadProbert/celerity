@@ -553,8 +553,8 @@ class ModalManager {
     this.importFileInput.click();
   }
 
-  /* Parses the selected JSON file, applies theme and commands, and reports
-   * the outcome through notification dialogs. */
+  /* Parses the selected JSON file and applies its theme and commands.
+   * Import and file-reading errors are reported through notification dialogs. */
   async handleImportFile(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -604,13 +604,6 @@ class ModalManager {
           // Refresh even when the file contained no commands
           this.renderShortcuts();
           this.commandsComponent.render();
-
-          customConfirm({
-            message: "Config imported successfully! ✅",
-            confirmText: "OK",
-            cancelText: "",
-            confirmClass: "",
-          });
         } catch (error) {
           console.error("Import error:", error);
           customConfirm({
