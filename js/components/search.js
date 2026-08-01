@@ -299,8 +299,9 @@ class Search extends HTMLElement {
     const shift = e.shiftKey ? "shift-" : "";
     const modifierPrefixedKey = `${alt}${ctrl}${meta}${shift}${e.key}`;
 
-    // Right/Left step through the list as well, but only once focus has
-    // reached a suggestion — inside the input they must stay caret movement.
+    // Can use ↑ + ↓, or ← + → to move through suggestions.
+    // Tab and Shift+Tab suppresses the default focus behavior and moves focus to the next or previous suggestion.
+    // Ctrl+n and Ctrl+p are also suppressors.
     const onSuggestion = Boolean(this.shadowRoot.activeElement?.dataset.index);
     const nextKeys = onSuggestion
       ? /^(ArrowDown|ArrowRight|Tab|ctrl-n)$/
