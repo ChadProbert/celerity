@@ -446,6 +446,10 @@ class ModalManager {
     );
     newShortcutItem.append(newKeyInput, newNameInput, newValueInput, addButton);
 
+    // Every re-render replaces this row, so keep the current key input
+    // reachable for the post-add focus below.
+    this.newShortcutKeyInput = newKeyInput;
+
     /* Creates the shortcut after validation and optional override
      * confirmation. Resolves true on success. */
     const createNewShortcut = async () => {
@@ -471,6 +475,9 @@ class ModalManager {
           url: newValue,
         });
         this.persistAndRefresh();
+        // The row this handler ran from is gone; focus the key input of the
+        // rebuilt add row so the next shortcut can be typed straight away.
+        this.newShortcutKeyInput.focus();
         return true;
       }
       return false;
