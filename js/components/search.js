@@ -299,13 +299,23 @@ class Search extends HTMLElement {
     const shift = e.shiftKey ? "shift-" : "";
     const modifierPrefixedKey = `${alt}${ctrl}${meta}${shift}${e.key}`;
 
-    if (/^(ArrowDown|Tab|ctrl-n)$/.test(modifierPrefixedKey)) {
+    // Right/Left step through the list as well, but only once focus has
+    // reached a suggestion — inside the input they must stay caret movement.
+    const onSuggestion = Boolean(this.shadowRoot.activeElement?.dataset.index);
+    const nextKeys = onSuggestion
+      ? /^(ArrowDown|ArrowRight|Tab|ctrl-n)$/
+      : /^(ArrowDown|Tab|ctrl-n)$/;
+    const previousKeys = onSuggestion
+      ? /^(ArrowUp|ArrowLeft|ctrl-p|shift-Tab)$/
+      : /^(ArrowUp|ctrl-p|shift-Tab)$/;
+
+    if (nextKeys.test(modifierPrefixedKey)) {
       e.preventDefault();
       this.focusNextSuggestion();
       return;
     }
 
-    if (/^(ArrowUp|ctrl-p|shift-Tab)$/.test(modifierPrefixedKey)) {
+    if (previousKeys.test(modifierPrefixedKey)) {
       e.preventDefault();
       this.focusNextSuggestion(true);
     }
