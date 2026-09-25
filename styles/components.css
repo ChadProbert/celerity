@@ -105,6 +105,11 @@
   color: var(--color-text);
 }
 
+.top-bar-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /**
  * SETTINGS BUTTON
  * 
