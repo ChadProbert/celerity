@@ -252,11 +252,12 @@ class Search extends HTMLElement {
       return;
     }
 
-    // Reserve "+" for adding a shortcut only while the main page is idle.
-    // Shift remains allowed for the standard keyboard's Shift + = input.
+    // Alt + "+" is a shortcut to open the shortcut settings modal and focus on the add shortcut input field.
+    const isPlusKey =
+      e.key === "+" || e.code === "Equal" || e.code === "NumpadAdd";
     if (
-      e.key === "+" &&
-      !e.altKey &&
+      isPlusKey &&
+      e.altKey &&
       !e.ctrlKey &&
       !e.metaKey &&
       !this.dialog.open
