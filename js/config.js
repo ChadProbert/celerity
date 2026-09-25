@@ -24,7 +24,14 @@ const CONFIG = {
  * (static suggestion list), command (alias redirecting to another query).
  */
 const DEFAULT_COMMANDS = [
-  ["g", { name: "Gmail", url: "https://mail.google.com/mail/u/0/#inbox" }],
+  [
+    "g",
+    {
+      name: "Gmail",
+      url: "https://mail.google.com/mail/u/0/#inbox",
+      searchTemplate: "/mail/u/0/#search/{}",
+    },
+  ],
   [
     "y",
     {
@@ -34,31 +41,21 @@ const DEFAULT_COMMANDS = [
     },
   ],
   [
-    "m",
+    "n",
     {
-      name: "Metabase",
-      url: "https://metabase.hyperiondev.com/dashboard/157-my-dashboard",
+      name: "Netflix",
+      url: "https://www.netflix.com/browse",
+      searchTemplate: "/search?q={}",
     },
   ],
   [
-    "d",
+    "c",
     {
-      name: "Dropbox",
-      url: "https://www.dropbox.com/work",
-      searchTemplate: "/search/work?path=%2F&query={}",
-    },
-  ],
-  [
-    "a",
-    {
-      name: "Chat",
+      name: "ChatGPT",
+      url: "https://chatgpt.com/",
       searchTemplate: "/?q={}",
-      url: "https://chat.openai.com/chat",
     },
   ],
-  ["n", { name: "Netflix", url: "https://www.netflix.com/browse" }],
-  ["c", { name: "Cogrammer", url: "https://hyperiondev.cogrammar.com/" }],
-  ["l", { name: "Localhost", url: "http://localhost:3000" }],
   [
     "gh",
     {
@@ -68,14 +65,47 @@ const DEFAULT_COMMANDS = [
     },
   ],
   [
-    "k",
+    "r",
     {
-      name: "Knowledge",
-      url: "https://sites.google.com/hyperiondev.com/hyperiondev-kb/home?authuser=0",
+      name: "Reddit",
+      url: "https://reddit.com",
+      searchTemplate: "/search/?q={}",
     },
   ],
-  ["r", { name: "Reddit", url: "https://reddit.com" }],
+  ["w", { name: "Whatsapp", url: "https://web.whatsapp.com/" }],
+  [
+    "f",
+    {
+      name: "Facebook",
+      url: "https://www.facebook.com/",
+      searchTemplate: "/search/top/?q={}",
+    },
+  ],
   ["s", { name: "Spotify", searchTemplate: "/search/{}", url: "https://open.spotify.com" }],
+  [
+    "t",
+    {
+      name: "Twitter",
+      url: "https://x.com/",
+      searchTemplate: "/search?q={}",
+    },
+  ],
+  [
+    "l",
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/",
+      searchTemplate: "/search/results/all/?keywords={}",
+    },
+  ],
+  [
+    "a",
+    {
+      name: "Amazon",
+      url: "https://www.amazon.com/",
+      searchTemplate: "/s?k={}",
+    },
+  ],
 ];
 
 /*
@@ -111,9 +141,9 @@ function loadCommands() {
     COMMANDS.clear();
 
     for (const [key, value] of Object.entries(commandsObj)) {
-      // Configs saved before "d"/"gh" gained site search lack a
+      // Configs saved before "gh" gained site search lack a
       // searchTemplate; backfill it from the defaults once.
-      if ((key === "d" || key === "gh") && !value.searchTemplate) {
+      if (key === "gh" && !value.searchTemplate) {
         value.searchTemplate = defaults.get(key).searchTemplate;
         updated = true;
       }
