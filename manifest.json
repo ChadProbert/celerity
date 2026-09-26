@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Celerity - New Tab",
-  "description": "A keyboard-driven command launcher for your new tab. Launch sites and search the web without friction or distraction.",
+  "description": "A keyboard-driven command launcher for your new tab.",
   "version": "1.0.0",
   "icons": {
     "16": "images/tab-icons/tab-icon-16.png",
