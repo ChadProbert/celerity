@@ -44,6 +44,15 @@ Celerity is built around 3 core ideas:
 
 [<img src="https://github.com/ChadProbert.png" alt="ChadProbert" width="50px" />](https://github.com/ChadProbert/)
 
+## License
+
+Celerity is released under the [MIT License](LICENSE).
+
+It includes two third-party components, which keep their own licenses:
+
+- [EmailJS SDK](js/vendor/email.min.js): [BSD 3-Clause License](js/vendor/LICENSE-emailjs.txt)
+- [Poppins font](fonts/poppins): [SIL Open Font License 1.1](fonts/poppins/OFL.txt)
+
 <br/>
 
 <p align="center"><a href="#readme-top">Back to top</a></p>
