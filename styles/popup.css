@@ -53,6 +53,7 @@ body {
   background: none;
   border: 0;
   border-radius: var(--border-radius);
+  box-sizing: border-box; /* width: 100% includes the padding */
   color: var(--color-text);
   cursor: pointer;
   display: flex;
