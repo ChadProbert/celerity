@@ -89,13 +89,17 @@ body {
 
 /* Ko-fi's image button stands in for the icon and label */
 .popup-kofi {
-  padding-block: 6px;
+  padding-block: 10px;
 }
 
+/*
+ * Fills the row. The img's width/height attributes are the image's real
+ * size, which reserves its space before it loads.
+ */
 .popup-kofi-button {
   display: block;
-  height: 36px;
-  width: auto;
+  height: auto;
+  width: 100%;
 }
 
 .popup-divider {

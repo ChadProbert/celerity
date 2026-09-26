@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Celerity toolbar popup: links to rate Celerity, support it on Ko-fi, and
-  reach Chrome's own on/off switch for the extension.
+  Celerity toolbar popup: links to rate Celerity, reach Chrome's own on/off
+  switch for the extension, and support it on Ko-fi.
 -->
 <html lang="en">
   <head>
@@ -48,23 +48,6 @@
         </svg>
         Rate Celerity
       </a>
-      <!-- Ko-fi's official button; its image loads from Ko-fi's servers -->
-      <a
-        class="popup-item popup-kofi"
-        href="https://ko-fi.com/R0O422UN67"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          class="popup-kofi-button"
-          src="https://storage.ko-fi.com/cdn/kofi5.png?v=6"
-          height="36"
-          alt="Buy Me a Coffee at ko-fi.com"
-        />
-      </a>
-
-      <hr class="popup-divider" />
-
       <button
         class="popup-item"
         id="turnOffButton"
@@ -76,6 +59,24 @@
         </svg>
         Turn off Celerity
       </button>
+
+      <hr class="popup-divider" />
+
+      <!-- Ko-fi's official button; its image loads from Ko-fi's servers -->
+      <a
+        class="popup-item popup-kofi"
+        href="https://ko-fi.com/R0O422UN67"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          class="popup-kofi-button"
+          src="https://storage.ko-fi.com/cdn/kofi5.png?v=6"
+          width="580"
+          height="146"
+          alt="Buy Me a Coffee at ko-fi.com"
+        />
+      </a>
     </nav>
 
     <script src="./js/popup.js"></script>
