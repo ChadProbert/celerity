@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+  Celerity toolbar popup: links to rate Celerity, support it on Ko-fi, and
+  reach Chrome's own on/off switch for the extension.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Celerity</title>
+
+    <!--
+      Same cascade contract as index.html: style.css (fonts, variables) first,
+      themes.css last so theme overrides win.
+    -->
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/popup.css" />
+    <link rel="stylesheet" href="./styles/themes.css" />
+
+    <!-- Applies the saved theme before first paint (see index.html) -->
+    <script src="./js/theme.js"></script>
+  </head>
+  <body>
+    <header class="popup-header">
+      <svg class="popup-logo" viewBox="-3 -3 249 145" aria-hidden="true">
+        <path d="M46 5H238M5 72H154M34 134H238" />
+      </svg>
+      <span class="popup-name">Celerity</span>
+      <span class="popup-version" id="popupVersion"></span>
+    </header>
+
+    <nav class="popup-menu" aria-label="Celerity">
+      <!--
+        TODO: Once Celerity is published on the Chrome Web Store, replace this
+        href with its reviews page:
+        https://chromewebstore.google.com/detail/<name>/<id>/reviews
+      -->
+      <a
+        class="popup-item"
+        href="https://chromewebstore.google.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg class="popup-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 3.14 14.7 9.22 21.32 9.91 16.38 14.36 17.76 20.87 12 17.54 6.24 20.87 7.63 14.36 2.68 9.91 9.3 9.22Z"
+          />
+        </svg>
+        Rate Celerity
+      </a>
+      <a
+        class="popup-item"
+        href="https://ko-fi.com/chadprobert"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg class="popup-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 20.2 4.9 13.1a4.6 4.6 0 0 1 6.5-6.5l.6.6.6-.6a4.6 4.6 0 0 1 6.5 6.5Z"
+          />
+        </svg>
+        Support on Ko-fi
+      </a>
+
+      <hr class="popup-divider" />
+
+      <button
+        class="popup-item"
+        id="turnOffButton"
+        type="button"
+        title="Opens Chrome's extension settings, where you can switch Celerity off"
+      >
+        <svg class="popup-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.5v8M6.34 6.84a8 8 0 1 0 11.32 0" />
+        </svg>
+        Turn off Celerity
+      </button>
+    </nav>
+
+    <script src="./js/popup.js"></script>
+  </body>
+</html>

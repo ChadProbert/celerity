@@ -8,6 +8,10 @@
     "48": "images/tab-icons/tab-icon-48.png",
     "128": "images/tab-icons/tab-icon-128.png"
   },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Celerity"
+  },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
