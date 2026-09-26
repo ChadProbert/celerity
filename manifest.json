@@ -4,9 +4,9 @@
   "description": "Productivity-focused new tab page",
   "version": "1.0.0",
   "icons": {
-    "16": "images/logos/logo-gray-flat.png",
-    "48": "images/logos/logo-gray-flat.png",
-    "128": "images/logos/logo-gray-flat.png"
+    "16": "images/tab-icons/tab-icon-16.png",
+    "48": "images/tab-icons/tab-icon-48.png",
+    "128": "images/tab-icons/tab-icon-128.png"
   },
   "chrome_url_overrides": {
     "newtab": "index.html"
