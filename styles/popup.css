@@ -86,6 +86,17 @@ body {
   width: 16px;
 }
 
+/* Ko-fi's image button stands in for the icon and label */
+.popup-kofi {
+  padding-block: 6px;
+}
+
+.popup-kofi-button {
+  display: block;
+  height: 36px;
+  width: auto;
+}
+
 .popup-divider {
   border: 0;
   border-top: 1px solid var(--border-color);
