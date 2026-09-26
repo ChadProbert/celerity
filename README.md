@@ -2,12 +2,15 @@
 
 <a name="readme-top"></a>
 
+**Your shortcut to a faster, more efficient browsing experience.**
+
 Celerity replaces your new tab page with a keyboard-driven command launcher. It is designed for utility instead of visual aesthetics. This enables you to launch sites and search the web without friction or distraction.
-   
+
 ![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/celerity)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/celerity)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ChadProbert/celerity)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/ChadProbert/celerity)
+![GitHub License](https://img.shields.io/github/license/ChadProbert/celerity)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ChadProbert/celerity?style=social)
 
 <img src="images/celerity-showcase-dark-mode.png" alt="Celerity Logo" width="1000">
