@@ -4,7 +4,9 @@
 
 **Your shortcut to simpler browsing.**
 
-Celerity turns your browser's new tab page into a keyboard-driven platform launcher. Type `y` to open YouTube, or `y focus music` to directly search YouTube for focus music. 
+Celerity turns your browser's new tab page into a keyboard-driven platform launcher. 
+<br/>
+Type `y` to open YouTube, or `y focus music` to directly search YouTube for focus music. 
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/celerity)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/celerity)
@@ -37,7 +39,7 @@ Celerity is built around 3 core ideas:
  
 ## Contributors
 
-[<img src="https://github.com/ChadProbert.png" alt="ChadProbert" width="44px" />](https://github.com/ChadProbert/)
+[<img src="https://github.com/ChadProbert.png" alt="ChadProbert" width="50px" />](https://github.com/ChadProbert/)
 
 
 <p align="center"><a href="#readme-top">Back to top</a></p>
