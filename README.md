@@ -39,7 +39,7 @@ Celerity is built around 3 core ideas:
  
 ## Contributors
 
-[<img src="https://github.com/ChadProbert.png" alt="ChadProbert" width="50px" />](https://github.com/ChadProbert/)
+[<img src="https://github.com/ChadProbert.png" alt="ChadProbert" width="40px" style="border-radius: 50%;" />](https://github.com/ChadProbert/)
 
 
 <p align="center"><a href="#readme-top">Back to top</a></p>
