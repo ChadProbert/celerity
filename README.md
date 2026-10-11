@@ -1,5 +1,7 @@
 # Celerity
 
+<a name="readme-top"></a>
+
 **Your shortcut to simpler browsing.**
 
 Celerity turns your browser's new tab page into a keyboard-driven platform launcher. 
@@ -13,7 +15,7 @@ Type `y` to open YouTube, or `y focus music` to directly search YouTube for focu
 ![GitHub License](https://img.shields.io/github/license/ChadProbert/celerity)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ChadProbert/celerity?style=social)
 
-<img src="images/celerity-showcase-dark-mode.png" alt="Celerity showcase" width="1000">
+<img src="images/celerity-showcase-dark-mode.png" alt="Celerity Logo" width="1000">
 
 ## Features
 
@@ -34,6 +36,11 @@ Celerity is built around 3 core ideas:
 - The interface should become invisible to the user once learned.
 - A keyboard should serve as a command surface, not just text entry.
  
+
+## License
+MIT License. See [LICENSE](LICENSE) for more information.
 ## Contributors
 
 [<img src="https://images.weserv.nl/?url=github.com/ChadProbert.png&mask=circle&output=png&w=88&h=88" alt="ChadProbert" width="40" />](https://github.com/ChadProbert/)
+
+<p align="center"><a href="#readme-top">Back to top</a></p>
