@@ -36,11 +36,5 @@ Celerity is built around 3 core ideas:
 - The interface should become invisible to the user once learned.
 - A keyboard should serve as a command surface, not just text entry.
  
-
 ## License
 MIT License. See [LICENSE](LICENSE) for more information.
-## Contributors
-
-[<img src="https://images.weserv.nl/?url=github.com/ChadProbert.png&mask=circle&output=png&w=88&h=88" alt="ChadProbert" width="40" />](https://github.com/ChadProbert/)
-
-<p align="center"><a href="#readme-top">Back to top</a></p>
