@@ -2,9 +2,9 @@
 
 <a name="readme-top"></a>
 
-**Your shortcut to a faster, more efficient browsing experience.**
+**Your shortcut to simpler browsing.**
 
-Celerity replaces your new tab page with a keyboard-driven command launcher. It is designed for utility instead of visual aesthetics. This enables you to launch sites and search the web without friction or distraction.
+Celerity turns your browser's new tab page into a keyboard-driven platform launcher. Type `y` to open YouTube, or `y focus music` to directly search YouTube for focus music. 
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/ChadProbert/celerity)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ChadProbert/celerity)
@@ -25,19 +25,19 @@ Celerity replaces your new tab page with a keyboard-driven command launcher. It 
   Query platforms without having to open them first.
 
 - **Create custom shortcuts**  
-  Tailor commands to match personal workflows.
+  Tailor commands to match your personal workflow.
 
 ## Philosophy
 
 Celerity is built around 3 core ideas:
   
-- Clean, well-crafted functional design is the foundation of anything genuinely pleasing.
+- Good functional design is the foundation of anything genuinely pleasing.
 - The interface should become invisible to the user once learned.
 - A keyboard should serve as a command surface, not just text entry.
  
 ## Contributors
 
-[<img src="https://github.com/ChadProbert.png" alt="ChadProbert" width="35px" />](https://github.com/ChadProbert/)
+[<img src="https://github.com/ChadProbert.png" alt="ChadProbert" width="44px" />](https://github.com/ChadProbert/)
 
 
 <p align="center"><a href="#readme-top">Back to top</a></p>
