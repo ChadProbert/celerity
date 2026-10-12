@@ -11,7 +11,12 @@ const CONFIG = {
   /* Separates a command key from its query, e.g. "y lofi" searches YouTube. */
   commandSearchDelimiter: " ",
 
-  /* Fallback search when input matches no command. {} is the encoded query. */
+  /*
+   * Plain-text input goes to the browser's own search engine through
+   * chrome.search (see Search.searchWeb). This template is only used when
+   * chrome.search is missing, i.e. the page is opened outside the
+   * extension. {} is the encoded query.
+   */
   defaultSearchTemplate: "https://www.google.com/search?q={}",
 
   suggestionLimit: 4,

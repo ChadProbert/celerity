@@ -103,7 +103,8 @@ class Search extends HTMLElement {
    *   2. an exact command key ("g" → Gmail)
    *   3. command + delimiter + query ("y cats" → YouTube search); commands
    *      without a searchTemplate fall through to their plain URL
-   *   4. anything else → default search engine
+   *   4. anything else → the user's default search engine (webSearch is
+   *      set; url is only the fallback for when chrome.search is missing)
    *
    * Commands may carry a legacy `command` property (an alias redirecting to
    * another query, resolved recursively) — no default command uses it, but
@@ -135,7 +136,7 @@ class Search extends HTMLElement {
 
     const [baseUrl, rest] = this.splitUrl(CONFIG.defaultSearchTemplate);
     const url = this.formatSearchUrl(baseUrl, rest, query);
-    return { query, search: query, url };
+    return { query, search: query, url, webSearch: true };
   }
 
   /* Splits a URL into [origin, path+query] via an anchor element. */
@@ -158,17 +159,32 @@ class Search extends HTMLElement {
   }
 
   execute(query) {
-    const { url } = this.parseQuery(query);
+    const { search, url, webSearch } = this.parseQuery(query);
     if (!url || this.isExecutingSearch) return;
 
     // Guards against double navigation (rapid Enter + click). Only reset in
     // onPageShow on back/forward-cache restore — keep the pairing intact.
     this.isExecutingSearch = true;
-    this.navigateToUrl(url);
+    if (webSearch) this.searchWeb(search, url);
+    else this.navigateToUrl(url);
   }
 
   navigateToUrl(url) {
     window.open(url, "_self", "noopener noreferrer");
+  }
+
+  /*
+   * Chrome Web Store policy: a new tab page with web search must use the
+   * search engine the user picked in Chrome, via the chrome.search API.
+   * chrome.search only exists inside the extension (it needs the "search"
+   * permission), so a plain web page falls back to fallbackUrl.
+   */
+  searchWeb(text, fallbackUrl) {
+    if (globalThis.chrome?.search) {
+      chrome.search.query({ text, disposition: "CURRENT_TAB" });
+    } else {
+      this.navigateToUrl(fallbackUrl);
+    }
   }
 
   /* Reset execution state when the page is restored from the bfcache. */

@@ -12,6 +12,7 @@
     "default_popup": "popup.html",
     "default_title": "Celerity"
   },
+  "permissions": ["search"],
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
