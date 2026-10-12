@@ -19,6 +19,12 @@ const CONFIG = {
    */
   defaultSearchTemplate: "https://www.google.com/search?q={}",
 
+  /*
+   * Celerity's suggestion server (api/suggest.mjs in the celerity-website
+   * repo). Replies with Google suggestions as a JSON array of strings.
+   */
+  suggestUrl: "https://getcelerity.app/api/suggest",
+
   suggestionLimit: 4,
 };
 

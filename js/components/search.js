@@ -3,7 +3,7 @@
  *
  * Any keypress on the page opens it; input resolves to a direct URL, a
  * command shortcut, a command site-search, or a default web search, with
- * live DuckDuckGo suggestions.
+ * live Google suggestions from Celerity's suggestion server.
  *
  * Defines:    Search custom element (registered on DOMContentLoaded)
  * Depends on: COMMANDS, CONFIG (config.js); openShortcutSettings()
@@ -24,6 +24,7 @@ class Search extends HTMLElement {
     this.input = clone.querySelector(".input");
     this.suggestions = clone.querySelector(".suggestions");
     this.isExecutingSearch = false;
+    this.suggestRequest = null; // AbortController of the in-flight fetch
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onInput = this.onInput.bind(this);
@@ -52,29 +53,29 @@ class Search extends HTMLElement {
   }
 
   /*
-   * JSONP request to DuckDuckGo's autocomplete API (their endpoint has no
-   * CORS headers, so fetch() is not an option).
+   * Fetches suggestions from Celerity's suggestion server as plain JSON.
+   * (Loading them as a remote script is blocked by the extension's CSP and
+   * banned by Manifest V3.) Each call aborts the previous one, so a slow
+   * reply can never overwrite a newer one. Resolves to null when aborted,
+   * and to [] on any other failure: search works without suggestions.
    */
-  fetchDuckDuckGoSuggestions(search) {
-    return new Promise((resolve) => {
-      window.autocompleteCallback = (res) => {
-        const suggestions = [];
+  async fetchSuggestions(search) {
+    this.suggestRequest?.abort();
+    const request = new AbortController();
+    this.suggestRequest = request;
 
-        for (const item of res) {
-          if (item.phrase === search.toLowerCase()) continue;
-          suggestions.push(item.phrase);
-        }
+    const url = new URL(CONFIG.suggestUrl);
+    url.searchParams.set("q", search);
+    url.searchParams.set("hl", navigator.language);
 
-        resolve(suggestions);
-      };
-
-      const script = document.createElement("script");
-      document.querySelector("head").appendChild(script);
-      script.src = `https://duckduckgo.com/ac/?callback=autocompleteCallback&q=${search}`;
-      // Assigning the method as handler: `this` is the script element when
-      // onload fires, so the tag removes itself.
-      script.onload = script.remove;
-    });
+    try {
+      const res = await fetch(url, { signal: request.signal });
+      if (!res.ok) return [];
+      const phrases = await res.json();
+      return phrases.filter((phrase) => phrase !== search.toLowerCase());
+    } catch {
+      return request.signal.aborted ? null : [];
+    }
   }
 
   /* Substitutes the encoded query into a searchTemplate's {} placeholder. */
@@ -223,14 +224,15 @@ class Search extends HTMLElement {
     let suggestions = COMMANDS.get(oq.query)?.suggestions ?? [];
 
     if (oq.search && suggestions.length < CONFIG.suggestionLimit) {
-      const res = await this.fetchDuckDuckGoSuggestions(oq.search);
+      const res = await this.fetchSuggestions(oq.search);
+      // Aborted by a newer keystroke, whose onInput owns the render.
+      if (!res) return;
       const formatted = this.attachSearchPrefix(res, oq);
       suggestions = suggestions.concat(formatted);
     }
 
     // Drop stale async results: if the input changed while the fetch was in
-    // flight, a newer onInput owns the render. (Overlapping JSONP requests
-    // overwrite the same global callback — this re-parse is the only guard.)
+    // flight, a newer onInput owns the render.
     const nq = this.parseQuery(this.input.value);
     if (nq.query !== oq.query) return;
     this.renderSuggestions(suggestions, oq.query);
