@@ -373,8 +373,9 @@ class Search extends HTMLElement {
         const pre = suggestion.slice(0, matched.index);
         const post = suggestion.slice(matched.index + matched[0].length);
         matchRef.innerText = matched[0];
-        matchRef.insertAdjacentHTML("beforebegin", pre);
-        matchRef.insertAdjacentHTML("afterend", post);
+        // Inserted as text, never HTML: suggestions come from the network.
+        matchRef.before(pre);
+        matchRef.after(post);
         ref.append(matchClone);
       } else {
         ref.innerText = suggestion;
