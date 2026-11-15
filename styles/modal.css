@@ -239,6 +239,27 @@ label {
   max-width: 32%;
 }
 
+/* Theme and Background side by side, as wide as the shortcuts card */
+.settings-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: calc(66% + 82px);
+  margin: 0 auto;
+}
+
+.settings-row .theme-section {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.settings-row .theme-container {
+  max-width: none;
+  box-sizing: border-box;
+}
+
 /* Positions the custom dropdown arrow */
 .custom-select-wrapper {
   position: relative;
@@ -265,7 +286,8 @@ label {
   font-size: 14px;
 }
 
-#themeSelect {
+#themeSelect,
+#backgroundSelect {
   padding-top: 14px;
   padding-bottom: 14px;
 }
@@ -726,6 +748,22 @@ p.shortcut-description code {
 /* Half-window usage */
 @media (max-width: 1024px) {
   .theme-container {
+    max-width: 70%;
+  }
+
+  /* Theme and Background cards stack if screen is too narrow */
+  .settings-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-width: none;
+  }
+
+  .settings-row .theme-section {
+    flex: none;
+  }
+
+  .settings-row .theme-container {
     max-width: 70%;
   }
 

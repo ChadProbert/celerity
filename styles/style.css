@@ -41,6 +41,7 @@
   --color-text: #fff;
   --color-text-rgb: 255, 255, 255; /* RGB values for rgba functions */
   --focus-ring-color: var(--color-text);
+  --backdrop-ink: #333333;
 
   /* Typography */
   --font-family: "Poppins", sans-serif;
@@ -107,6 +108,42 @@ body {
   padding: 0;
   height: 100%;
   overflow: hidden; /* Prevent scrolling */
+}
+
+/* Optional animated background */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/*
+ * The modals use the backdrop too. The backdrop is lifted above
+ * the page and its top bar (z-index 999) but stays below the modals (1001
+ * and up).
+ */
+:root[data-backdrop="on"]:has(
+    .custom-modal[style*="display: flex"],
+    .help-modal[style*="display: flex"],
+    .feedback-modal[style*="display: flex"]
+  )
+  .backdrop {
+  z-index: 1000;
+}
+
+:root[data-backdrop="on"] .custom-modal,
+:root[data-backdrop="on"] .modal-content,
+:root[data-backdrop="on"] .help-modal,
+:root[data-backdrop="on"] .help-modal-content,
+:root[data-backdrop="on"] .feedback-modal {
+  background: transparent;
+}
+
+:root[data-backdrop="on"] .help-card {
+  background:
+    linear-gradient(var(--help-card-bg-color), var(--help-card-bg-color)),
+    var(--color-background);
 }
 
 /* Centered full-viewport flex layout; padding clears the fixed top bar */

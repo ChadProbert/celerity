@@ -521,6 +521,7 @@ class ModalManager {
 
     if (confirmed) {
       window.CelerityTheme.applyThemePreference("system");
+      window.CelerityBackground.apply("none");
 
       COMMANDS.clear();
       defaultCommands().forEach((value, key) => {
@@ -538,6 +539,7 @@ class ModalManager {
   exportConfig() {
     const settings = {
       theme: localStorage.getItem("selectedTheme") || "dark",
+      background: window.CelerityBackground.stored(),
       commands: Object.fromEntries(COMMANDS),
     };
 
@@ -599,6 +601,12 @@ class ModalManager {
               ? normalizedTheme
               : "system";
             window.CelerityTheme.applyThemePreference(safeTheme);
+          }
+
+          // Older config files have no background; they leave it as it is.
+          // An unknown value falls back to "none".
+          if (typeof settings.background === "string") {
+            window.CelerityBackground.apply(settings.background);
           }
 
           if (settings.commands && typeof settings.commands === "object") {

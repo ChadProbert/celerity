@@ -408,6 +408,8 @@
     >
       Celerity New Tab Page
     </header>
+    <!-- Holds the optional animated background (js/background.js). Empty by default. -->
+    <div class="backdrop" id="backdrop" aria-hidden="true"></div>
     <main id="mainContent" tabindex="-1" role="main">
       <div class="top-bar">
         <div class="top-bar-section top-bar-brand">
@@ -492,6 +494,7 @@
           </div>
         </div>
 
+        <div class="settings-row">
         <div class="theme-section" id="settingsThemeSection">
           <h2 class="theme-label" id="settingsThemeHeading">
             Theme
@@ -507,6 +510,26 @@
               <span class="custom-arrow">▼</span>
             </div>
           </div>
+        </div>
+
+        <div class="theme-section" id="settingsBackgroundSection">
+          <h2 class="theme-label" id="settingsBackgroundHeading">
+            Background
+          </h2>
+          <div class="theme-container">
+            <div class="custom-select-wrapper">
+              <select
+                id="backgroundSelect"
+                class="custom-select"
+                aria-labelledby="settingsBackgroundHeading"
+              >
+                <option value="none">None</option>
+                <option value="dithering">Dithering</option>
+              </select>
+              <span class="custom-arrow">▼</span>
+            </div>
+          </div>
+        </div>
         </div>
 
         <div class="config-section">
@@ -770,6 +793,7 @@
     <script src="./js/components/commands.js"></script>
     <script src="./js/components/search.js"></script>
     <script src="./js/confirm.js"></script>
+    <script src="./js/background.js"></script>
     <script src="./js/modal.js"></script>
     <script src="./js/feedback.js"></script>
   </body>

@@ -24,6 +24,7 @@
   --code-text-color: #0a0a0a;
   --code-border-color: var(--border-color);
   --focus-ring-color: #000000;
+  --backdrop-ink: #d9d9d9;
 }
 
 
@@ -45,8 +46,8 @@
 
 /* Light theme hover styles for interactive form elements */
 [data-theme="light"] input:hover:not([readonly]),
-[data-theme="light"] select:hover:not(#themeSelect),
-[data-theme="light"] .custom-select:hover:not(#themeSelect) {
+[data-theme="light"] select:hover:not(#themeSelect, #backgroundSelect),
+[data-theme="light"] .custom-select:hover:not(#themeSelect, #backgroundSelect) {
   background-color: var(--hover-color);
   color: var(--color-text);
 }
@@ -71,6 +72,7 @@
   --code-border-color: var(--border-color);
   --border-color: #111111;
   --focus-ring-color: var(--color-text);
+  --backdrop-ink: #141414;
 }
 
 /* Void-theme variant of the first-visit pulse. pulse-border is added
