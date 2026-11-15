@@ -75,6 +75,8 @@
     -->
     <script src="./js/theme.js"></script>
 
+    <script src="./js/background.js"></script>
+
     <!-- EmailJS, vendored locally for Chrome extension CSP compliance -->
     <script src="./js/vendor/email.min.js"></script>
   </head>
@@ -783,8 +785,8 @@
     </div>
 
     <!--
-      Script order is a load-order contract (config.js and theme.js already
-      loaded in <head>): commands.js registers its DOMContentLoaded listener
+      Script order is a load-order contract (config.js, theme.js and
+      background.js already loaded in <head>): commands.js registers its DOMContentLoaded listener
       before modal.js's, so <commands-component> is upgraded when
       ModalManager's constructor calls its render(); confirm.js installs its
       parse-time Enter listener before any DOMContentLoaded keydown
@@ -793,7 +795,6 @@
     <script src="./js/components/commands.js"></script>
     <script src="./js/components/search.js"></script>
     <script src="./js/confirm.js"></script>
-    <script src="./js/background.js"></script>
     <script src="./js/modal.js"></script>
     <script src="./js/feedback.js"></script>
   </body>

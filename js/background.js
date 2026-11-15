@@ -4,7 +4,7 @@
  * Defines:    window.CelerityBackground (modal.js calls it for export,
  *             import and reset).
  * Depends on: #backdrop, #backgroundSelect, localStorage, and the theme
- *             colours --color-background and --backdrop-ink.
+ *             colours --backdrop-ground and --backdrop-ink.
  *
  * Nothing here costs anything while the option is "none": the shader file
  * (js/vendor/paper-dithering.js) is only loaded once the option is turned on.
@@ -42,7 +42,7 @@ const CelerityBackground = (() => {
     const styles = getComputedStyle(document.documentElement);
     return {
       u_colorBack: paper.getShaderColorFromString(
-        styles.getPropertyValue("--color-background").trim()
+        styles.getPropertyValue("--backdrop-ground").trim()
       ),
       u_colorFront: paper.getShaderColorFromString(
         styles.getPropertyValue("--backdrop-ink").trim()
@@ -86,9 +86,16 @@ const CelerityBackground = (() => {
     }
   };
 
+  const markPreference = () => {
+    document.documentElement.dataset.background = unsupported
+      ? "none"
+      : preference;
+  };
+
   /* Some devices cannot run the shader. The option then says so. */
   const markUnsupported = () => {
     unsupported = true;
+    markPreference();
     const option = document.querySelector(
       '#backgroundSelect option[value="dithering"]'
     );
@@ -174,6 +181,7 @@ const CelerityBackground = (() => {
 
   const apply = (value, { persist = true } = {}) => {
     preference = normalize(value);
+    markPreference();
 
     if (persist) localStorage.setItem(STORAGE_KEY, preference);
     const select = document.getElementById("backgroundSelect");
@@ -193,6 +201,7 @@ const CelerityBackground = (() => {
   // Known from the start, so a tab opened in the background still starts
   // the shader when it is first shown.
   preference = stored();
+  markPreference();
 
   return {
     VALID_BACKGROUNDS,

@@ -41,7 +41,8 @@
   --color-text: #fff;
   --color-text-rgb: 255, 255, 255; /* RGB values for rgba functions */
   --focus-ring-color: var(--color-text);
-  --backdrop-ink: #333333;
+  --backdrop-ground: #2b2b2b;
+  --backdrop-ink: #424242;
 
   /* Typography */
   --font-family: "Poppins", sans-serif;
@@ -116,6 +117,10 @@ body {
   inset: 0;
   z-index: -1;
   pointer-events: none;
+}
+
+:root[data-background="dithering"] body {
+  background: var(--backdrop-ground);
 }
 
 /*

@@ -24,6 +24,7 @@
   --code-text-color: #0a0a0a;
   --code-border-color: var(--border-color);
   --focus-ring-color: #000000;
+  --backdrop-ground: var(--color-background);
   --backdrop-ink: #d9d9d9;
 }
 
@@ -72,6 +73,7 @@
   --code-border-color: var(--border-color);
   --border-color: #111111;
   --focus-ring-color: var(--color-text);
+  --backdrop-ground: var(--color-background);
   --backdrop-ink: #141414;
 }
 
