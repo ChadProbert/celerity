@@ -155,6 +155,7 @@ class Search extends HTMLElement {
     if (this.dialog.open) {
       this.dialog.close();
     }
+    this.removeAttribute("open");
     this.suggestions.innerHTML = "";
     this.toggleNavigationButtons(true);
   }
@@ -291,6 +292,7 @@ class Search extends HTMLElement {
       // close again. show() (non-modal) is intentional — the template CSS
       // keys off .dialog[open].
       this.dialog.show();
+      this.setAttribute("open", "");
       this.input.focus();
 
       this.toggleNavigationButtons(false);

@@ -278,7 +278,8 @@
 
         .dialog {
           align-items: center;
-          background: var(--color-background);
+          /* See-through while the animated background is on */
+          background: var(--search-dialog-background, var(--color-background));
           border: none;
           display: none;
           flex-direction: column;

@@ -145,6 +145,14 @@ body {
   background: transparent;
 }
 
+:root[data-backdrop="on"] {
+  --search-dialog-background: transparent;
+}
+
+:root[data-backdrop="on"] commands-component:has(+ search-component[open]) {
+  visibility: hidden;
+}
+
 :root[data-backdrop="on"] .help-card {
   background:
     linear-gradient(var(--help-card-bg-color), var(--help-card-bg-color)),
