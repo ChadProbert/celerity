@@ -46,9 +46,9 @@
 
 /* Light theme hover styles for interactive form elements */
 [data-theme="light"] input:hover:not([readonly]),
-[data-theme="light"] select:hover:not(#themeSelect, #backgroundSelect),
-[data-theme="light"] .custom-select:hover:not(#themeSelect, #backgroundSelect) {
-  background-color: var(--hover-color);
+[data-theme="light"] select:hover,
+[data-theme="light"] .custom-select:hover {
+  background-color: var(--modal-action-button-hover-background);
   color: var(--color-text);
 }
 
