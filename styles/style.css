@@ -153,10 +153,15 @@ body {
   visibility: hidden;
 }
 
-:root[data-backdrop="on"] .help-card {
-  background:
-    linear-gradient(var(--help-card-bg-color), var(--help-card-bg-color)),
-    var(--color-background);
+/*
+ * Slightly transparent cards when the animated background is on
+ */
+:root[data-backdrop="on"] .shortcuts-container,
+:root[data-backdrop="on"] .theme-container,
+:root[data-backdrop="on"] .reset-section,
+:root[data-backdrop="on"] .help-card,
+:root[data-backdrop="on"] .feedback-modal-content {
+  background: color-mix(in srgb, var(--plus-button-color) 70%, transparent);
 }
 
 /* Centered full-viewport flex layout; padding clears the fixed top bar */
